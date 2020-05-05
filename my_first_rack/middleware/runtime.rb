@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Runtime
   def initialize(app)
     @app = app

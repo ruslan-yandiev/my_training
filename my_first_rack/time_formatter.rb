@@ -1,9 +1,7 @@
-# frozen_string_literal: true
-
 class TimeFormatter
   DEFINITION = { 'year' => '%Y', 'month' => '%m',
                  'day' => '%d', 'hour' => '%H',
-                 'minute' => '%m', 'second' => '%S' }.freeze
+                 'minute' => '%m', 'second' => '%S' }
 
   attr_reader :params
 
