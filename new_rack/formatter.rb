@@ -21,6 +21,6 @@ class Formatter
   end
 
   def number_of_files(params)
-    Dir.glob("../**/*.#{params}").size
+    Dir.glob("/home/../**/*.#{params}").size
   end
 end

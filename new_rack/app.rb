@@ -20,13 +20,13 @@ class App
     formatter = Formatter.new(request_params)
 
     if formatter.valid?
-      body = formatter.extension
+      body = "С расширением #{Formatter::EXTENSION} всего файлов: #{formatter.extension}"
       status = 200
     else
-      invalid_params = formatter.invalid_params
+      body = "Unknown format #{formatter.invalid_params}"
       status = 400
     end
-    [status, headers, ["С расширением #{ormatter::EXTENSION} всего файлов: #{body}\n"]]
+    [status, headers, ["#{body}\n"]]
   end
 
   def headers
