@@ -16,18 +16,18 @@ class App
     elsif request_params.nil?
       return [400, headers, ["invalid_format_name\n"]]
     end
-  end
 
-  formatter = Formatter.new(request_params)
+    formatter = Formatter.new(request_params)
 
-  if formatter.valid?
-    body = formatter.extension
-    status = 200
-  else
-    invalid_params = formatter.invalid_params
-    status = 400
+    if formatter.valid?
+      body = formatter.extension
+      status = 200
+    else
+      invalid_params = formatter.invalid_params
+      status = 400
+    end
+    [status, headers, ["С расширением #{ormatter::EXTENSION} всего файлов: #{body}\n"]]
   end
-  [status, headers, ["С расширением #{ormatter::EXTENSION} всего файлов: #{body}\n"]]
 
   def headers
     { 'Content-Type' => 'text/plain' }
