@@ -90,6 +90,14 @@ start_time = Time.now
 #   }
 # end
 
+# # 0.9 сек
+# def single_number(nums)
+#   nums.find { |num| nums.count(num) == 1 }
+# end
+
+
+## ==== Используем метод Разделяй и властвуй (уменьшай) побитовое сравнение ====
+
 # # очень быстро но нижние быстрее 0.000996415 сек
 # def single_number(nums)
 #   nums.reduce { |sum, n| sum ^= n }
@@ -117,15 +125,27 @@ start_time = Time.now
 #   sum
 # end
 
+# # 0.000769578 сек
+# def single_number(nums)
+#   n = nums.first
+#   nums.each { |i| n ^= i }
+#   n
+# end
+
 # def single_number(nums)
 #   # это элиасы с reduce
 #   # nums.inject { |mem, var| mem ^ var }
 #   nums.inject(&:^)
 # end
 
-# Самое быстрое решение 0.00072448 сек
+# # быстрое решение 0.00072448 сек
+# def single_number(nums)
+#   nums.reduce(&:^)
+# end
+
+## Самое быстрое побитовое сравнение 0.00042853 сек
 def single_number(nums)
-  nums.reduce(&:^)
+  nums.reduce(:^)
 end
 
 p single_number(arr)
