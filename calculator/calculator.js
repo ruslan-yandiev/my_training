@@ -57,7 +57,6 @@ function myMoth(number1, number2, operator) {
     result = number1 / number2;
   }
 
-  
   arr[0] = result;
   show("");
   show(result);
