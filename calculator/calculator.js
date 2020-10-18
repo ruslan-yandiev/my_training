@@ -5,33 +5,33 @@ let arr = ["", "", ""];
 let count = 0;
 
 document.querySelector(".interface").addEventListener("click", (event) => {
-  const target = event.target.textContent;
+    const target = event.target.textContent;
 
-  if (target === "C") {
-    arr[0] = '';
-    arr[1] = '';
-    arr[2] = '';
-    count = 0;
-    show("");
-    return;
-  }
-
-  if (target !== "=" && target.length === 1) {
-    show(target);
-
-    if (target === "*" || target === "/" || target === "+" || target === "-") {
-      if (arr[2]) { arr[1] = ''; }
-      arr[2] = target;
-      count = 1;
-    } else if (target !== "*" || target !== "/" || target !== "+" || target !== "-") {
-      arr[count] = arr[count] + target;
+    if (target === "C") {
+      arr[0] = '';
+      arr[1] = '';
+      arr[2] = '';
+      count = 0;
+      show("");
+      return;
     }
-  }
 
-  if (target === "=") {
-    myMoth(+arr[0], +arr[1], arr[2]);
-  }
-});
+    if (target !== "=" && target.length === 1) {
+      show(target);
+
+      if (target === "*" || target === "/" || target === "+" || target === "-") {
+        if (arr[2]) { arr[1] = ''; }
+        arr[2] = target;
+        count = 1;
+      } else if (target !== "*" || target !== "/" || target !== "+" || target !== "-") {
+        arr[count] = arr[count] + target;
+      }
+    }
+
+    if (target === "=") {
+      myMoth(+arr[0], +arr[1], arr[2]);
+    }
+  });
 
 function show(arg) {
   if (arg === "") {
