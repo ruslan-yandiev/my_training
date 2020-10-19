@@ -6,6 +6,8 @@ let count = 0;
 
 document.querySelector(".interface").addEventListener("click", (event) => {
     const target = event.target.textContent;
+    // console.log(event);
+    setColor(event);
 
     if (target === "C") {
       arr[0] = '';
@@ -60,4 +62,15 @@ function myMoth(number1, number2, operator) {
   arr[0] = result;
   show("");
   show(result);
+}
+
+async function setColor(event) {
+
+  event.target.className = "button click_buttom";
+
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve(event.target.className = "button"), 800);
+  });
+
+  return await promise;
 }

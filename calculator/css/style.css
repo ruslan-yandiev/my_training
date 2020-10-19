@@ -93,7 +93,14 @@ body {
 
 .button:hover {
   top: 2px;
-  -webkit-box-shadow: 0 3px 0px #3c354a;
-          box-shadow: 0 3px 0px #3c354a;
+  -webkit-box-shadow: 0 4px 0px #3c354a;
+          box-shadow: 0 4px 0px #3c354a;
   background-color: #18b5a4;
+}
+
+.click_buttom {
+  top: 5px;
+  -webkit-box-shadow: 0 1px 0px #3c354a;
+          box-shadow: 0 1px 0px #3c354a;
+  background-color: #ee1431;
 }
