@@ -1,0 +1,99 @@
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.contaner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: 3px solid gray;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 20px;
+  -webkit-box-shadow: 0 8px 4px #3c354a;
+          box-shadow: 0 8px 4px #3c354a;
+  background-color: gray;
+}
+
+.interface {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: 3px solid gray;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 20px;
+  -webkit-box-shadow: 0 8px 4px #3c354a;
+          box-shadow: 0 8px 4px #3c354a;
+  background-color: gray;
+}
+
+.show {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  max-width: 100%;
+  padding: 45px;
+  margin: 10px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  border: 5px solid black;
+  color: #fff;
+  background-color: #5e5371;
+  -webkit-box-shadow: 0 4px 3px #3c354a;
+          box-shadow: 0 4px 3px #3c354a;
+}
+
+.button {
+  text-decoration: none;
+  display: inline-block;
+  line-height: 40px;
+  width: 60px;
+  padding: 20px 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 18px;
+  border-radius: 10px;
+  top: 0;
+  position: relative;
+  color: #fff;
+  background-color: #5e5373;
+  -webkit-box-shadow: 0 6px 0px #3c354a;
+          box-shadow: 0 6px 0px #3c354a;
+  -webkit-transition-duration: 650ms;
+          transition-duration: 650ms;
+}
+
+.button:not(:last-child) {
+  line-height: 20px;
+  width: 100%;
+}
+
+.button:hover {
+  top: 2px;
+  -webkit-box-shadow: 0 3px 0px #3c354a;
+          box-shadow: 0 3px 0px #3c354a;
+  background-color: #18b5a4;
+}
