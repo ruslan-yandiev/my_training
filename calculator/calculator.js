@@ -5,11 +5,9 @@ let arr = ["", "", ""];
 let count = 0;
 
 document.querySelector(".interface").addEventListener("click", (event) => {
-    const target = event.target.textContent;
-    // console.log(event);
-    setColor(event);
-
-    if (target === "C") {
+    const buttonContent = event.target.textContent;
+    
+    if (buttonContent === "C") {
       arr[0] = '';
       arr[1] = '';
       arr[2] = '';
@@ -18,19 +16,21 @@ document.querySelector(".interface").addEventListener("click", (event) => {
       return;
     }
 
-    if (target !== "=" && target.length === 1) {
-      show(target);
 
-      if (target === "*" || target === "/" || target === "+" || target === "-") {
+    if (buttonContent !== "=" && buttonContent.length === 1 && event.target.className === "button") {
+      setColor(event);
+      show(buttonContent);
+
+      if (buttonContent === "*" || buttonContent === "/" || buttonContent === "+" || buttonContent === "-") {
         if (arr[2]) { arr[1] = ''; }
-        arr[2] = target;
+        arr[2] = buttonContent;
         count = 1;
-      } else if (target !== "*" || target !== "/" || target !== "+" || target !== "-") {
-        arr[count] = arr[count] + target;
+      } else if (buttonContent !== "*" || buttonContent !== "/" || buttonContent !== "+" || buttonContent !== "-") {
+        arr[count] = arr[count] + buttonContent;
       }
     }
 
-    if (target === "=") {
+    if (buttonContent === "=") {
       myMoth(+arr[0], +arr[1], arr[2]);
     }
   });
