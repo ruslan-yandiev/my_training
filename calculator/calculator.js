@@ -75,7 +75,7 @@ async function setColor(event) {
   event.target.className = "button click_buttom";
 
   let promise = new Promise((resolve, reject) => {
-    setTimeout(() => resolve(event.target.className = "button"), 800);
+    setTimeout(() => resolve(event.target.className = "button"), 450);
   });
 
   return await promise;
