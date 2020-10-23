@@ -1,12 +1,228 @@
-@import "normalize.scss"
+// подключили шрифты с google.fonts
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;700&display=swap');
 
-// создадим миксины подключенных google шрифтов для удобства использования
+@import 'normalize'; // создадим миксины подключенных google шрифтов для удобства использования
+
 // == Mixins ==
-@mixin font-lato {
-  font-family: 'Lato', sans-serif;
+// ! в том случае если бы я шрифты через HTML подключил то миксин добавил бы через @include font-motserrat;
+// @mixin font-lato {
+//     font-family: 'Lato', sans-serif;
+// }
+// @mixin Montserrat {
+//     font-family: 'Montserrat', sans-serif;
+// }
+// == / Mixins ==
+
+// === Common ===
+// ! Для коректног высчета ширины. Укажем что высчитывать 100% ширины у всех элементов учитывая марджины и пединги
+* {
+    box-sizing: border-box;
 }
 
-@mixin Montserrat {
-  font-family: 'Montserrat', sans-serif;
+// ! задаем общие параметры
+body {
+    font-family: Lato;
+
+    color: #414141;
 }
-// == / Mixins ==
+
+.section-outer {
+}
+
+.section-inner {
+    width: 1180px;
+    margin: 0 auto;
+}
+
+// ! Оптимизация по работе с дублирующими элементами
+.description-item {
+    &__icon {
+        margin-bottom: 20px;
+    }
+
+    &__title {
+        margin-bottom: 14px;
+        font-size: 18px;
+        line-height: 22px;
+        font-weight: bold;
+    }
+
+    &__text {
+        font-size: 16px;
+        line-height: 28px;
+        font-weight: 300;
+        color: #6c6c6c;
+    }
+}
+
+// === / Common ===
+
+// === header ===
+.section-header {
+    color: #ffffff;
+    // !фон картинка, не повторялась, по центру
+    background: url('/images/aae7e92bf43a41f0964f3f5b14aef1651f9e3e61.png')
+        no-repeat 50% 50%;
+
+    // !растянем фоновую картинку
+    background-size: cover;
+    position: relative;
+
+    .section-inner {
+        // вытянули блок по высоте окна браузера
+        height: 100vh;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+    }
+
+    // ! Сделаем затемнение рисунка по средством псевдо элемента
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(20, 39, 41, 0.6);
+    }
+
+    &-logo {
+        font-weight: bold;
+        font-size: 24px;
+        // !больше всего сжимался
+        flex-shrink: 1;
+        padding-top: 35px;
+    }
+
+    &-content {
+        // ! больше всего растягивался
+        flex-grow: 1;
+        display: flex;
+        // justify-content: center;
+        align-items: center;
+    }
+
+    &-wrapper {
+        margin: 0 auto;
+        &__title,
+        &__subtitle {
+            text-align: center;
+        }
+
+        &__title {
+            font-weight: bold;
+            font-size: 56px;
+            line-height: 60px;
+            margin-bottom: 16px;
+        }
+
+        &__subtitle {
+            font-family: Montserrat;
+            font-size: 18px;
+            line-height: 32px;
+            width: 80%;
+            margin: 0 auto 44px;
+        }
+
+        &__form {
+            display: flex;
+
+            &-input {
+                flex: 1;
+                padding-right: 40px;
+
+                input {
+                    font-family: Montserrat;
+                    border: none;
+                    background: rgba(255, 255, 255, 0.25);
+                    color: white;
+                    font-size: 16px;
+                    margin: 0;
+                    padding: 16px 20px;
+                    // ! уберем выделение
+                    outline: none;
+                    // ! закругление краев
+                    border-radius: 4px;
+                    width: 100%;
+
+                    &::placeholder {
+                        color: white;
+                    }
+                }
+            }
+
+            &-button {
+                button {
+                    font-family: Montserrat;
+                    font-size: 18px;
+                    margin: 0;
+                    padding: 16px 20px;
+                    border: none;
+                    outline: none;
+                    border-radius: 4px;
+                    color: white;
+                    // ! задаем правый и левый цвет кнопки
+                    background: linear-gradient(to right, #fe985b, #fe4fa7);
+                }
+            }
+        }
+    }
+}
+// === /header ===
+
+// === promo ===
+.section-promo {
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.section-promo-1 {
+    display: flex;
+
+    &__content,
+    &__video {
+        // !Обоим блокам зададим 50%, чтобы они занимали одинаковое пространство
+        flex-basis: 50%;
+    }
+
+    &__content {
+        padding-right: 90px;
+
+        .title {
+            font-size: 32px;
+            line-height: 51px;
+            font-weight: bold;
+            margin-bottom: 56px;
+        }
+
+        .description-item {
+            margin-top: 28px;
+        }
+    }
+
+    &__video {
+        img {
+            // ! Принудительно растягиваем картинку на всю щирину блока, а высота автоматически
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    }
+}
+
+.section-promo-2 {
+    display: flex;
+    padding-top: 86px;
+    margin-top: 120px;
+    border-top: 1px solid #e2e2e2;
+    text-align: center;
+
+    // !Cделаем отступы в 40 px мужду элементами по левой стороне каждого элемента
+    .description-item + .description-item {
+        margin-left: 40px;
+    }
+}
+// === /promo ===
