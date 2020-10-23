@@ -55,6 +55,36 @@ body {
     }
 }
 
+@mixin start-button {
+    font-family: Montserrat;
+    font-size: 18px;
+    margin: 0;
+    padding: 16px 20px;
+    outline: none;
+    border-radius: 4px;
+    // ! чтобы при наведении на элемент появлялась рука
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-main {
+    @include start-button;
+
+    border: none;
+    // ! задаем правый и левый цвет кнопки
+    background: linear-gradient(to right, #fe985b, #fe4fa7);
+    color: white;
+}
+
+.btn-secondary {
+    @include start-button;
+
+    border: 1px solid #414141;
+    // ! задаем правый и левый цвет кнопки
+    background: white;
+    color: #414141;
+}
+
 // === / Common ===
 
 // === header ===
@@ -153,21 +183,6 @@ body {
                     }
                 }
             }
-
-            &-button {
-                button {
-                    font-family: Montserrat;
-                    font-size: 18px;
-                    margin: 0;
-                    padding: 16px 20px;
-                    border: none;
-                    outline: none;
-                    border-radius: 4px;
-                    color: white;
-                    // ! задаем правый и левый цвет кнопки
-                    background: linear-gradient(to right, #fe985b, #fe4fa7);
-                }
-            }
         }
     }
 }
@@ -263,3 +278,71 @@ body {
     }
 }
 // === / fouder ===
+
+// ===  plans ===
+.section-plans {
+    padding-top: 120px;
+    padding-bottom: 120px;
+    text-align: center;
+
+    &__title {
+        font-size: 36px;
+        line-height: 51px;
+        font-weight: bold;
+    }
+
+    &__subtitle {
+        font-size: 16px;
+        line-height: 28px;
+        font-weight: 300;
+        width: 50%;
+        margin: 0 auto 80px;
+    }
+
+    &__list {
+        display: flex;
+        justify-content: center;
+
+        .active {
+            background-color: #f6fafd;
+        }
+
+        &-item {
+            // ! Флексовый способ определения ширины
+            flex-basis: 370px;
+            padding: 60px 45px;
+
+            &_title {
+                font-size: 14px;
+                line-height: 17px;
+                font-weight: bold;
+                text-transform: uppercase;
+                margin-bottom: 26px;
+            }
+
+            &_price {
+                margin-bottom: 26px;
+
+                .prefix {
+                    font-size: 72px;
+                    line-height: 86px;
+                    font-weight: bold;
+                    color: #fe4fa7;
+                }
+                .postfix {
+                    font-size: 14px;
+                    line-height: 17px;
+                    font-weight: bold;
+                }
+            }
+
+            &_description {
+                font-size: 16px;
+                line-height: 28px;
+                font-weight: 300;
+                margin-bottom: 50px;
+            }
+        }
+    }
+}
+// ===  / plans ===
