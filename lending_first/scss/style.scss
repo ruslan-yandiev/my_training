@@ -65,6 +65,8 @@ body {
     // ! чтобы при наведении на элемент появлялась рука
     cursor: pointer;
     text-decoration: none;
+    // ! Преобразуем строковый тэк ссылки <a> в блочный, что поможет избежать наплывание
+    display: inline-block;
 }
 
 .btn-main {
@@ -345,4 +347,35 @@ body {
         }
     }
 }
-// ===  / plans ===
+// ===  / plans  ===
+
+// ===  free  ===
+
+.section-free {
+    // ! Выравнивает текст по центру блока
+    text-align: center;
+    color: white;
+    background: linear-gradient(to right, #fe985b, #fe4fa7);
+    padding-top: 120px;
+    padding-bottom: 120px;
+
+    &__title {
+        font-size: 66px;
+        line-height: 60px;
+        font-weight: bold;
+        margin-bottom: 26px;
+    }
+
+    &__description {
+        font-family: Montserrat;
+        font-size: 20px;
+        line-height: 30px;
+        width: 50%;
+        margin: 0 auto 40px;
+    }
+
+    &__button {
+    }
+}
+
+// ===  /free  ===
