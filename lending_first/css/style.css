@@ -343,6 +343,8 @@ body {
   border: none;
   background: linear-gradient(to right, #fe985b, #fe4fa7);
   color: white; }
+  .btn-main:hover {
+    background: linear-gradient(to right, #fe4fa7, #fe985b); }
 
 .btn-secondary {
   font-family: Montserrat;
@@ -356,7 +358,11 @@ body {
   display: inline-block;
   border: 1px solid #414141;
   background: white;
-  color: #414141; }
+  color: #414141;
+  transition: 0.2s; }
+  .btn-secondary:hover {
+    color: #fe4fa7;
+    border-color: #fe4fa7; }
 
 .section-header {
   color: #ffffff;
@@ -417,9 +423,12 @@ body {
           padding: 16px 20px;
           outline: none;
           border-radius: 4px;
-          width: 100%; }
+          width: 100%;
+          transition: 0.6s; }
           .section-header-wrapper__form-input input::placeholder {
             color: white; }
+          .section-header-wrapper__form-input input:focus {
+            background: rgba(255, 255, 255, 0.5); }
 
 .section-promo {
   padding-top: 120px;
@@ -536,3 +545,54 @@ body {
     line-height: 30px;
     width: 50%;
     margin: 0 auto 40px; }
+
+.section-footer {
+  padding-top: 80px;
+  padding-bottom: 80px; }
+  .section-footer__logo {
+    text-align: center;
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: bold;
+    margin-bottom: 30px; }
+  .section-footer__nav {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 75px;
+    padding: 0;
+    list-style: none; }
+    .section-footer__nav li + li {
+      margin-left: 60px; }
+    .section-footer__nav li a {
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #464646;
+      transition: 0.2s; }
+      .section-footer__nav li a:hover {
+        color: #fe50a6; }
+    .section-footer__nav li .active {
+      color: #fe50a6; }
+  .section-footer__copyright_and_links {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 18px;
+    font-family: Montserrat;
+    width: 60%;
+    margin: 0 auto; }
+
+.helper-link {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex; }
+  .helper-link li + li {
+    margin-left: 20px; }
+  .helper-link li a {
+    text-decoration: none;
+    color: #464646; }
+    .helper-link li a:hover {
+      text-decoration: underline; }
