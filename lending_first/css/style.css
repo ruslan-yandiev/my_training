@@ -433,3 +433,25 @@ body {
   text-align: center; }
   .section-promo-2 .description-item + .description-item {
     margin-left: 40px; }
+
+.section-fouder {
+  background-color: #f6fafd;
+  padding-top: 34px; }
+  .section-fouder .section-inner {
+    display: flex; }
+  .section-fouder__img {
+    align-self: flex-end; }
+  .section-fouder__content {
+    align-self: center;
+    padding-left: 50px; }
+    .section-fouder__content-text {
+      font-family: Montserrat;
+      font-size: 24px;
+      line-height: 40px; }
+    .section-fouder__content-name {
+      font-size: 24px;
+      line-height: 29px;
+      font-weight: bold; }
+    .section-fouder__content-post {
+      font-size: 20px;
+      line-height: 29px; }
