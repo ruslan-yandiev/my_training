@@ -512,11 +512,6 @@ body {
         list-style: none;
 
         li {
-            // ! установим дистанцию между элементами. Сдвигаем соседний элемент на 60px
-            & + li {
-                margin-left: 60px;
-            }
-
             a {
                 text-decoration: none;
                 font-size: 14px;
@@ -535,6 +530,29 @@ body {
                 color: #fe50a6;
             }
         }
+
+        // ! от 0 до максимального значения указанного экрана!!!!
+        @media (max-width: $screen-sm-max) {
+            flex-direction: column;
+            text-align: center;
+
+            li {
+                // ! установим дистанцию между элементами. Сдвигаем соседний нижний элемент на 10px вниз
+                & + li {
+                    margin-top: 10px;
+                }
+            }
+        }
+
+        // ! от указанного значения экрана и выше!!!!
+        @media (min-width: $screen-md) {
+            li {
+                // ! установим дистанцию между элементами. Сдвигаем соседний элемент на 60px
+                & + li {
+                    margin-left: 60px;
+                }
+            }
+        }
     }
 
     &__copyright_and_links {
@@ -548,6 +566,12 @@ body {
             // ! Зададим ширину контейнера
             width: 60%;
             margin: 0 auto; // !по центру
+        }
+
+        // ! от 0 до максимального значения указанного экрана!!!!
+        @media (max-width: $screen-sm-max) {
+            flex-direction: column;
+            text-align: center;
         }
     }
 }
@@ -574,6 +598,16 @@ body {
                 text-decoration: underline;
             }
         }
+    }
+
+    // ! от 0 до максимального значения указанного экрана!!!!
+    @media (max-width: $screen-sm-max) {
+        display: inline-flex;
+        margin-top: 20px;
+    }
+
+    @media (mim-width: $screen-md) {
+        display: flex;
     }
 }
 // === / footer  ===
