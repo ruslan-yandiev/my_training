@@ -311,8 +311,12 @@ body {
   font-family: Lato;
   color: #414141; }
 
+.section-outer {
+  padding-right: 20px;
+  padding-left: 20px; }
+
 .section-inner {
-  width: 1180px;
+  max-width: 1180px;
   margin: 0 auto; }
 
 .description-item__icon {
@@ -342,7 +346,7 @@ body {
   display: inline-block;
   border: none;
   background: linear-gradient(to right, #fe985b, #fe4fa7);
-  color: white; }
+  color: #fff; }
   .btn-main:hover {
     background: linear-gradient(to right, #fe4fa7, #fe985b); }
 
@@ -357,7 +361,7 @@ body {
   text-decoration: none;
   display: inline-block;
   border: 1px solid #414141;
-  background: white;
+  background: #fff;
   color: #414141;
   transition: 0.2s; }
   .btn-secondary:hover {
@@ -417,7 +421,7 @@ body {
           font-family: Montserrat;
           border: none;
           background: rgba(255, 255, 255, 0.25);
-          color: white;
+          color: #fff;
           font-size: 16px;
           margin: 0;
           padding: 16px 20px;
@@ -426,7 +430,7 @@ body {
           width: 100%;
           transition: 0.6s; }
           .section-header-wrapper__form-input input::placeholder {
-            color: white; }
+            color: #fff; }
           .section-header-wrapper__form-input input:focus {
             background: rgba(255, 255, 255, 0.5); }
 
@@ -438,19 +442,26 @@ body {
   display: flex; }
   .section-promo-1__content, .section-promo-1__video {
     flex-basis: 50%; }
-  .section-promo-1__content {
-    padding-right: 90px; }
-    .section-promo-1__content .title {
-      font-size: 32px;
-      line-height: 51px;
-      font-weight: bold;
-      margin-bottom: 56px; }
-    .section-promo-1__content .description-item {
-      margin-top: 28px; }
+  .section-promo-1__content .title {
+    font-size: 32px;
+    line-height: 51px;
+    font-weight: bold;
+    margin-bottom: 56px; }
+  .section-promo-1__content .description-item {
+    margin-top: 28px; }
   .section-promo-1__video img {
     width: 100%;
     height: auto;
     border-radius: 8px; }
+  @media (max-width: 767px) {
+    .section-promo-1 {
+      flex-direction: column; }
+      .section-promo-1__video {
+        order: -1;
+        margin-bottom: 20px; } }
+  @media (min-width: 768px) {
+    .section-promo-1__content {
+      padding-right: 90px; } }
 
 .section-promo-2 {
   display: flex;
@@ -462,26 +473,37 @@ body {
     margin-left: 40px; }
 
 .section-fouder {
-  background-color: #f6fafd;
-  padding-top: 34px; }
+  padding-top: 34px;
+  background-color: #f6fafd; }
   .section-fouder .section-inner {
     display: flex; }
-  .section-fouder__img {
-    align-self: flex-end; }
-  .section-fouder__content {
-    align-self: center;
-    padding-left: 50px; }
-    .section-fouder__content-text {
-      font-family: Montserrat;
-      font-size: 24px;
-      line-height: 40px; }
-    .section-fouder__content-name {
-      font-size: 24px;
-      line-height: 29px;
-      font-weight: bold; }
-    .section-fouder__content-post {
-      font-size: 20px;
-      line-height: 29px; }
+  .section-fouder__content-text {
+    font-family: Montserrat;
+    font-size: 24px;
+    line-height: 40px;
+    margin-bottom: 20px; }
+  .section-fouder__content-name {
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: bold; }
+  .section-fouder__content-post {
+    font-size: 20px;
+    line-height: 29px; }
+  @media (max-width: 767px) {
+    .section-fouder .section-inner {
+      flex-direction: column; }
+    .section-fouder__content {
+      order: -1;
+      margin-bottom: 40px; } }
+  @media (max-width: 991px) {
+    .section-fouder__img img {
+      max-width: 100%; } }
+  @media (min-width: 576px) {
+    .section-fouder__img {
+      align-self: flex-end; }
+    .section-fouder__content {
+      align-self: center;
+      padding-left: 50px; } }
 
 .section-plans {
   padding-top: 120px;
@@ -530,7 +552,7 @@ body {
 
 .section-free {
   text-align: center;
-  color: white;
+  color: #fff;
   background: linear-gradient(to right, #fe985b, #fe4fa7);
   padding-top: 120px;
   padding-bottom: 120px; }
@@ -543,8 +565,10 @@ body {
     font-family: Montserrat;
     font-size: 20px;
     line-height: 30px;
-    width: 50%;
     margin: 0 auto 40px; }
+  @media (min-width: 992px) {
+    .section-free__description {
+      width: 50%; } }
 
 .section-footer {
   padding-top: 80px;
@@ -580,9 +604,11 @@ body {
     justify-content: space-between;
     font-size: 14px;
     line-height: 18px;
-    font-family: Montserrat;
-    width: 60%;
-    margin: 0 auto; }
+    font-family: Montserrat; }
+    @media (min-width: 1200px) {
+      .section-footer__copyright_and_links {
+        width: 60%;
+        margin: 0 auto; } }
 
 .helper-link {
   margin: 0;

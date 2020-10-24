@@ -15,6 +15,23 @@
 }
 // == / Mixins ==
 
+// == Variables ==
+// ! Переменная с цветом
+$color-white: #fff;
+
+// ! Переменные со значениями размера устройства для адаптива
+$screen-sm: 576px;
+$screen-md: 768px;
+$screen-lg: 992px;
+$screen-xl: 1200px;
+
+$screen-xs-max: 575;
+$screen-sm-max: 767px;
+$screen-md-max: 991px;
+$screen-lg-max: 1199px;
+
+// == / Variables ==
+
 // === Common ===
 // ! Для коректног высчета ширины. Укажем что высчитывать 100% ширины у всех элементов учитывая марджины и пединги
 * {
@@ -27,11 +44,15 @@ body {
     color: #414141;
 }
 
+// ! зададим левый и правый отступ всего контента лендинга от краев браузера
 .section-outer {
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
+// ! этот стиль ограничивает весь контенд, всего лендинга по ширине
 .section-inner {
-    width: 1180px;
+    max-width: 1180px;
     margin: 0 auto;
 }
 
@@ -77,7 +98,7 @@ body {
 
     // ! задаем правый и левый цвет кнопки
     background: linear-gradient(to right, #fe985b, #fe4fa7);
-    color: white;
+    color: $color-white;
 
     // ! При наведении элемент будет менять фоновый цвет
     &:hover {
@@ -89,7 +110,7 @@ body {
     @include start-button;
 
     border: 1px solid #414141;
-    background: white;
+    background: $color-white;
     color: #414141;
 
     // ! Скорость анимации эфектов
@@ -189,7 +210,7 @@ body {
                     @include font-2;
                     border: none;
                     background: rgba(255, 255, 255, 0.25);
-                    color: white;
+                    color: $color-white;
                     font-size: 16px;
                     margin: 0;
                     padding: 16px 20px;
@@ -205,7 +226,7 @@ body {
                     transition: 0.6s;
 
                     &::placeholder {
-                        color: white;
+                        color: $color-white;
                     }
 
                     // !При щелчке на поле формы сделает прозрачный фон более ярким
@@ -235,8 +256,6 @@ body {
     }
 
     &__content {
-        padding-right: 90px;
-
         .title {
             font-size: 32px;
             line-height: 51px;
@@ -257,6 +276,28 @@ body {
             border-radius: 8px;
         }
     }
+
+    // ! Свойство для адаптива. Для маленьких телефонов. Описываем поведение элементов.
+    // ! то есть начиная с 0 и до указанного значения $screen-sm-max подключить или изменить слили
+    @media (max-width: $screen-sm-max) {
+        flex-direction: column;
+
+        &__video {
+            // ! переместим блок с видео выше, поменяв местами с первым блоком
+            order: -1;
+
+            // ! Укажим нижний внешний отступ
+            margin-bottom: 20px;
+        }
+    }
+
+    // ! то есть начиная с $screen-md и до тех пор пока стили не будут переназначены подключить или изменить слили
+    @media (min-width: $screen-md) {
+        &__content {
+            // ! установим отступ для контента с минимального значния для планшетов
+            padding-right: 90px;
+        }
+    }
 }
 
 .section-promo-2 {
@@ -275,25 +316,20 @@ body {
 
 // === fouder ===
 .section-fouder {
-    background-color: #f6fafd;
     padding-top: 34px;
+    background-color: #f6fafd;
 
     .section-inner {
         display: flex;
     }
 
-    &__img {
-        align-self: flex-end;
-    }
-
     &__content {
-        align-self: center;
-        padding-left: 50px;
-
         &-text {
             @include font-2;
+
             font-size: 24px;
             line-height: 40px;
+            margin-bottom: 20px;
         }
 
         &-name {
@@ -305,6 +341,40 @@ body {
         &-post {
             font-size: 20px;
             line-height: 29px;
+        }
+    }
+
+    // ! до указанного значения
+    @media (max-width: $screen-sm-max) {
+        .section-inner {
+            flex-direction: column;
+        }
+
+        &__content {
+            order: -1;
+            margin-bottom: 40px;
+        }
+    }
+
+    // ! до указанного значения
+    @media (max-width: $screen-md-max) {
+        &__img {
+            img {
+                // ! Ненаследуемые параметры, применяются непосредственно к тегу, а не к блоку в котором находится тег(элемент)
+                max-width: 100%;
+            }
+        }
+    }
+
+    // ! после указанного значения
+    @media (min-width: $screen-sm) {
+        &__img {
+            align-self: flex-end;
+        }
+
+        &__content {
+            align-self: center;
+            padding-left: 50px;
         }
     }
 }
@@ -385,7 +455,7 @@ body {
     // ! Выравнивает текст по центру блока
     text-align: center;
 
-    color: white;
+    color: $color-white;
     background: linear-gradient(to right, #fe985b, #fe4fa7);
     padding-top: 120px;
     padding-bottom: 120px;
@@ -399,13 +469,18 @@ body {
 
     &__description {
         @include font-2;
+
         font-size: 20px;
         line-height: 30px;
-        width: 50%;
         margin: 0 auto 40px;
     }
 
-    &__button {
+    @media (min-width: $screen-lg) {
+        // ! поскольку это блочный элеент и он по умолчанию вытягивается на всю ширину
+        // ! то мы можем его просто ограничить по размеру, а дальше он сам растянется на всю ширину
+        &__description {
+            width: 50%;
+        }
     }
 }
 
@@ -469,10 +544,11 @@ body {
         line-height: 18px;
         @include font-2;
 
-        // ! Зададим ширину контейнера
-        width: 60%;
-
-        margin: 0 auto; // !по центру
+        @media (min-width: $screen-xl) {
+            // ! Зададим ширину контейнера
+            width: 60%;
+            margin: 0 auto; // !по центру
+        }
     }
 }
 
