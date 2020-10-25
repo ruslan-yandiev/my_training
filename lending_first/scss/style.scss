@@ -384,7 +384,7 @@ body {
     }
 
     // ! до указанного значения
-    @media (max-width: $screen-sm-max) {
+    @media (max-width: $screen-md-max) {
         .section-inner {
             flex-direction: column;
         }
@@ -392,12 +392,13 @@ body {
         &__content {
             order: -1;
             margin-bottom: 40px;
+            align-self: center;
+            padding-left: 50px;
         }
-    }
 
-    // ! до указанного значения
-    @media (max-width: $screen-md-max) {
         &__img {
+            align-self: flex-start;
+
             img {
                 // ! Ненаследуемые параметры, применяются непосредственно к тегу, а не к блоку в котором находится тег(элемент)
                 max-width: 100%;
@@ -406,10 +407,10 @@ body {
     }
 
     // ! после указанного значения
-    @media (min-width: $screen-sm) {
-        &__img {
-            align-self: flex-end;
-        }
+    @media (min-width: $screen-lg) {
+        // &__img {
+        //     align-self: flex-end;
+        // }
 
         &__content {
             align-self: center;

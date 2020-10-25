@@ -502,18 +502,19 @@ body {
   .section-fouder__content-post {
     font-size: 20px;
     line-height: 29px; }
-  @media (max-width: 767px) {
+  @media (max-width: 991px) {
     .section-fouder .section-inner {
       flex-direction: column; }
     .section-fouder__content {
       order: -1;
-      margin-bottom: 40px; } }
-  @media (max-width: 991px) {
-    .section-fouder__img img {
-      max-width: 100%; } }
-  @media (min-width: 576px) {
+      margin-bottom: 40px;
+      align-self: center;
+      padding-left: 50px; }
     .section-fouder__img {
-      align-self: flex-end; }
+      align-self: flex-start; }
+      .section-fouder__img img {
+        max-width: 100%; } }
+  @media (min-width: 992px) {
     .section-fouder__content {
       align-self: center;
       padding-left: 50px; } }
