@@ -576,22 +576,36 @@ body {
 .section-free {
   text-align: center;
   color: #fff;
-  background: linear-gradient(to right, #fe985b, #fe4fa7);
-  padding-top: 120px;
-  padding-bottom: 120px; }
-  .section-free__title {
-    font-size: 66px;
-    line-height: 60px;
-    font-weight: bold;
-    margin-bottom: 26px; }
+  background: linear-gradient(to right, #fe985b, #fe4fa7); }
   .section-free__description {
-    font-family: Montserrat;
-    font-size: 20px;
-    line-height: 30px;
-    margin: 0 auto 40px; }
+    font-family: Montserrat; }
   @media (min-width: 992px) {
-    .section-free__description {
-      width: 50%; } }
+    .section-free {
+      padding-top: 120px;
+      padding-bottom: 120px; }
+      .section-free__title {
+        font-size: 66px;
+        line-height: 60px;
+        font-weight: bold;
+        margin-bottom: 26px; }
+      .section-free__description {
+        width: 50%;
+        font-size: 20px;
+        line-height: 30px;
+        margin: 0 auto 40px; } }
+  @media (max-width: 991px) {
+    .section-free {
+      padding-top: 80px;
+      padding-bottom: 80px; }
+      .section-free__title {
+        font-size: 52px;
+        line-height: 48px;
+        font-weight: bold;
+        margin-bottom: 20px; }
+      .section-free__description {
+        font-size: 18px;
+        line-height: 26px;
+        margin: 0 auto 28px; } }
 
 .section-footer {
   padding-top: 80px;
