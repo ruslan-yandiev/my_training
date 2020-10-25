@@ -172,7 +172,6 @@ body {
         flex-grow: 1;
 
         display: flex;
-        // justify-content: center;
         align-items: center;
     }
 
@@ -203,11 +202,11 @@ body {
             display: flex;
 
             &-input {
-                flex: 1;
-                padding-right: 40px;
+                // flex: 1; // ? А нужен ли он тут, вроде ничего не меняется?
 
                 input {
                     @include font-2;
+
                     border: none;
                     background: rgba(255, 255, 255, 0.25);
                     color: $color-white;
@@ -223,7 +222,7 @@ body {
                     width: 100%;
 
                     // ! скорость анимации css эфектов
-                    transition: 0.6s;
+                    transition: 0.5s;
 
                     &::placeholder {
                         color: $color-white;
@@ -239,10 +238,28 @@ body {
             // ! от 0 до максимального значения указанного экрана $screen-sm-max!!!!
             @media (max-width: $screen-sm-max) {
                 flex-direction: column;
+
+                &-input {
+                    // ! отступ между элементами(инпутами) таблицы
+                    margin-bottom: 20px;
+                }
+
+                &-button {
+                    // flex: 1; // ? А нужен ли он тут, вроде ничего не меняется?
+
+                    .btn-main {
+                        // display: block; // ? А нужен ли он тут, вроде ничего не меняется?
+                        width: 100%;
+                    }
+                }
             }
 
             // ! от $screen-md
             @media (min-width: $screen-md) {
+                &-input {
+                    // ! отступ между элементами(инпутами) таблицы (почемуто внутренний отступ работает как внешний и правильнее)
+                    padding-right: 40px;
+                }
             }
         }
     }
