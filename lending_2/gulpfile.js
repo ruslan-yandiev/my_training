@@ -1,4 +1,4 @@
-// ! npm install --save-dev gulp gulp-sass browser-sync gulp-file-include del
+// ! npm install --save-dev gulp gulp-sass browser-sync gulp-file-include del gulp-autoprefixer gulp-group-css-media-queries gulp-clean-css gulp-rename gulp-uglify-es
 //(так мы сразу установим сам gulp и нужные плагины кнему в локальную директорию, главное, чтобы был ранее глобально установлен gulp -g)
 
 const project_folder = 'dist';
@@ -45,7 +45,16 @@ const { src, dest } = require('gulp'),
     fileinclude = require('gulp-file-include'),
     // плагин удаляет автоматически удаляет файлы
     del = require('del'),
-    scss = require('gulp-sass');
+    scss = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'),
+    // плагин собирает разбросанные по нашему css файлу наши медиа запросы @media и групирует их и ставит в конец файла
+    groupMedia = require('gulp-group-css-media-queries'),
+    // плагин будет чистить и сжимать наш css файл на выходе
+    cleanCss = require('gulp-clean-css'),
+    // плагин для переименования файлов
+    rename = require('gulp-rename'),
+    // плагин для сжатия javascript файлов
+    uglify = require('gulp-uglify-es').default;
 
 function browserSync(params) {
     // настроим сервер для работы с браузером
@@ -80,7 +89,35 @@ function css() {
                 outputStyle: 'expanded',
             }),
         )
+        .pipe(groupMedia())
+        .pipe(
+            autoprefixer({
+                // overrideBrowserslist: ['last 5 varsions'],
+                cascade: true,
+            }),
+        )
         .pipe(dest(path.build.css))
+        .pipe(cleanCss())
+        .pipe(
+            rename({
+                extname: '.mini.css',
+            }),
+        )
+        .pipe(dest(path.build.css))
+        .pipe(browsersync.stream());
+}
+
+function js() {
+    return src(path.src.js)
+        .pipe(fileinclude())
+        .pipe(dest(path.build.js))
+        .pipe(uglify())
+        .pipe(
+            rename({
+                extname: '.mini.js',
+            }),
+        )
+        .pipe(dest(path.build.js))
         .pipe(browsersync.stream());
 }
 
@@ -88,6 +125,10 @@ function css() {
 function watchFiles(params) {
     // фактически навешиваем обработчик событий ноды, но через gulp на указанные пути, вкачестве обработчика выступают созданные нами ранее функции
     gulp.watch([path.watch.html], html);
+
+    gulp.watch([path.watch.css], css);
+
+    gulp.watch([path.watch.js], js);
 }
 
 // функция будет реализовывать улаление директории
@@ -100,11 +141,12 @@ function clean(params) {
 // серия выполняемых функций, процесс и порядок выполнения.
 // ! gulp.parallel(...) позволяет паралельно(одновременно) выполнять задачи
 // * Можно убрать из исполнения clean чтобы удалять только вручную нужное
-const build = gulp.series(clean, gulp.parallel(css, html));
+const build = gulp.series(clean, gulp.parallel(js, css, html));
 
 // как я понял позволяет паралельно запускать процессы
 const watch = gulp.parallel(build, watchFiles, browserSync);
 
+exports.js = js;
 exports.scss = scss;
 exports.html = html;
 exports.build = build;
