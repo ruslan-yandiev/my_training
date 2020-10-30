@@ -17,4 +17,5 @@ testWebP(function (support) {
 });
 
 // благодаря галпу сможем собирать файлы
-@@include('alert.js');
+alert('Hello');
+;
