@@ -1,4 +1,4 @@
-// ! npm install --save-dev gulp gulp-sass browser-sync gulp-file-include del gulp-autoprefixer gulp-group-css-media-queries gulp-clean-css gulp-rename gulp-uglify-es gulp-imagemin gulp-webp gulp-webp-html gulp-webpcss gulp-svg-sprite gulp-ttf2woff gulp-ttf2woff2 gulp-fonter
+// ! npm install --save-dev gulp gulp-sass browser-sync gulp-file-include del gulp-autoprefixer gulp-group-css-media-queries gulp-clean-css gulp-rename gulp-uglify-es gulp-imagemin gulp-webp gulp-webp-html gulp-webpcss gulp-svg-sprite
 // ! Ну или просто скопировать pakage.json, gulpfile.js и папку #src и запустить команду npm i или npm install из текущей директории куда скопированы данные. (установит все разом)
 //(так мы сразу установим сам gulp и нужные плагины кнему в локальную директорию, главное, чтобы был ранее глобально установлен gulp -g)
 
@@ -79,14 +79,7 @@ const { src, dest } = require('gulp'), // ! src загрузка для обра
     // ! если вдруг не находит модуль gulp-webpcss то прописываем в консоли (npm i webp-converter@2.2.3 -D)
     webpСss = require('gulp-webpcss'),
     // плагин позволяет спрайтить(соединять вместе картинки svg формата)
-    svgSprite = require('gulp-svg-sprite'),
-    // ! почемуто не работатет
-    // приобразование шрифта ttf в woff
-    ttf2woff = require('gulp-ttf2woff'),
-    ttf2woff2 = require('gulp-ttf2woff2'),
-    // ! почемуто не работатет
-    // для приобразования шрифта otf в ttf
-    fonter = require('gulp-fonter');
+    svgSprite = require('gulp-svg-sprite');
 
 function browserSync(params) {
     // настроим сервер для работы с браузером
@@ -98,14 +91,6 @@ function browserSync(params) {
         port: 3000,
         notify: false,
     });
-}
-
-// ! почемуто не работатет
-// функция для обработки шрифтов из ttf в woff и woff2
-function fonts() {
-    src(path.src.fonts).pipe(ttf2woff()).pipe(dest(path.build.fonts));
-
-    return src(path.src.fonts).pipe(ttf2woff2()).pipe(dest(path.build.fonts));
 }
 
 // Функция для обработки html gulp-om
@@ -204,52 +189,6 @@ gulp.task('svgSprite', function () {
         .pipe(dest(path.build.img));
 });
 
-// ! почемуто не работатет
-// Еще одна отдельно запускаемая вручную задача для преобразования шрифта одного вида из otf в ttf
-// ! Для запуска функции необходимо в новом процессе(терминале) запустить команду gulp otf2ttf
-gulp.task('otf2ttf', function () {
-    return src([`${source_folder}/fonts/*.otf`])
-        .pipe(
-            fonter({
-                formats: ['ttf'],
-            }),
-        )
-        .pipe(dest(source_folder + '/fonts')); //а вот результат уже выгрузим не в папку проекта а в папку с исходниками
-});
-
-// ! почемуто не работатет
-// функция будет отвечать за запись и подключение наших шрифтов к файлу стилей
-function fontsStyle(params) {
-    let file_content = fs.readFileSync(source_folder + '/scss/fonts.scss');
-
-    if (file_content == '') {
-        fs.writeFile(source_folder + '/scss/fonts.scss', '', cb);
-        return fs.readdir(path.build.fonts, function (err, items) {
-            if (items) {
-                let c_fontname;
-                for (var i = 0; i < items.length; i++) {
-                    let fontname = items[i].split('.');
-                    fontname = fontname[0];
-                    if (c_fontname != fontname) {
-                        fs.appendFile(
-                            source_folder + '/scss/fonts.scss',
-                            '@include font("' +
-                                fontname +
-                                '", "' +
-                                fontname +
-                                '", "400", "normal");\r\n',
-                            cb,
-                        );
-                    }
-                    c_fontname = fontname;
-                }
-            }
-        });
-    }
-}
-// ! почемуто не работатет
-function cb() {}
-
 // Функция для отслеживания файлов в реальном времени, позволит слушать и применять все изменения на лету
 function watchFiles(params) {
     // фактически навешиваем обработчик событий ноды, но через gulp на указанные пути, вкачестве обработчика выступают созданные нами ранее функции
@@ -269,18 +208,10 @@ function clean(params) {
 // серия выполняемых функций, процесс и порядок выполнения.
 // ! gulp.parallel(...) позволяет паралельно(одновременно) выполнять задачи
 // * Можно убрать из исполнения clean чтобы удалять только вручную нужное
-const build = gulp.series(
-    clean,
-    gulp.parallel(js, css, html, images, fonts),
-    fontsStyle,
-);
+const build = gulp.series(clean, gulp.parallel(js, css, html, images));
 
 // как я понял позволяет паралельно запускать процессы
 const watch = gulp.parallel(build, watchFiles, browserSync);
-
-// ! почемуто не работатет
-exports.fontsStyle = fontsStyle;
-exports.fonts = fonts;
 
 exports.images = images;
 exports.js = js;
