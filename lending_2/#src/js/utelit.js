@@ -1,4 +1,3 @@
-// благодаря галпу сможем собирать файлы (плагин include)
 // ! Функция проверяет поддерживает ли браузер формат webp и если да то присваивает эедементу body  css класс webp
 function testWebP(callback) {
     var webP = new Image();
@@ -16,4 +15,3 @@ testWebP(function (support) {
         document.querySelector('body').classList.add('no-webp');
     }
 });
-;

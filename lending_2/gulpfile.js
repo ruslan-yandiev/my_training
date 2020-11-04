@@ -35,7 +35,7 @@ const path = {
         css: `${source_folder}/scss/style.scss`,
         js: `${source_folder}/js/script.js`,
         img: `${source_folder}/img/**/*.{jpg,png,svg,gif,ico,webp}`,
-        fonts: `${source_folder}/fonts/*.ttf`,
+        fonts: `${source_folder}/fonts/*.{ttf,svg,woff,woff2,eot}`,
     },
 
     // объект который будет прослушиваться нодой постоянно и динамически применять изменения на лету для отображения в браузере
@@ -170,6 +170,10 @@ function js() {
         .pipe(browsersync.stream());
 }
 
+function fonts() {
+    return src(path.src.fonts).pipe(dest(path.build.fonts));
+}
+
 // сделаем отдельно функцию для спрайтов
 // ! Для запуска функции необходимо в новом процессе(терминале) запустить команду gulp svgSprite
 // ! Удобно так выделять задачи которые не требуют постоянного запуска
@@ -208,11 +212,12 @@ function clean(params) {
 // серия выполняемых функций, процесс и порядок выполнения.
 // ! gulp.parallel(...) позволяет паралельно(одновременно) выполнять задачи
 // * Можно убрать из исполнения clean чтобы удалять только вручную нужное
-const build = gulp.series(clean, gulp.parallel(js, css, html, images));
+const build = gulp.series(clean, gulp.parallel(js, css, html, images, fonts));
 
 // как я понял позволяет паралельно запускать процессы
 const watch = gulp.parallel(build, watchFiles, browserSync);
 
+exports.fonts = fonts;
 exports.images = images;
 exports.js = js;
 exports.css = css;
