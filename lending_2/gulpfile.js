@@ -31,7 +31,7 @@ const path = {
     // пути к исходникам, откуда gulp и будет собирать проект
     src: {
         // `!${source_folder}/_*.html` так мы исключили все html файлы начинающиеся с символа подчеркивания
-        html: [`${source_folder}/*.html`, `!${source_folder}/_header.html`],
+        html: [`${source_folder}/*.html`, `!${source_folder}/_*.html`],
         css: `${source_folder}/scss/style.scss`,
         js: `${source_folder}/js/script.js`,
         img: `${source_folder}/img/**/*.{jpg,png,svg,gif,ico,webp}`,
