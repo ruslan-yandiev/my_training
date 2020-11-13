@@ -17,7 +17,7 @@
 //         sortMerge(leftArr);
 //         sortMerge(rightArr);
 
-//         let l = (r = k = 0);
+//         let l = (r = k = 0); // ! 'use strict' не будет работать если установлен в документе;
 
 //         while (l < leftArr.length && r < rightArr.length) {
 //             if (leftArr[l] <= rightArr[r]) {
@@ -69,7 +69,7 @@ function sortMerge(arr) {
         sortMerge(leftArr);
         sortMerge(rightArr);
 
-        let l = (r = k = 0);
+        let l = (r = k = 0); // ! 'use strict' не будет работать если установлен в документе;
 
         while (k < len) {
             if (leftArr[l] <= rightArr[r]) {
