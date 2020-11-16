@@ -2,8 +2,10 @@
     background-color: #1c242a;
 
     &__container {
+        position: relative;
         display: flex;
         align-items: center;
+        height: 75px;
     }
 
     &__logo {
@@ -17,6 +19,10 @@
 }
 
 .menu {
+    // ! зададим немного другим способом padding-left: 30px;
+    // ! теперь эти 30 пикселей будут в процентах и будут сужаться при сужении экрана, для большей адаптивности и губкости
+    padding: 0px 0px 0px 30px/950px * 100%;
+
     // * позволили меню увеличиваться
     flex: 1 1 auto;
     &__icon {
@@ -27,8 +33,10 @@
 
     &__list {
         display: flex;
+        justify-content: center;
 
         li {
+            margin: 0px 15px;
         }
     }
 
@@ -91,31 +99,48 @@
 // /Burger =======================================/
 
 .actions-header {
+    display: flex;
+    align-items: center;
+
     &__region {
+        // ! @extend позволяет подключить все стили из определенного класса!!!!
+        @extend .menu__link;
+
+        padding: 0px 0px 0px 30px;
+        line-height: 18px;
+        background: url('../img/icons/globe.svg') left no-repeat;
     }
-}
-.action-header {
+
     &__user {
+        // внешний отступ от элемента отступим, а не от блока по левой стороне
+        margin: 0px 0px 0px 30px;
     }
 }
+
 .user-header {
     &__icon {
+        // ! чтобы появлялась рука при наведении
+        cursor: pointer;
     }
 
     &__menu {
+        top: 78px;
+
+        // ! укажем наше позицианирование меню в отношении нашего класса  .header__contener и уже ему зададим position: relative
+        position: absolute;
     }
 
     &__link {
-        &_1 {
-        }
+        // &_1 {
+        // }
 
-        &_2 {
-        }
+        // &_2 {
+        // }
 
-        &_3 {
-        }
+        // &_3 {
+        // }
 
-        &_4 {
-        }
+        // &_4 {
+        // }
     }
 }

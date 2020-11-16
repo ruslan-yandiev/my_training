@@ -152,19 +152,28 @@ body._lock {
 }
 
 .header__container {
+  position: relative;
   display: flex;
   align-items: center;
+  height: 75px;
 }
 
 .menu {
+  padding: 0px 0px 0px 3.15789%;
   flex: 1 1 auto;
 }
 
 .menu__list {
   display: flex;
+  justify-content: center;
 }
 
-.menu__link {
+.menu__list li {
+  margin: 0px 15px;
+}
+
+.menu__link,
+.actions-header__region {
   font-family: 'Conv_pfdintextcondpro-regular';
   text-transform: uppercase;
   letter-spacing: 1.4px;
@@ -207,6 +216,30 @@ body._lock {
 
 .icon-menu._active span:last-child {
   bottom: calc(50% - 1px);
+}
+
+.actions-header {
+  display: flex;
+  align-items: center;
+}
+
+.actions-header__region {
+  padding: 0px 0px 0px 30px;
+  line-height: 18px;
+  background: url("../img/icons/globe.svg") left no-repeat;
+}
+
+.actions-header__user {
+  margin: 0px 0px 0px 30px;
+}
+
+.user-header__icon {
+  cursor: pointer;
+}
+
+.user-header__menu {
+  top: 78px;
+  position: absolute;
 }
 
 .page {
