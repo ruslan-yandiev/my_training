@@ -186,12 +186,143 @@ function unique4(arr) {
 console.log(unique4([1, 8, 1, 5, 9, 5, 8])); //[1, 8, 5, 9]
 
 
-// function dubl(arr) {
-// 	return arr.reduce((accum, elem) => {
-// 		// бинарное сравнение бинарным оператором, вернет дублирующий элемент
-// 		// бинарный поиск, очень быстро (побитовое сравнение)
-// 		return accum ^= elem;
-// 	})
-// }
+// * =======================================================================
 
-// console.log(dubl([1, 8, 1, 5, 9, 5, 8])); //[9]
+function dubl(arr) {
+	return arr.reduce((accum, elem) => {
+		// бинарное сравнение бинарным оператором, вернет дублирующий элемент
+		// бинарный поиск, очень быстро (побитовое сравнение)
+		return accum ^= elem;
+	})
+}
+
+console.log(dubl([1, 8, 1, 5, 9, 5, 8])); //[9]
+
+// * =====================================================================
+
+
+/*
+Реализовать функцию, которой передается число, функция должна
+возвращать ближайшее целое число к тому, что было передано, без остатка делящееся на 5
+*/
+
+function round5(val) {
+	if (val % 5 === 0) {
+		return val;
+	}
+
+	let firstStep = 0;
+	let lastStep = 0;
+	let result;
+	let result2;
+
+	while(result === undefined) {
+		firstStep += 1;
+
+		if ((val + firstStep) % 5 === 0) {
+			result = val + firstStep;
+		}
+	}
+
+	while(result2 === undefined) {
+		lastStep += 1;
+
+		if ((val - lastStep) % 5 === 0) {
+			result2 = val - lastStep;
+		}
+	}
+
+	if (firstStep >= lastStep) {
+		return result2;
+	} else {
+		return result;
+	}
+}
+
+console.log(round5(0)); // 0
+console.log(round5(2)); // 0
+console.log(round5(3)); // 5
+console.log(round5(11)); // 10
+console.log(round5(14)); // 15
+console.log(round5(50)); // 50
+console.log(round5(-2)); // 0
+console.log(round5(-3)); // -5
+
+// TODO Самый быстрый математический способ получить ближайшее целое число без остатка делящееся на 5
+function round5(val) {
+	// ! используя математический объект округлим деление числа val на 5, и умножаем на 5
+	// математическая формула для получения ближайшего целого числа, можно и на 2, 3, 4...
+	return Math.round(val/5)*5;
+}
+
+console.log(round5(0)); // 0
+console.log(round5(2)); // 0
+console.log(round5(3)); // 5
+console.log(round5(11)); // 10
+console.log(round5(14)); // 15
+console.log(round5(50)); // 50
+console.log(round5(-2)); // 0
+console.log(round5(-3)); // -5
+
+// * =====================================================================
+
+/*
+Функция принимает массив с объектами, с записанными координатами. Сделать так,
+чтобы возвращался массив, очищенный от дублей.
+*/
+
+function uniquePoints(arr) {
+	let obj;
+
+	for (let i = 0; i < arr.length; i++) {
+		obj = arr[i];
+
+		for (let j = i + 1; j < arr.length - 1; j++) {
+			if (obj.x === arr[j].x && obj.y === arr[j].y) {
+				arr.splice(j, 1)
+			}
+		}		
+	}
+
+	return arr;
+}
+
+const arr = [
+	{x: 5, y: 10},
+	{x: 1, y: 15},
+	{x: 7, y: -5},
+	{x: 16, y: 33},
+	{x: 1, y: 15},
+	{x: 7, y: -5},
+	{x: 4, y: 12},
+]
+
+
+console.log(uniquePoints(arr));
+
+// Второй способ
+function uniquePoints2(arr) {
+	let result = [arr[0]];
+
+	for (let i = 0; i < arr.length; i++) {
+		// в более функциональном стиле
+		if (!result.some(val => arr[i].x == val.x && arr[i].y === val.y)) {
+			result.push(arr[i]);
+		}	
+	}
+
+	return result;
+}
+
+const arr2 = [
+	{x: 5, y: 10},
+	{x: 1, y: 15},
+	{x: 7, y: -5},
+	{x: 16, y: 33},
+	{x: 1, y: 15},
+	{x: 7, y: -5},
+	{x: 4, y: 12},
+]
+
+
+console.log(uniquePoints2(arr2));
