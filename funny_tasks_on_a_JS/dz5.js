@@ -109,7 +109,7 @@ function pal(str) {
     str = str.toLowerCase();
     let str2 = str.split('').reverse().join('');
 
-    // ! когда нужно вернуть правду или лож, то проще просто вернуть результат выполнения условия, а он всегда либо true дибо false
+    // ! когда нужно вернуть правду или лож, то проще просто вернуть результат выполнения условия, а он всегда либо true либо false
     return str === str2;
 }
 
@@ -120,5 +120,70 @@ console.log(pal('Колобок'));
 // * ====================================================================
 
 /*
-
+Функция принимает строку, на английском, возвращает массив, содержащий все возможные комбинации букв.
+не должно быть повторяющихся строк в массиве.
 */
+
+function getLettersVariants(str) {
+    if (str.length === 1) {
+        return [str];
+    }
+
+    const arr = [str];
+
+    function start(strArr) {
+        for (let i = 0; i < strArr.length - 1; i++) {
+            for (let j = i + 1; j < strArr.length; j++) {
+                [strArr[i], strArr[j]] = [strArr[j], strArr[i]];
+
+                if (arr.includes(strArr.join(''))) {
+                    return arr;
+                }
+
+                arr.push(strArr.join(''));
+            }
+        }
+
+        return start(strArr);
+    }
+
+    return start(str.split(''));
+}
+console.log(getLettersVariants('asd')); // ['asd', 'ads', 'sad', 'das', 'dsa', 'sda']
+// ? Вторым способом можно было бы решить с помощью бесконечного цикла (while) и счетчиками, которые обнуляются по достижению
+// ? определенного значения от размера массива, и повторять до тех пор пока не встретится повтор.
+
+// * ====================================================================
+
+/*
+Функция принимает массив с целыми числами, функция должна возвращать значение большего эелемента массива,
+который записан в четном индексе включая 0.
+*/
+function getMaxEvenElement(arr) {
+    let maxElem = arr[0];
+
+    for (let i = 2; i < arr.length; ) {
+        if (maxElem < arr[i]) {
+            maxElem = arr[i];
+        }
+
+        i += 2;
+    }
+
+    return maxElem;
+}
+
+console.log(getMaxEvenElement([5, 7, -1, 12, 3, 0])); // 5
+console.log(getMaxEvenElement([4, -12, 29, 6, 31, 92, -50])); // 31
+
+// Второй способ
+function getMaxEvenElement2(arr) {
+    return arr.find((elem, index) => {
+        if (index % 2 === 0) {
+            return elem > arr[index + 2];
+        }
+    });
+}
+
+console.log(getMaxEvenElement2([5, 7, -1, 12, 3, 0])); // 5
+console.log(getMaxEvenElement2([4, -12, 29, 6, 31, 92, -50])); // 31
