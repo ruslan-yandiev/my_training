@@ -61,9 +61,56 @@ console.log(alphanumerica('')); // false
 function selectBanners(banners, count) {
     if (count >= banners.length) return [...banners];
 
+    const bannersWeight = [];
+
+    const allSumWeight = banners.reduce((accum, banner) => {
+        bannersWeight.push(accum + banner.weight);
+        return accum + banner.weight;
+    }, 0); // можем задать чему будет равень изначально accum, иначе он будет равен первому элементу и сложется со вторым
+
+    const arr = new Set();
+
+    while (arr.size < count) {
+        const rand = Math.random() * allSumWeight;
+        const findind = banners.findIndex((item, index) => {
+            return bannersWeight[index] >= rand;
+        });
+        arr.add(banners[findind]);
+    }
+
+    return [...arr];
+}
+
+// const banners = [
+//     { id: 2, weight: 10 },
+//     { id: 4, weight: 5 },
+//     { id: 8, weight: 15 },
+//     { id: 22, weight: 18 },
+//     { id: 41, weight: 41 },
+//     { id: 53, weight: 1 },
+//     { id: 69, weight: 9 },
+// ];
+
+// console.log(selectBanners(banners, 3));
+
+console.log(
+    selectBanners(
+        [
+            { id: 1, weight: 1 },
+            { id: 2, weight: 1000 },
+            { id: 3, weight: 1000 },
+            { id: 4, weight: 1000 },
+        ],
+        2,
+    ),
+);
+
+// * Мой вариант
+function selectBanners2(banners, count) {
+    if (count >= banners.length) return [...banners];
+
     const arrResulte = [];
     let maxWeight = 0;
-    let step = 0;
     let rand;
 
     for (let obj of banners) {
@@ -72,43 +119,54 @@ function selectBanners(banners, count) {
         }
     }
 
-    function check(idNumber) {
-        let result = true;
+    // Случайное целое число в диапазоне от 0 включительно и до максимального указанного числа включительно.
+    rand = Math.floor(Math.random() * (maxWeight + 1));
 
-        if (arrResulte.length > 0) {
-            for (let obj of arrResulte) {
-                if (obj.id === idNumber) {
-                    return (result = false);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    while (true) {
-        // Случайное целое число в диапазоне от 0 включительно и до максимального указанного числа включительно.
-        rand = Math.floor(Math.random() * (maxWeight + 1));
-
-        for (let obj of banners) {
-            if (check(obj.id) && obj.weight > rand) {
-                arrResulte.push(obj);
-                step += 1;
-            }
-
-            if (step === count) return arrResulte;
+    for (let i = 0; i < banners.length; i++) {
+        if (banners[i].weight >= rand) {
+            arrResulte.push(banners[i]);
+            banners.splice(banners[i], 1);
+            i--;
         }
     }
+
+    if (arrResulte.length < count) {
+        selectBanners2(banners, count).forEach((elem) => {
+            if (!arrResulte.find((e) => e.id === elem.id)) {
+                arrResulte.push(elem);
+            }
+        });
+    }
+
+    while (arrResulte.length > count) {
+        // рандомное значение индекса
+        rand = Math.floor(Math.random() * (arrResulte.length + 1));
+        arrResulte.splice(rand, 1);
+    }
+
+    return arrResulte;
 }
 
-const banners = [
-    { id: 2, weight: 10 },
-    { id: 4, weight: 5 },
-    { id: 8, weight: 15 },
-    { id: 22, weight: 18 },
-    { id: 41, weight: 41 },
-    { id: 53, weight: 1 },
-    { id: 69, weight: 9 },
-];
+// const banners = [
+//     { id: 2, weight: 10 },
+//     { id: 4, weight: 5 },
+//     { id: 8, weight: 15 },
+//     { id: 22, weight: 18 },
+//     { id: 41, weight: 41 },
+//     { id: 53, weight: 1 },
+//     { id: 69, weight: 9 },
+// ];
 
-console.log(selectBanners(banners, 3));
+// console.log(selectBanners2(banners, 4));
+
+console.log(
+    selectBanners2(
+        [
+            { id: 1, weight: 1 },
+            { id: 2, weight: 1000 },
+            { id: 3, weight: 1000 },
+            { id: 4, weight: 1000 },
+        ],
+        2,
+    ),
+);
