@@ -196,7 +196,7 @@ console.log(
     ),
 );
 
-// * Мой вариант
+// * Мой вариант переделать!!!!
 function selectBanners2(banners, count) {
     if (count >= banners.length) return [...banners];
 
@@ -261,4 +261,61 @@ console.log(
         2,
     ),
 );
+
+
+// * ============================================================================================
+function func() {
+    console.log(this);
+}
+
+const person = {
+    name: 'Andray',
+};
+
+func.bind(person)(); // с помощью бинд принудительно задали контекст вызова функции в рамках объекта person, а не Window
+func(); // контекст вызова  Window если не задан 'use strict' иначе undefined
+const bindedFunct = func.bind(person); // забиндили контекст вызова функции и сохранили эту функцию с этим контекстом в новой переменной, для повторного использования
+bindedFunct(); // контекст person
+
+/*
+    ! ВОПРОС с СОБЕСЕДОВАНИЙ
+    ! реализуйте свой вариант функции bind самостоятельно!
+*/
+const bind = (fn, context, ...boundArgs) => (...args) =>
+    fn.apply(context, [...boundArgs, ...args]);
+
+// Пример:
+function greeting(greeting, punctuation) {
+    return `${greeting} ${this.userName}${punctuation}`;
+}
+
+const alex = { userName: 'Alex' };
+const alexBound = bind(greeting, alex);
+
+console.log(alexBound('Hello', '!')); // 'Hello Alex!'
+
+// ! второй вариант
+const bind2 = (fn, context, ...rest) => {
+    return (...args) => {
+        const uniqId = Date.now().toString();
+
+        context[uniqId] = fn;
+
+        //  concat объединяет массивы
+        const result = context[uniqId](...rest.concat(args));
+
+        delete context[uniqId];
+
+        return result;
+    };
+};
+// Пример:
+function greeting2(greeting, punctuation) {
+    return `${greeting} ${this.userName}${punctuation}`;
+}
+
+const alex2 = { userName: 'Alex2' };
+const alexBound2 = bind2(greeting2, alex2);
+
+console.log(alexBound2('Hello', '!')); // 'Hello Alex2!'
 
