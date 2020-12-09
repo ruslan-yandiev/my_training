@@ -319,3 +319,95 @@ const alexBound2 = bind2(greeting2, alex2);
 
 console.log(alexBound2('Hello', '!')); // 'Hello Alex2!'
 
+// * ===================================================================
+/*
+реализовать функцию, она должна работать как в примере.
+функция считает среднее значение суммы деленное на количсетво переданных
+рейтингов, результат должен округляться до ближайшего целого числа.
+*/
+// Создадим замыкание
+function rate() {
+	let count = 0;
+	let arr = [];
+
+	return function(arg) {
+		count += 1;
+		arr.push(arg);
+		return (arr.reduce((accum, elem) => accum + elem)) / count;
+	}
+}
+
+
+const setRate = rate();
+console.log(setRate(5)); // 5 === 5 / 1
+console.log(setRate(3)); // 4 === (5 + 3) / 2 
+console.log(setRate(4)); // 4 === (5 + 3 + 4) / 3
+console.log(setRate(0)); // 3 === (5 + 3 + 4 + 0) / 4
+
+
+/* ===============================================
+/*
+Реализовать метод sum
+*/
+// для любого созданного объекта массива в программе
+Array.prototype.sum = function(){
+	return this.reduce((accum, elem) => accum + elem);
+};
+
+const arr = [1, 2, 3, 4, 5];
+const sum = arr.sum();
+console.log(sum);
+
+// только для одного массива arr
+arr.sum2 = function() {
+	return this.reduce((accum, elem) => accum + elem);
+}
+const sum2 = arr.sum2();
+console.log(sum2);
+const arr2 = [1, 2, 3, 4, 5];
+console.log(arr2.sum()); // 15
+// console.log(arr2.sum2()); //  arr2.sum2 is not a function
+
+
+// * ========================================================================
+/*
+Реализовать функцию func в функциональном стиле. Функция принимает массив, необходимо
+из функции вернуть максимальное количество одинаковых элементов.
+*/
+function func(arr) {
+	// Функциональный стиль
+	return Object.values(arr.reduce((accum, elem) => {
+		accum[elem] = (accum[elem]) ? accum[elem] + 1 : 1;
+		return accum
+	}, {})).find((a, b) => a > b);
+
+
+	// Функциональный стиль вариант 2
+	// return Math.max(...Object.values(arr.reduce((accum, elem) => {
+	// 	accum[elem] = (accum[elem]) ? accum[elem] + 1 : 1;
+	// 	return accum
+	// }, {})))
+
+
+
+	// TODO императивное решение
+	// let value = 0;
+	// let result = 0;
+
+	// for (let i = 0; i < arr.length; i++) {
+	// 	for (let j = 0; j < arr.length; j++) {
+	// 		if (arr[i] === arr[j]) {
+	// 			value += 1;
+	// 		}
+	// 	}
+	// 	if (value > result) {
+	// 		result = value;
+	// 	}
+	// 	value = 0;
+	// }
+
+	// return result;
+}
+
+console.log(func([0, 1, 3, 0, 0, 9])); // 3
+console.log(func([2, 13, 5, 9, 7])); // 1
