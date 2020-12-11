@@ -239,11 +239,56 @@ body._lock {
 
 .user-header__menu {
   top: 78px;
+  right: 0;
   position: absolute;
+  background-color: #1c242a;
+  padding: 20px;
+}
+
+.user-header__menu li {
+  margin: 0px 0px 8px 0px;
+}
+
+.user-header__menu li:last-child {
+  margin: 0px 0px 0px 0px;
+}
+
+.user-header__link {
+  color: #fff;
+  padding: 0px 0px 0px 30px;
+  display: inline-block;
+  line-height: 18px;
+}
+
+.user-header__link_1 {
+  background: url(../img/icons/globe.png) 1px center no-repeat;
+}
+
+.user-header__link_2 {
+  background: url(../img/icons/3-layers.png) left center no-repeat;
+}
+
+.user-header__link_3 {
+  background: url(../img/icons/palm.svg) 4px center no-repeat;
+}
+
+.user-header__link_4 {
+  background: url(../img/icons/hammer.svg) left center no-repeat;
 }
 
 .page {
   flex: 1 1 auto;
+}
+
+@media (min-width: 992px) {
+  .menu__link:hover,
+  .actions-header__region:hover {
+    text-decoration: underline;
+  }
+
+  .user-header__link:hover {
+    text-decoration: underline;
+  }
 }
 
 @media (max-width: 991.98px) {
@@ -270,3 +315,7 @@ body._lock {
     padding: 0 10px;
   }
 }
+
+.webp .user-header__link_1{ background: url(../img/icons/globe.webp) 1px center no-repeat; }
+
+.webp .user-header__link_2{ background: url(../img/icons/3-layers.webp) left center no-repeat; }

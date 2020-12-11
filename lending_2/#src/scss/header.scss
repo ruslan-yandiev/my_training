@@ -45,6 +45,12 @@
         text-transform: uppercase;
         letter-spacing: 1.4px;
         color: #fff;
+
+        @media (min-width: 992px) {
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 }
 
@@ -125,22 +131,45 @@
 
     &__menu {
         top: 78px;
-
+        right: 0;
         // ! укажем наше позицианирование меню в отношении нашего класса  .header__contener и уже ему зададим position: relative
         position: absolute;
+        background-color: #1c242a;
+        padding: 20px;
+        li {
+            margin: 0px 0px 8px 0px;
+            &:last-child {
+                margin: 0px 0px 0px 0px;
+            }
+        }
     }
 
     &__link {
-        // &_1 {
-        // }
+        color: #fff;
+        padding: 0px 0px 0px 30px;
+        display: inline-block;
+        line-height: 18px;
 
-        // &_2 {
-        // }
+        &_1 {
+            background: url(../img/icons/globe.png) 1px center no-repeat;
+        }
 
-        // &_3 {
-        // }
+        &_2 {
+            background: url(../img/icons/3-layers.png) left center no-repeat;
+        }
 
-        // &_4 {
-        // }
+        &_3 {
+            background: url(../img/icons/palm.svg) 4px center no-repeat;
+        }
+
+        &_4 {
+            background: url(../img/icons/hammer.svg) left center no-repeat;
+        }
+
+        @media (min-width: 992px) {
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 }
