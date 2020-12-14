@@ -97,3 +97,9 @@ function cleanString2(s) {
 
 console.log(cleanString2('авб#г##д')); // "ад"
 console.log(cleanString2('Прив###ока')); // "Пока" Hello world
+
+/*
+    * 1) placeholder-shown псевдокласс, для чего он? - когда виден placeholder он показывает или подсвечивает нужным цветом если бэеграунд задан, а когда начинаем заполнять поле, то исчезает
+
+    * 2)  1 < 2 < 3 // true;  3 > 2 > 1 false;
+*/
