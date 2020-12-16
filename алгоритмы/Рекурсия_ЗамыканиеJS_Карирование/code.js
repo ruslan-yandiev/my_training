@@ -835,3 +835,68 @@ console.log(findWord(puzzle, 'STRING')); //true
 console.log(findWord(puzzle, 'CLASS')); //true
 console.log(findWord(puzzle, 'FUNCTION')); //false
 console.log(findWord(puzzle, 'NULL')); //false
+
+/*
+Верните максимальную прибыль от котировок акций. Котировки акций хранятся в
+массиве по дате.Прибыль от акций - это разница в ценах на покупку и продажу
+акций. Каждый день вы можете купить одну единицу акций, продать любое
+количество единиц, которые вы уже купили, или ничего не делать.
+Следовательно, наибольшая прибыль - это максимальная разница всех пар в
+последовательности курсов акций.
+*/
+function calc(arr) {
+    let profit = 0;
+
+    function findMaxProfit(newArr) {
+        const maxPrice = Math.max(...newArr);
+
+        const indexMaxPrice = newArr.indexOf(maxPrice);
+
+        for (let i = 0; i < indexMaxPrice; i++) profit += maxPrice - newArr[i];
+
+        if (newArr.length > 1) findMaxProfit(newArr.slice(indexMaxPrice + 1));
+
+        return profit;
+    }
+
+    return findMaxProfit(arr);
+}
+
+console.log(calc([1, 2, 3, 4, 5, 6])); // 15 (покупка 1, 2, 3, 4, 5 и продажа на 6)
+console.log(calc([6, 5, 4, 3, 2, 1])); // 0 (тут нечего покупать, не можем заработать на покупке)
+console.log(calc([1, 6, 5, 10, 8, 7])); // 18 (покупка 1, 6, 5 и продажа на 10)
+console.log(calc([1, 2, 10, 2, 4, 6])); // 23 (покупка 1, 2 продажа на 10; покупка 2, 4 продажа на 6)
+console.log(calc([1, 2, 10, 2, 4])); // 19
+
+// * =========================================================================
+/*
+Необходимо реализовать функцию sum так, чтобы при каждом вызове функции в 
+console.log выводилось число с суммой всех предыдущих вызовов как в примере.
+*/
+
+function sum(number) {
+    let accum = number;
+    console.log(accum);
+
+    return function f(num) {
+        accum += num;
+        console.log(accum);
+        return f;
+    };
+}
+
+sum(1)(2); // 1 3
+sum(1)(5)(10); // 1 6 16
+
+// Вариант 2
+function sum2(number) {
+    let accum = number;
+    console.log(accum);
+
+    return function (num) {
+        return sum2(accum + num);
+    };
+}
+
+sum2(1)(2); // 1 3
+sum2(1)(5)(10); // 1 6 16
