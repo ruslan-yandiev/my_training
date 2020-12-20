@@ -12,6 +12,7 @@ function f1(arr) {
 
 console.log(f1([5, 0, -5, 20, 88, 17, -32])); // 22
 
+// 2
 function f2(arr) {
 	return arr.reduce((accum, elem) => {
 		if (elem > 0 && elem % 2) {
@@ -24,7 +25,7 @@ function f2(arr) {
 
 console.log(f2([5, 0, -5, 20, 88, 17, -32])); // 22
 
-
+// 3
 function f3(arr) {
 	return arr.reduce((accum, elem) => elem > 0 && elem % 2 ? accum + elem : accum, 0);
 }
