@@ -114,12 +114,27 @@
 
         padding: 0px 0px 0px 30px;
         line-height: 18px;
-        background: url('../img/icons/globe.svg') left no-repeat;
+        min-width: 18px;
+        min-height: 18px;
+        background: url('../img/icons/globe.png') left no-repeat;
+
+        @media (max-width: 890px) {
+            padding: 0px 0px 0px 0px;
+
+            span {
+                // отключим отображение контента в span и самого span (уберем из потока отображения) по достижению указанных выше размереов
+                display: none;
+            }
+        }
     }
 
     &__user {
         // внешний отступ от элемента отступим, а не от блока по левой стороне
         margin: 0px 0px 0px 30px;
+
+        @media (max-width: 890px) {
+            margin: 0px 0px 0px 15px;
+        }
     }
 }
 
@@ -130,7 +145,13 @@
     }
 
     &__menu {
-        top: 78px;
+        // ! opacity и visibility будут по дефолту скрывать нашу менюшку и не позволит на нее нажиамть
+        opacity: 0;
+        visibility: hidden;
+        // влияет на скорость анимации исчезновения и появления менюшки
+        transition: all 0.6s ease 0s;
+
+        top: 108px;
         right: 0;
         // ! укажем наше позицианирование меню в отношении нашего класса  .header__contener и уже ему зададим position: relative
         position: absolute;
@@ -141,6 +162,13 @@
             &:last-child {
                 margin: 0px 0px 0px 0px;
             }
+        }
+
+        // ! данный класс мы динамически как создаем, так и удаляем через JS тем самым проявляя нашу менюшку по клику и скрывая(класс динамически удаляется и в силу вступают дефолтные настройки указынные выше)
+        &._active {
+            top: 78px;
+            opacity: 1;
+            visibility: visible;
         }
     }
 

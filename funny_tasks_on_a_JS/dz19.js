@@ -85,37 +85,6 @@ function compact4(arr) {
 console.log(compact4(arr));
 // * ======================================================================================================
 
-
-// * ======================================================================================================
-/*
-В функцию fillArr передается количество строк и количество колонок в массиве, 
-необходимо реализовать функцию так, чтоб она возвращала заполненный массив 
-размером rows*cols целыми инкрементируемыми числами идущими по спирали против
-часовой стрелки.
-*/
-// function fillArr(rows, cols) {
-
-// }
-
-// /*
-//   [
-//     [1, 2, 3],
-//     [8, 9, 4],
-//     [7, 6, 5],
-//   ]
-// */
-// console.log(fillArr(3, 3));
-
-// /*
-//   [
-//     [1,   2,  3, 4],
-//     [10, 11, 12, 5],
-//     [9,   8,  7, 6],
-//   ]
-// */
-// console.log(fillArr(3, 4));
-
-// * =====================================================================
 const obj = {
 	str: "hello",
 	a() {
@@ -168,11 +137,11 @@ function findMedianSortedArrays(nums1, nums2) {
 	Memory Usage: 45.1 MB, less than 56.31% of JavaScript online submissions for Median of Two Sorted Arrays.
 */
 
-console.log(findMedianSortedArrays([1, 3], [2])); // 2.0000 (объединенный массив = [1,2,3] и медиана равна 2.)
-console.log(findMedianSortedArrays([1, 2], [3, 4])); // 2,50000 (объединенный массив = [1,2,3,4], а медиана равна (2 + 3) / 2 = 2,5.)
-console.log(findMedianSortedArrays([0, 0], [0, 0])); // 0,00000
-console.log(findMedianSortedArrays([], [1])); // 1.00000
-console.log(findMedianSortedArrays([2], [])); // 2.00000
+// console.log(findMedianSortedArrays([1, 3], [2])); // 2.0000 (объединенный массив = [1,2,3] и медиана равна 2.)
+// console.log(findMedianSortedArrays([1, 2], [3, 4])); // 2,50000 (объединенный массив = [1,2,3,4], а медиана равна (2 + 3) / 2 = 2,5.)
+// console.log(findMedianSortedArrays([0, 0], [0, 0])); // 0,00000
+// console.log(findMedianSortedArrays([], [1])); // 1.00000
+// console.log(findMedianSortedArrays([2], [])); // 2.00000
 
 // более быстрый вариант за счет сортировки слиянием
 function findMedianSortedArrays2(nums1, nums2) {
@@ -232,11 +201,11 @@ function findMedianSortedArrays2(nums1, nums2) {
 	Memory Usage: 47.8 MB, less than 16.56% of JavaScript online submissions for Median of Two Sorted Arrays.
 */
 
-console.log(findMedianSortedArrays2([1, 3], [2])); // 2.0000 (объединенный массив = [1,2,3] и медиана равна 2.)
-console.log(findMedianSortedArrays2([1, 2], [3, 4])); // 2,50000 (объединенный массив = [1,2,3,4], а медиана равна (2 + 3) / 2 = 2,5.)
-console.log(findMedianSortedArrays2([0, 0], [0, 0])); // 0,00000
-console.log(findMedianSortedArrays2([], [1])); // 1.00000
-console.log(findMedianSortedArrays2([2], [])); // 2.00000
+// console.log(findMedianSortedArrays2([1, 3], [2])); // 2.0000 (объединенный массив = [1,2,3] и медиана равна 2.)
+// console.log(findMedianSortedArrays2([1, 2], [3, 4])); // 2,50000 (объединенный массив = [1,2,3,4], а медиана равна (2 + 3) / 2 = 2,5.)
+// console.log(findMedianSortedArrays2([0, 0], [0, 0])); // 0,00000
+// console.log(findMedianSortedArrays2([], [1])); // 1.00000
+// console.log(findMedianSortedArrays2([2], [])); // 2.00000
 
 // Еще быстрее вариант, не мое решение
 function findMedianSortedArrays3(nums1, nums2) {
@@ -282,11 +251,11 @@ function findMedianSortedArrays3(nums1, nums2) {
 	Memory Usage: 43.2 MB, less than 94.27% of JavaScript online submissions for Median of Two Sorted Arrays.
 */
 
-console.log(findMedianSortedArrays3([1, 3], [2])); // 2.0000 (объединенный массив = [1,2,3] и медиана равна 2.)
-console.log(findMedianSortedArrays3([1, 2], [3, 4])); // 2,50000 (объединенный массив = [1,2,3,4], а медиана равна (2 + 3) / 2 = 2,5.)
-console.log(findMedianSortedArrays3([0, 0], [0, 0])); // 0,00000
-console.log(findMedianSortedArrays3([], [1])); // 1.00000
-console.log(findMedianSortedArrays3([2], [])); // 2.00000
+// console.log(findMedianSortedArrays3([1, 3], [2])); // 2.0000 (объединенный массив = [1,2,3] и медиана равна 2.)
+// console.log(findMedianSortedArrays3([1, 2], [3, 4])); // 2,50000 (объединенный массив = [1,2,3,4], а медиана равна (2 + 3) / 2 = 2,5.)
+// console.log(findMedianSortedArrays3([0, 0], [0, 0])); // 0,00000
+// console.log(findMedianSortedArrays3([], [1])); // 1.00000
+// console.log(findMedianSortedArrays3([2], [])); // 2.00000
 
 // Самый быстрый вариант  !!!!
 function findMedianSortedArrays4(nums1, nums2) {
@@ -304,8 +273,10 @@ function findMedianSortedArrays4(nums1, nums2) {
 	Memory Usage: 44.8 MB, less than 61.71% of JavaScript online submissions for Median of Two Sorted Arrays.
 */
 
-console.log(findMedianSortedArrays4([1, 3], [2])); // 2.0000 (объединенный массив = [1,2,3] и медиана равна 2.)
-console.log(findMedianSortedArrays4([1, 2], [3, 4])); // 2,50000 (объединенный массив = [1,2,3,4], а медиана равна (2 + 3) / 2 = 2,5.)
-console.log(findMedianSortedArrays4([0, 0], [0, 0])); // 0,00000
-console.log(findMedianSortedArrays4([], [1])); // 1.00000
-console.log(findMedianSortedArrays4([2], [])); // 2.00000
+// console.log(findMedianSortedArrays4([1, 3], [2])); // 2.0000 (объединенный массив = [1,2,3] и медиана равна 2.)
+// console.log(findMedianSortedArrays4([1, 2], [3, 4])); // 2,50000 (объединенный массив = [1,2,3,4], а медиана равна (2 + 3) / 2 = 2,5.)
+// console.log(findMedianSortedArrays4([0, 0], [0, 0])); // 0,00000
+// console.log(findMedianSortedArrays4([], [1])); // 1.00000
+// console.log(findMedianSortedArrays4([2], [])); // 2.00000
+
+// * ==============================================================================
