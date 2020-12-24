@@ -1,6 +1,7 @@
 // благодаря галпу сможем собирать файлы (плагин include) без использования JS модулей
 @@include('utelit.js');
 
+// ! Всплывающее меню 1
 document.querySelector('.user-header__icon').addEventListener('click', () => {
     // ? Свойство classList возвращает псевдомассив DOMTokenList, содержащий все классы элемента. https://developer.mozilla.org/ru/docs/Web/API/Element/classList
     // ? У classList есть примитивная альтернатива - свойство className, которое содержит значение атрибута class элемента.
@@ -13,4 +14,24 @@ document.querySelector('.user-header__icon').addEventListener('click', () => {
     //      contains ( String ) Проверяет, есть ли данный класс у элемента (вернет true или false)
     //      length возвращает количество классов у элемента.
     document.querySelector('.user-header__menu').classList.toggle('_active');
+
+    // Скроем бургер меню при появлении меню 1
+    document.querySelector('.menu__body').classList.toggle('_active', false);
+});
+
+// ! Закрытие меню 1 при нажетии любого места экрана кроме меню
+document.addEventListener('click', (e) => {
+    if (e.target.offsetParent.parentElement.classList[1] !== 'user-header') {
+        // Скроем меню 1 при пояалении меню бургера
+        document
+            .querySelector('.user-header__menu')
+            .classList.toggle('_active', false);
+    }
+});
+
+// ! Всплывающее меню (бургера)
+const iconMenu = document.querySelector('.icon-menu');
+iconMenu.addEventListener('click', () => {
+    iconMenu.classList.toggle('_active');
+    document.querySelector('.menu__body').classList.toggle('_active');
 });

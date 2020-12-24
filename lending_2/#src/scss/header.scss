@@ -13,6 +13,9 @@
     }
 
     &__logo {
+        position: relative;
+        z-index: 2;
+
         width: 144px;
 
         @media (max-width: $md3+px) {
@@ -53,18 +56,32 @@
             height: 100%;
             left: 0;
             top: 0;
-            padding: 80px 0px 20px 0px;
 
-            // псевдо элемент, будет у нас плашкой закрывающей.
+            // ! нужно нам для создания скрола в бургер меню
+            overflow: auto;
+
+            padding: 100px 0px 20px 0px;
+
+            // ! реализуем скрытие бургер меню списка
+            opacity: 0;
+            visibility: hidden;
+            transform: all 0.3s ease 0s;
+
+            // ! псевдо элемент, будет у нас плашкой закрывающей. плашка нам нужна ,чтобы за нее скрывался текст раскрытой бургер менюшки при его скроле
             &:after {
                 content: '';
-                display: none;
                 background-color: #1c242a;
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 75px;
+            }
+
+            // ! а при появлении класса _active обеспечим появление бургер меню списка
+            &._active {
+                opacity: 1;
+                visibility: visible;
             }
         }
     }
@@ -116,7 +133,7 @@
         width: 30px;
         height: 18px;
         cursor: pointer;
-        z-index: 5;
+        z-index: 5; // ! определяет расположение элемента по трехмерной шкале под буквой z (в двухмерном виде это нахлест-наложение)
 
         span {
             // @include anim(0.3s, 0s);
@@ -126,7 +143,7 @@
             position: absolute;
             width: 100%;
             height: 2px;
-            background-color: #fff;
+            background-color: #bb9c66;
 
             &:first-child {
                 top: 0px;
@@ -162,6 +179,9 @@
     align-items: center;
 
     &__region {
+        position: relative;
+        z-index: 2;
+
         // ! @extend позволяет подключить все стили из определенного класса!!!!
         @extend .menu__link;
 
@@ -193,6 +213,9 @@
 
 .user-header {
     &__icon {
+        position: relative;
+        z-index: 2;
+
         // ! чтобы появлялась рука при наведении
         cursor: pointer;
     }
@@ -210,11 +233,16 @@
         position: absolute;
         background-color: #1c242a;
         padding: 20px;
+        min-width: 194px;
         li {
             margin: 0px 0px 8px 0px;
             &:last-child {
                 margin: 0px 0px 0px 0px;
             }
+        }
+
+        @media (max-width: $md3+px) {
+            width: 100%;
         }
 
         // ! данный класс мы динамически как создаем, так и удаляем через JS тем самым проявляя нашу менюшку по клику и скрывая(класс динамически удаляется и в силу вступают дефолтные настройки указынные выше)
