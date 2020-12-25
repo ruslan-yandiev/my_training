@@ -1640,3 +1640,55 @@ console.log(splitByValue2(0, [5, 2, 7, 3, 2])); // [5, 2, 7, 3, 2]
     * 4) Функция-монада или унарная функция - это это функция принимающая один аргумент.
     * 5) Карироване - это когда функция принимает аргумент и возвращает другую функцию которая принимает аргументи так до возврата значения (попутно создается замыкание)
 */
+
+// * ===============================================================
+/*
+Функция принимает массив целых чисел, найдите, содержит ли массив какие-либо повторяющиеся элементы.
+Функция вернет истину, если если какое то значение появляется не менее двух раз, лож, если каждый элемент уникален.
+*/
+function exists(num) {
+    let detect = 0;
+
+    function f(elem, index, arr) {
+        for (let i = 0; i < arr.length; i++) {
+            if (elem === arr[i]) detect += 1;
+            if (detect > 1) return true;
+        }
+
+        index += 1;
+        detect = 0;
+
+        if (index === arr.length - 1) return false;
+
+        return f(arr[index], index, arr);
+    }
+
+    return f(num[0], 0, num);
+}
+console.log(exists([4,6,7,7,1])); // true
+console.log(exists([4,6,7,1,8])); // false
+
+function exists2(num) {
+    return num.length !== new Set(num).size;
+}
+console.log(exists2([4,6,7,7,1])); // true
+console.log(exists2([4,6,7,1,8])); // false
+
+
+// * ================================================================================
+/*
+Расширьте прототип у класса Array функцией, возвращающей все элементы этого массива, кроме тех, у которых индексы переданы в параметре.
+Функция должна принимать в качестве параметров массив или одно целое число.
+*/
+Array.prototype.ecept = function (arg) {
+    if (typeof arg === 'number' && !Number.isNaN(arg)) {
+        return this.filter((elem, index) => index !== arg);
+    } else if (Array.isArray(arg)) {
+        return this.filter((elem, index) => !arg.includes(index));
+    }
+}
+
+const array = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(array.ecept([1, 3])); // ['a', 'c', 'e']
+console.log(array.ecept(1)); // ['a', 'c', 'd' 'e']
