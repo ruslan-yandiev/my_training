@@ -385,11 +385,17 @@ body._lock {
     bottom: 0px;
   }
 
+  .icon-menu._active span {
+    transform: scale(0);
+  }
+
   .icon-menu._active span:first-child {
+    transform: rotate(-45deg);
     top: calc(50% - 1px);
   }
 
   .icon-menu._active span:last-child {
+    transform: rotate(45deg);
     bottom: calc(50% - 1px);
   }
 

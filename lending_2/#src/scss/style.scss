@@ -31,6 +31,8 @@ $md4: 479.98;
 body {
     color: #000;
     font-size: 14px;
+
+    // ! заблокируем скрол основного контента при присвоении класса _lock
     &._lock {
         overflow: hidden;
         @media (max-width: $md3+px) {

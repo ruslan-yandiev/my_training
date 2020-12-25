@@ -133,10 +133,11 @@
         width: 30px;
         height: 18px;
         cursor: pointer;
-        z-index: 5; // ! определяет расположение элемента по трехмерной шкале под буквой z (в двухмерном виде это нахлест-наложение)
+        z-index: 5; // ! определяет расположение элемента по трехмерной шкале под буквой z (в двухмерном виде это нахлест-наложение) бальше глубже!
 
         span {
-            // @include anim(0.3s, 0s);
+            // transform: anim(0.8s, 0s); // ???????? что с анимацией не так
+            // transform: all 0.8s ease 0s; // ???????? что с анимацией не так
 
             top: calc(50% - 1px);
             left: 0px;
@@ -155,17 +156,17 @@
         }
 
         &._active {
+            // при присвоении класса _active иконку бургер меню превратить в креститик при нажатии. (класс _active присвоется при нажатии, реализация в JS)
             span {
-                // @include scale(0);
+                transform: scale(0);
 
                 &:first-child {
-                    // @include rotate(-45deg);
-
+                    transform: rotate(-45deg);
                     top: calc(50% - 1px);
                 }
-                &:last-child {
-                    // @include rotate(45deg);
 
+                &:last-child {
+                    transform: rotate(45deg);
                     bottom: calc(50% - 1px);
                 }
             }
