@@ -17,6 +17,7 @@ testWebP(function (support) {
     }
 });
 ;
+;
 
 // ! Всплывающее меню 1
 document.querySelector('.user-header__icon').addEventListener('click', () => {

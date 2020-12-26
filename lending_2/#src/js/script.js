@@ -1,5 +1,6 @@
 // благодаря галпу сможем собирать файлы (плагин include) без использования JS модулей
 @@include('utelit.js');
+@@include('dynamic_adapt.js', {});
 
 // ! Всплывающее меню 1
 document.querySelector('.user-header__icon').addEventListener('click', () => {

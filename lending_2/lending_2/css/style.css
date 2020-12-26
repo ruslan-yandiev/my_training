@@ -399,6 +399,14 @@ body._lock {
     bottom: calc(50% - 1px);
   }
 
+  .actions-header__region {
+    padding: 0px 0px 0px 30px;
+  }
+
+  .actions-header__region span {
+    display: inline-block;
+  }
+
   .user-header__menu {
     width: 100%;
   }

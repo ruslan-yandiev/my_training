@@ -138,3 +138,13 @@ console.log(mirror({
 	abc: undefined,
 	hello: undefined
 })); // {abc: 'cba', hello: 'olleh'}
+
+
+/* !!!!!!!!!!!!!!!
+function Teach() {}
+function Stud() {}
+console.log(Teach.__proto__ === Stud.__proto__); // true (ссылка __proto__ ссылается на общий Object)
+console.log(Teach.prototype === Stud.prototype); // false (у каждого из их разный прототип в их конструкторах. На основе их прототипа и будут создаваться и унаследоваться их экземпляры)
+(__proto__ это ссылка на класс с помощью которой создается объект.
+А prototype хранит свойства и методы, которые влетят(передадутся по наследству) в новый объект(экземпляр) (наследование))
+!!!!!!!!!!!!!!!!*/
