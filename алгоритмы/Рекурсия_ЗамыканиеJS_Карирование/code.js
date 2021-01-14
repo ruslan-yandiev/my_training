@@ -1928,3 +1928,170 @@ console.log(Math.min(-10, 20, 6, -4)); // -10  возвращает наимен
 // * Метод Math.random() возвращает псевдослучайное число с плавающей запятой из диапазона [0, 1), то есть, от 0 (включительно) до 1 (но не включая 1), которое затем можно отмасштабировать до нужного диапазона. Реализация сама выбирает начальное зерно для алгоритма генерации случайных чисел; оно не может быть выбрано или сброшено пользователем.
 
 
+/*
+let Component = (props) => {
+    return '<h1>Hello</h1>';
+};
+
+function Component2(props) {
+    return '<h1>Hello</h1>';
+}
+
+class Foobar {}
+class Foobar2 {}
+
+function fnbar() {
+    number = 223;
+}
+
+const testStr = 'foobar';
+
+// ! только у функций конструкторов(классов) есть свой объект прототипа object.prototype
+console.log(Component.prototype === Function.prototype); // false. Component у стрелочных функций нет prototype и нет своего this
+console.log(Component.__proto__ === Function.prototype); // true. Component сслылка __proto__ будет вести на объект Function.prototype (покажет от кого он наследует свои свойства и методы)
+console.log(Component2.prototype === Function.prototype); // false. Component2 у класса(конструктора) свой собственный объект прототипа Objrct.prototype который хранит методы и свойства его экземпляров (их будут унаследовать его экземпляры)
+console.log(Component.__proto__ === Function.prototype); // true. Component2 сслылка __proto__ будет вести на объект Function.prototype (покажет от кого он наследует свои свойства и методы)
+console.log(Foobar.__proto__ === Function.prototype); // true. сслылка __proto__ будет вести на объект Function.prototype (покажет от кого он наследует свои свойства и методы)
+console.log(Foobar.__proto__ === fnbar.__proto__); // true. сслылка __proto__ будет вести у обоих на один объект Function.prototype (покажет от кого он наследует свои свойства и методы)
+console.log(Function.__proto__.prototype === fnbar.__proto__.prototype); // true. Function.prototype (Function.__proto__) нет прототипа
+console.log(testStr.__proto__ === Object.prototype); // false. у строки прототип будет String.prototype
+console.log(testStr.prototype === String.prototype); // false. строка не конструктор и у него нет своего prototype для создания экземпляров, а только ссыка __proto__
+console.log(testStr.__proto__ === String.prototype); // true
+console.log(Foobar.prototype.prototype === testStr.prototype); // true. потому, что Foobar.prototype === Object.prototype нет своего прототипа!!!!
+console.log(Foobar.prototype === Object.prototype); // false. потому ,что один Object.prototype не равен другому Object.prototype
+console.log(Foobar.__proto__ === Foobar2.__proto__); // true у обоих классов ссылка на один и тот же Function.prototype
+console.log(Foobar.__proto__.__proto__ === Foobar2.__proto__.__proto__); // true у обоих классов ссылка на один и тот же Function.prototype а тот ссылается на глобальный Object
+console.log(
+    Foobar.__proto__.__proto__.__proto__ ===
+        Foobar2.__proto__.__proto__.__proto__,
+); // Глобальный Object будет ссылаться на null
+*/
+
+// * =========================================================================================
+/*
+Подсчитайте количество вхождений каждого символа и верните его в виде списка
+массивов в порядке появления (Строго в той же последовательности). Для пустого вывода верните пустой список.
+*/
+
+function orderedCount(text) {
+    let objMap = new Map();
+
+    for (let i = 0; i < text.length; i++) {
+        if (!objMap.has(text[i])) {
+            objMap.set(text[i], 1);
+        } else {
+            objMap.set(text[i], objMap.get(text[i]) + 1);
+        }
+    }
+
+    return Array.from(objMap);
+}
+// [['a', 5], ['b', 2], ['r', 2], ['c', 1], ['d', 1]]
+console.log(orderedCount('abracadabra'));
+
+// [['2', 2], ['3', 3], ['1', 1 ]]
+console.log(orderedCount('233312'));
+
+// * ===========================================================================================
+/*
+Учитывая строку слов (x), вам необходимо вернуть массив слов, отсортированных
+в алфавитном порядке по последнему символу в каждом.
+Если два слова имеют одинаковую последнюю букву, возвращаемый массив должен
+показывать их в том порядке, в котором они появились в данной строке.
+*/
+
+function last(x) {
+    const str = 'абвгдеёжзийклмнопрстуфхцщъьыюя';
+    return x
+        .split(' ')
+        .sort(
+            (a, b) =>
+                str.indexOf(a[a.length - 1]) - str.indexOf(b[b.length - 1]),
+        );
+}
+
+console.log(last('держите меня семеро')); // ["держите", "семеро", "меня"]
+console.log(last('её код сводит меня с ума')); // ["ума", "код", "её", "с", "сводит", "меня"]
+console.log(last('мама ама криминал')); // ["мама", "ама", "криминал"]
+
+// 2
+function last2(x) {
+    return x
+        .split(' ')
+        .sort((a, b) => a[a.length - 1].localeCompare(b[b.length - 1]));
+}
+
+console.log(last2('держите меня семеро')); // ["держите", "семеро", "меня"]
+console.log(last2('её код сводит меня с ума')); // ["ума", "код", "её", "с", "сводит", "меня"]
+console.log(last2('мама ама криминал')); // ["мама", "ама", "криминал"]
+
+
+
+// * ==============================================================================
+/*
+Напишите функцию, которая объединяет два массива, поочередно выбирая элементы
+из каждого массива. Массивы могут иметь разную длину.
+*/
+function mergeArrays2(a, b) {
+    let step = a.length > b.length ? a.length : b.length;
+    const arr = [];
+
+    for (let i = 0; i < step; i++) {
+        if (a.length >= i + 1) arr.push(a[i]);
+        if (b.length >= i + 1) arr.push(b[i]);
+    }
+    return arr;
+}
+
+// [1, "a", 2, "b", 3, "c", 4, "d", 5, "e", 6, 7, 8]
+console.log(mergeArrays2([1, 2, 3, 4, 5, 6, 7, 8], ['a', 'b', 'c', 'd', 'e']));
+
+// [1, 'a', 2, 'b', 3, 'c', 'd', 'e', 'f']
+console.log(mergeArrays2([1, 2, 3], ['a', 'b', 'c', 'd', 'e', 'f']));
+
+function mergeArrays3(a, b) {
+    let step = a.length < b.length ? a.length : b.length;
+    const big = a.length > b.length ? a : b;
+    const arr = [];
+
+    for (let i = 0; i < step; i++) {
+        arr.push(a[i]);
+        arr.push(b[i]);
+    }
+
+    return [...arr, ...big.splice(step)];
+}
+
+// [1, "a", 2, "b", 3, "c", 4, "d", 5, "e", 6, 7, 8]
+console.log(mergeArrays3([1, 2, 3, 4, 5, 6, 7, 8], ['a', 'b', 'c', 'd', 'e']));
+
+// [1, 'a', 2, 'b', 3, 'c', 'd', 'e', 'f']
+console.log(mergeArrays3([1, 2, 3], ['a', 'b', 'c', 'd', 'e', 'f']));
+
+// * ==========================================================================
+
+// Способы перенаправить клиента с одной страницы на другую и чем отличаются?
+// Пример:
+setTimeout(() => {
+    // window.location.href = 'https://google.com'; // тут иметируется переход по ссылке
+    // или
+    // window.location.replace('https://google.com'); // иметация перенаправления (rederect)
+}, 5000) // перенаправим через пять секунд. +-
+
+
+// * ==========================================================================
+/*
+Есть кусок кода, который должен приветствовать пользователя, но работает он 
+некорректно. Исправь пожалуйста. 
+*/
+setTimeout(() => user.logName.bind(user)(), 1000);
+
+let user = {
+    name: "Павел",
+    logName() {
+        console.log(`Привет, ${this.name}!`);
+    }
+};
+// ! Стот напомнить, что у стрелочных функций не просто нет своего контекста, но и они используют контекс места своего вызова и уже не изменяют его даже принудительно(недьзя будет забиндить, эплаить или заколить)
+
+
