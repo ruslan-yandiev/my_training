@@ -137,35 +137,65 @@ console.log(rememberTheOrderOfVisitedCity([
 function rememberTheOrderOfVisitedCity2(routes) {
     if (routes.length === 1) return routes[0];
 
-    let copyRoutes = [...routes];
-    const way = [], start = [];
+    let copyRoutes = [...routes], step = 0;
+    const way = new Set(), pointCollection = [], starts = [];
 
-    for (let i = 0; i < copyRoutes.length; i++) start.push(copyRoutes[i][0], i);
-    
-    function createWay(starPoint, index) {
-        let str = '';
+    // Находим все точки старта.
+    for (let i = 0; i < copyRoutes.length; i++) starts.push({ point: copyRoutes[i][0], index: i });
 
-        copyRoutes = [...routes];
+    // Соберем в коллекцию все повторяющиеся точки старта
+    for (obj of starts) {
+        let points = starts.filter(elem => elem.point === obj.point);
 
-        for (let i = index;  i < copyRoutes.length;  i++) {
-            if (copyRoutes[i][0] === starPoint) {
-                str += `${starPoint}, `;
-                starPoint = copyRoutes[i][1];
-                copyRoutes.splice(i, 1);
-                i = -1;
-            }
-            
-            if (copyRoutes.length === 0) str += `${starPoint}`;
-        }
-
-        str.split(',').length < routes.length + 1 ? str = '' : way.push(str);
-        
-        start.splice(0, 2);
-
-        return start.length === 0 ? way : createWay(start[0], start[1]);
+        if (points.length > 1 && !pointCollection.includes(...points)) pointCollection.push(...points);
     }
 
-    return createWay(start[0], start[1]);
+    pointCollection.reverse(); // просто костыль для корректной работы кода. Лень править )))
+
+    // ! Как вариант можно реалтзовать, чтобы отмечались все посещенные точки!!!!!!!!!!!!!!!!
+    function createWay(obj) {
+        function f(obj2, obj3, str = '') {
+            let point = obj.point;
+            copyRoutes = [...routes];
+            
+            for (let i = obj.index;  i < copyRoutes.length;  i++) {
+                if (copyRoutes[i] && copyRoutes[i][0] === point) {
+                    str += `${point}, `;
+                    point = copyRoutes[i][1];
+                    delete copyRoutes[i];
+
+                    if (obj2 !== undefined && point === obj2.point && step === i) {
+                        i = obj2.index - 1;
+                        obj2 = undefined;
+                    } else if (obj3 && point === obj3.point) {
+                        i = obj3.index - 1;
+                        obj3 = undefined;
+                    } else i = -1;
+                }
+            }
+            
+            str += `${point}`;
+
+            str.split(',').length < routes.length + 1 ? str = '' : way.add(str);
+        }
+
+        f();
+
+        if (pointCollection.length === 2) for (let i = 0; i < pointCollection.length; i++) f(pointCollection[i]);
+        
+        if (pointCollection.length > 2) for (let i = 0; i < pointCollection.length; i++) {
+            for (let j = 2; j < pointCollection.length; j++) f(pointCollection[i], pointCollection[j]);
+        }
+
+        step += 1;
+    }
+
+    for (obj of starts) {
+        step = 0;
+        for (let i = 0; i < routes.length; i++) createWay(obj);
+    }
+    
+    return [...way];
 }
 
 console.log(
@@ -228,7 +258,7 @@ console.log(
     ["B", "E"],
     ["C", "B"]
   ])
-); // ["A, B, C, B, E, C", "A, B, E, C, B, C"] !!!!!!!
+); // ["A, B, C, B, E, C", "A, B, E, C, B, C"]
 
 console.log(
   rememberTheOrderOfVisitedCity2([
@@ -252,7 +282,7 @@ console.log(
     ["ORA", "JPN"],
     ["UAE", "JPN"]
   ])
-); // ["USA, BRA, GOA, PHI, BRA, UAE, JPN, ORA, JPN, PHL] !!!!!!!!!!!
+); // ["USA, BRA, GOA, PHI, BRA, UAE, JPN, ORA, JPN, PHL]
 
 console.log(
   rememberTheOrderOfVisitedCity2([
@@ -271,7 +301,7 @@ console.log(
 //   "USA, BRA, UAE, JPN, BRA, JPN, PHL, BRA, GVI"
 //   "USA, BRA, JPN, PHL, BRA, UAE, JPN, BRA, GVI"
 //   "USA, BRA, JPN, BRA, UAE, JPN, PHL, BRA, GVI"
-// ] !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// ]
 
 console.log(
   rememberTheOrderOfVisitedCity2([
@@ -284,3 +314,17 @@ console.log(
     ["ORA", "UAE"]
   ])
 ); // []
+
+// ? ==================================================================================================
+// ? Что такое bind?
+// *  bind это специальная функция кторая позволяет привязывать контекст и дополнительные аргументы к заданной
+// *  исходной функции. Бинд возвращает новую функцию с уже заданным контекстом. Забинденый контекст сменить уже нельзя, он жостко забинден и второй бинд не удастся!!!
+// * Пример:
+function sayHi() {
+  console.log(`${this} hi`);
+}
+
+const bindSayHi = sayHi.bind('Ruslan'); // ! тоесть мы у функции ее контексту this присвоили значение Ruslan, ну или можем присвоить в качестве контекста другой объект
+bindSayHi(); // Ruslan hi
+
+// ? 
