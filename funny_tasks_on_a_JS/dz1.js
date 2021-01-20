@@ -20,7 +20,7 @@ function f2(arr) {
 		}
 
 		return accum;
-	})
+	}, 0)
 }
 
 console.log(f2([5, 0, -5, 20, 88, 17, -32])); // 22
@@ -56,6 +56,29 @@ function check(arr, num) {
 
 console.log(check([10, 15, 3, 7], 17)); // true
 console.log(check([10, 15, 3, 7], 20)); // false
+
+function check2(arr, num) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) if (i !== j && arr[i] + arr[j] === num) return true;
+    }
+    return false;
+}
+
+console.log(check2([10, 15, 3, 7], 17)); // true
+console.log(check2([10, 15, 3, 7], 20)); // false
+
+function check3(arr, num) {
+    
+    function find(elem, index) {
+        for (let i = 0; i < arr.length; i++) if (i !== index && arr[i] + elem === num) return true;
+
+        return index === arr.length - 1 ? false : find(arr[index + 1], index + 1);
+    }
+    return find(arr[0], 0);
+}
+
+console.log(check3([10, 15, 3, 7], 17)); // true
+console.log(check3([10, 15, 3, 7], 20)); // false
 
 // * =======================================================================================
 
@@ -108,3 +131,11 @@ function sumDigits2(num) {
 console.log(sumDigits2(123)); // 6
 console.log(sumDigits2(904)); // 13
 console.log(sumDigits2(3)); // 3
+
+function sumDigits3(num) {
+    return num.toString().split('').reduce((accum, num) => accum + +num , 0);
+}
+
+console.log(sumDigits3(123)); // 6
+console.log(sumDigits3(904)); // 13
+console.log(sumDigits3(3)); // 3

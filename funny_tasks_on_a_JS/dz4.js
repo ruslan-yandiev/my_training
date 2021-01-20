@@ -112,7 +112,27 @@ function func3(arr) {
 console.log(func3([5, 88, 95, 100, 77, 21, 92])); // [95, 92]
 console.log(func3([2, 13, 55, 29, 19, 5, -5])); // []
 
+function func4(arr) {
+    let num = arr.sort((a, b) => a - b)[arr.length - 1];
+    return arr.reduce((acc, elem) =>  {
+       if (elem !== num && elem >= num - num / 10) acc.push(elem);
+       return acc;
+    }, [])
+}
 
+console.log(func4([5, 88, 95, 100, 77, 21, 92])); // [95, 92]
+console.log(func4([2, 13, 55, 29, 19, 5, -5])); // []
+
+function func5(arr) {
+    let num = Math.max(...arr);
+    return arr.reduce((acc, elem) =>  {
+       if (elem !== num && elem >= num - num / 10) acc.push(elem);
+       return acc;
+    }, [])
+}
+
+console.log(func5([5, 88, 95, 100, 77, 21, 92])); // [95, 92]
+console.log(func5([2, 13, 55, 29, 19, 5, -5])); // []
 // * =======================================================================
 
 
@@ -122,7 +142,6 @@ console.log(func3([2, 13, 55, 29, 19, 5, -5])); // []
 */
 
 function fillArr(arr, len) {
-
 	let upSize = len - arr.length;
 
 	for (let i = upSize; i > 0; i--) {
@@ -134,6 +153,14 @@ const arr6 = [2, 6, 8];
 fillArr(arr6, 5);
 console.log(arr6); // [2, 6, 8, 0, 0]
 
+
+function fillArr2(arr, len) {
+    for (let i = arr.length; i < len; i++) arr.push(0);
+}
+
+const arr7 = [2, 6, 8];
+fillArr2(arr7, 5);
+console.log(arr7); // [2, 6, 8, 0, 0]
 // * =======================================================================
 
 /*
@@ -185,7 +212,14 @@ function unique4(arr) {
 
 console.log(unique4([1, 8, 1, 5, 9, 5, 8])); //[1, 8, 5, 9]
 
+function unique5(arr) {
+    return arr.reduce((acc, num) => {
+        if (!acc.includes(num)) acc.push(num);
+        return acc;
+    },[])
+}
 
+console.log(unique5([1, 8, 1, 5, 9, 5, 8])); //[1, 8, 5, 9]
 // * =======================================================================
 
 function dubl(arr) {
@@ -264,6 +298,43 @@ console.log(round5(50)); // 50
 console.log(round5(-2)); // 0
 console.log(round5(-3)); // -5
 
+
+
+function round6(val) {
+    if (val % 5 === 0) return val;
+
+    const obj = {step: 0}, obj2 = {step: -2};
+    
+    function find(detect) {
+        for (let i = val; true;) {
+            i > val ? obj.step += 1 : obj2.step += 1;
+
+            if (i % 5 === 0) {
+                if (detect === 1) {
+                    obj.value = i;
+                    return find(2);
+                } else {
+                    obj2.value = i;
+                    return obj.step <= obj2.step ? obj.value : obj2.value;
+                }
+            }
+
+            detect === 1 ? i++ : i--;
+        }
+    }
+
+    return find(1);
+}
+
+console.log(round6(0)); // 0
+console.log(round6(2)); // 0
+console.log(round6(3)); // 5
+console.log(round6(11)); // 10
+console.log(round6(14)); // 15
+console.log(round6(50)); // 50
+console.log(round6(-2)); // 0
+console.log(round6(-3)); // -5
+
 // * =====================================================================
 
 /*
@@ -287,7 +358,7 @@ function uniquePoints(arr) {
 	return arr;
 }
 
-const arr = [
+let arr = [
 	{x: 5, y: 10},
 	{x: 1, y: 15},
 	{x: 7, y: -5},
@@ -326,3 +397,46 @@ const arr2 = [
 
 
 console.log(uniquePoints2(arr2));
+
+function uniquePoints3(arr) {
+    return arr.reduce((acc, obj) => {
+        let detect = true;
+        for (let elem of acc) if (elem.x === obj.x && elem.y === obj.y) detect = false;
+        if (detect) acc.push(obj);
+        return acc;
+    }, []);
+}
+
+const arr3 = [
+	{x: 5, y: 10},
+	{x: 1, y: 15},
+	{x: 7, y: -5},
+	{x: 16, y: 33},
+	{x: 1, y: 15},
+	{x: 7, y: -5},
+	{x: 4, y: 12},
+]
+console.log(uniquePoints3(arr));
+
+function uniquePoints4(arr) {
+    return arr.reduce((acc, obj) => acc.some(val => obj.x === val.x && obj.y === val.y) ? acc : [...acc, obj], []);
+}
+
+const arr = [
+	{x: 5, y: 10},
+	{x: 1, y: 15},
+	{x: 7, y: -5},
+	{x: 16, y: 33},
+	{x: 1, y: 15},
+	{x: 7, y: -5},
+	{x: 4, y: 12},
+]
+
+
+console.log(uniquePoints4(arr));
+
+// ? Как сортируются свойства(ключи) объектов?
+// ! Сортируются: Сначала будут идти целочисленные положительные ключи (1, 2, 33, 100 и т.п.)
+// ! если жу в объекте есть свойства(ключи), в виде отрицательных чисел или числа смешанные со строкой
+// ! То они уже будут отсортированы в том порядке в котором указаны ('2add', -1)
+// ! Само собой все свойство(ключи) будут строками.
