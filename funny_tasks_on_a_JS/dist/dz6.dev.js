@@ -150,6 +150,16 @@ function sumAge3(user) {
   return sum;
 }
 
+function sumAge4(user) {
+  if (!user.hasOwnProperty('children')) {
+    return user.age;
+  }
+
+  return user.children.reduce(function (acc, child) {
+    return acc + sumAge4(child);
+  }, user.age);
+}
+
 var user = {
   name: 'Петр',
   age: 49,

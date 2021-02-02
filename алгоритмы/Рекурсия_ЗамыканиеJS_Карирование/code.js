@@ -2095,3 +2095,115 @@ let user = {
 // ! Стот напомнить, что у стрелочных функций не просто нет своего контекста, но и они используют контекс места своего вызова и уже не изменяют его даже принудительно(недьзя будет забиндить, эплаить или заколить)
 
 // * =================================================================
+// * =========================================================================
+/*
+В функцию sumAge передается счтруктура, в уоторой описан человек и его дети.
+Функция должна возвращать сумму возрвста человека и сумму возрвстов всех его детей.
+*/
+// ! В функциональном стиле рекурсивное дерево
+function sumAge(user) {
+    return user.children.reduce((accum, elem) => elem.children ? accum + sumAge(elem) : accum + elem.age, user.age);
+}
+
+// (рекурсивное дерево)
+function sumAge2(user) {
+    let sum = user.age;
+
+    function find(childrens) {
+        if (Array.isArray(childrens)) {
+            for (let i = 0; i < childrens.length; i++) find(childrens[i]);
+        }
+
+        if (childrens.age) sum += childrens.age;
+        if (childrens.children) find(childrens.children);
+    }
+
+    find(user.children);
+    return sum;
+}
+
+function sumAge3(user) {
+    let sum = 0;
+
+    function find(childrens) {
+        if (childrens.age) sum += childrens.age;
+
+        if (Array.isArray(childrens)) {
+            for (let i = 0; i < childrens.length; i++) find(childrens[i]);
+        }
+
+        if (childrens.children) find(childrens.children);
+    }
+
+    find(user);
+    return sum;
+}
+
+function sumAge4(user) {
+    if (!user.hasOwnProperty('children')) {
+        return user.age;
+    }
+    return user.children.reduce((acc, child) => acc + sumAge4(child), user.age);
+}
+
+function sumAge5(user) {
+    let sum = user.age;
+    // !  (?) тут выполняет схожую работу как и в ruby не позволяя выбросить исключение если будет undefined
+    for (let i = 0; i < user.children?.length; i++) {
+        sum += sumAge5(user.children[i]);
+    }
+    return sum;
+}
+
+const user = {
+    name: 'Петр',
+    age: 49,
+    children: [
+        {
+            name: 'Nina',
+            age: 25,
+            children: [
+                {
+                    name: 'Andray',
+                    age: 3,
+                },
+                {
+                    name: 'Oleg',
+                    age: 1,
+                },
+            ],
+        },
+        {
+            name: 'Aleksandr',
+            age: 22,
+        },
+    ],
+};
+
+console.log(sumAge(user));
+console.log(sumAge2(user));
+console.log(sumAge3(user));
+console.log(sumAge4(user));
+console.log(sumAge5(user));
+
+
+// * ============================================================================================
+function sequence(val = 0, step = 1) {
+    return function () {
+        val += step;
+        return val - step;
+    };
+}
+
+const generator = sequence(10, 3);
+const generator2 = sequence(7, 1);
+
+console.log(generator()); // 10
+console.log(generator()); // 13
+
+console.log(generator2()); // 7
+
+console.log(generator()); // 16
+
+console.log(generator2()); // 8
+

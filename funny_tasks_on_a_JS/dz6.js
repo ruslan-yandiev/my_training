@@ -123,6 +123,22 @@ function sumAge3(user) {
     return sum;
 }
 
+function sumAge4(user) {
+    if (!user.hasOwnProperty('children')) {
+        return user.age;
+    }
+    return user.children.reduce((acc, child) => acc + sumAge4(child), user.age);
+}
+
+function sumAge5(user) {
+    let sum = user.age;
+    // !  (?) тут выполняет схожую работу как и в ruby не позволяя выбросить исключение если будет undefined
+    for (let i = 0; i < user.children?.length; i++) {
+        sum += sumAge5(user.children[i]);
+    }
+    return sum;
+}
+
 const user = {
     name: 'Петр',
     age: 49,
@@ -160,11 +176,9 @@ console.log(sumAge3(user));
 */
 // ! ЗАМЫКАНИЕ
 function sequence(val = 0, step = 1) {
-    let sum = val;
-
     return function () {
-        sum += step;
-        return sum - step;
+        val += step;
+        return val - step;
     };
 }
 
