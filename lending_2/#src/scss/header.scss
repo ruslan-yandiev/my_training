@@ -127,6 +127,27 @@
             font-size: 24px;
         }
     }
+
+    // * создал так-как динамическая переброска элемента с помощью js отключил и использовал только html и css
+    &__region {
+        // ! @extend позволяет подключить все стили из определенного класса!!!!
+        @extend .menu__link;
+
+        // ! уберем из потоко обработки (скроем) как вариант вместо присвоения атрибута скрытия
+        display: none;
+
+        background: url('../img/icons/globe.png') left no-repeat;
+
+        @media (max-width: $md3+px) {
+            margin: 50px 0px 0px 0px;
+            display: inline-block;
+            padding: 0px 0px 0px 30px;
+
+            span {
+                display: inline-block;
+            }
+        }
+    }
 }
 
 //Burger ===============================================
@@ -207,15 +228,16 @@
             }
         }
 
-        @media (max-width: $md3+px) {
-            margin: 50px 0px 0px 0px;
-            display: inline-block;
-            padding: 0px 0px 0px 30px;
+        // ! отключил так-как динамическая переброска элемента с помощью js отключил
+        // @media (max-width: $md3+px) {
+        //     margin: 50px 0px 0px 0px;
+        //     display: inline-block;
+        //     padding: 0px 0px 0px 30px;
 
-            span {
-                display: inline-block;
-            }
-        }
+        //     span {
+        //         display: inline-block;
+        //     }
+        // }
     }
 
     &__user {

@@ -180,11 +180,17 @@ body._lock {
 }
 
 .menu__link,
+.menu__region,
 .actions-header__region {
   font-family: 'Conv_pfdintextcondpro-regular';
   text-transform: uppercase;
   letter-spacing: 1.4px;
   color: #fff;
+}
+
+.menu__region {
+  display: none;
+  background: url("../img/icons/globe.png") left no-repeat;
 }
 
 .actions-header {
@@ -267,6 +273,7 @@ body._lock {
 
 @media (min-width: 992px) {
   .menu__link:hover,
+  .menu__region:hover,
   .actions-header__region:hover {
     text-decoration: underline;
   }
@@ -353,8 +360,19 @@ body._lock {
   }
 
   .menu__link,
+  .menu__region,
   .actions-header__region {
     font-size: 24px;
+  }
+
+  .menu__region {
+    margin: 50px 0px 0px 0px;
+    display: inline-block;
+    padding: 0px 0px 0px 30px;
+  }
+
+  .menu__region span {
+    display: inline-block;
   }
 
   .icon-menu {
@@ -398,20 +416,12 @@ body._lock {
     bottom: calc(50% - 1px);
   }
 
-  .actions-header__region {
-    margin: 50px 0px 0px 0px;
-    display: inline-block;
-    padding: 0px 0px 0px 30px;
-  }
-
-  .actions-header__region span {
-    display: inline-block;
-  }
-
   .user-header__menu {
     width: 100%;
   }
 }
+
+.webp .menu__region{ background: url(../img/icons/globe.webp) left no-repeat; }
 
 .webp .actions-header__region{ background: url(../img/icons/globe.webp) left no-repeat; }
 
