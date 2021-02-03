@@ -44,7 +44,7 @@
     @media (max-width: $md3+px) {
         flex: 0 0 auto;
     }
-
+    
     &__icon {
     }
 
@@ -60,12 +60,17 @@
             // ! нужно нам для создания скрола в бургер меню
             overflow: auto;
 
-            padding: 100px 0px 20px 0px;
+            padding: 130px 0px 20px 0px;
 
             // ! реализуем скрытие бургер меню списка
             opacity: 0;
-            visibility: hidden;
-            transform: all 0.3s ease 0s;
+            // visibility: hidden; // ? 
+            // transform: all 0.3s ease 0s; // ?
+
+            // !плавность
+            transition: all 0.6s ease 0s;
+
+            text-align: center;
 
             // ! псевдо элемент, будет у нас плашкой закрывающей. плашка нам нужна ,чтобы за нее скрывался текст раскрытой бургер менюшки при его скроле
             &:after {
@@ -81,7 +86,7 @@
             // ! а при появлении класса _active обеспечим появление бургер меню списка
             &._active {
                 opacity: 1;
-                visibility: visible;
+                // visibility: visible; // ? 
             }
         }
     }
@@ -96,7 +101,7 @@
 
         @media (max-width: $md3+px) {
             display: block;
-            text-align: center;
+
             li {
                 margin: 0px 0px 30px 0px;
                 &:last-child {
@@ -136,9 +141,10 @@
         z-index: 5; // ! определяет расположение элемента по трехмерной шкале под буквой z (в двухмерном виде это нахлест-наложение) бальше глубже!
 
         span {
-            // transform: anim(0.8s, 0s); // ???????? что с анимацией не так
-            // transform: all 0.8s ease 0s; // ???????? что с анимацией не так
+            // transform: anim(0.8s, 0s); // ?
+            // transform: all 0.8s ease 0s; // ?
 
+            transition: all 0.6s ease 0s;
             top: calc(50% - 1px);
             left: 0px;
             position: absolute;
@@ -202,6 +208,8 @@
         }
 
         @media (max-width: $md3+px) {
+            margin: 50px 0px 0px 0px;
+            display: inline-block;
             padding: 0px 0px 0px 30px;
 
             span {

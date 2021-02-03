@@ -320,10 +320,10 @@ body._lock {
     left: 0;
     top: 0;
     overflow: auto;
-    padding: 100px 0px 20px 0px;
+    padding: 130px 0px 20px 0px;
     opacity: 0;
-    visibility: hidden;
-    transform: all 0.3s ease 0s;
+    transition: all 0.6s ease 0s;
+    text-align: center;
   }
 
   .menu__body:after {
@@ -338,12 +338,10 @@ body._lock {
 
   .menu__body._active {
     opacity: 1;
-    visibility: visible;
   }
 
   .menu__list {
     display: block;
-    text-align: center;
   }
 
   .menu__list li {
@@ -368,6 +366,7 @@ body._lock {
   }
 
   .icon-menu span {
+    transition: all 0.6s ease 0s;
     top: calc(50% - 1px);
     left: 0px;
     position: absolute;
@@ -400,6 +399,8 @@ body._lock {
   }
 
   .actions-header__region {
+    margin: 50px 0px 0px 0px;
+    display: inline-block;
     padding: 0px 0px 0px 30px;
   }
 

@@ -51,4 +51,5 @@ iconMenu.addEventListener('click', () => {
     document.querySelector('body').classList.toggle('_lock');
 });
 
-// TODO разобраться почему бургеру неполучается задать плавность превращения в крестик и обратно.
+
+
