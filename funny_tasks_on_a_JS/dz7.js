@@ -10,12 +10,20 @@ function transform(arr) {
     return hh;
 }
 
+function transform2(arr) {
+    return arr.reduce((obj, item) => {
+        obj[item.name] = item.value;
+        return obj;
+    }, {});
+}
+
 const arr = [
     { name: 'name', value: 'Anatoly' },
     { name: 'age', value: 40 },
 ];
 
 console.log(transform(arr)); // {name: 'Anatoly', age: 40}
+console.log(transform2(arr)); // {name: 'Anatoly', age: 40}
 
 // * ======================================================================================
 /*
@@ -29,6 +37,7 @@ n! означает n * (n - 1) * ... * 3 * 2 * 1
 function myCalc(num) {
     function myRecurs(arg) {
         // ! при не строгом сравнении BigInt равен number, а при строгом нет, так как это два разных примитивных типа данных
+        // ! при строго нужно будет написать вот так: if (arg === BigInt(1))
         if (arg == 1) {
             return arg;
         }
