@@ -17,7 +17,7 @@ testWebP(function (support) {
     }
 });
 ;
-// // Физический перенос элемента от одного родителя другому
+// // // Физический перенос элемента от одного родителя другому
 // (function() {
 //     action();
 
@@ -97,5 +97,24 @@ iconMenu.addEventListener('click', () => {
     document.querySelector('body').classList.toggle('_lock');
 });
 
+(function () {
+    start();
 
+    window.addEventListener('resize', timer, false);
+
+    let detect;
+
+    function timer() {
+        if (!detect) {
+            detect = setTimeout(() => {
+                start();
+                detect = null;
+            }, 1000)
+        }
+    }
+
+    function start() {
+        console.log('HI');
+    }
+})();
 
