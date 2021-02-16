@@ -12,7 +12,7 @@ function findElement2(arr) {
     let elem = arr[0];
 
     for (let i = 1; i < arr.length; i++) elem ^= arr[i];
-    
+
     return elem;
 }
 console.log(findElement2(arr));
@@ -21,11 +21,11 @@ function findElement3(arr) {
     let a;
 
     for (let i = 0; i < arr.length; i++) {
-        arr.find(elem => {
+        arr.find((elem) => {
             if (elem !== a && elem !== arr[i]) {
                 a = elem;
             }
-        })
+        });
     }
     return a;
 }
@@ -40,7 +40,7 @@ function findElement4(arr) {
 
         for (let i = 0; i < arr.length; i++) if (elem === arr[i]) detect += 1;
 
-        return detect > 1 ? find(arr[index + 1], index + 1) : a = elem; 
+        return detect > 1 ? find(arr[index + 1], index + 1) : (a = elem);
     }
 
     return find(arr[0], 0);
@@ -60,14 +60,15 @@ console.log(findElement5(arr));
 
 function findElement6(arr) {
     return arr.reduce((accum, elem) => {
-        if (arr.filter(item => item === elem).length === 1) accum = elem;
+        if (arr.filter((item) => item === elem).length === 1) accum = elem;
         return accum;
     });
 }
 console.log(findElement6(arr));
 
 function findElement7(arr) {
-    for (let i = 0; i < arr.length; i++) if (arr.filter(elem => elem === arr[i]).length === 1) return arr[i];
+    for (let i = 0; i < arr.length; i++)
+        if (arr.filter((elem) => elem === arr[i]).length === 1) return arr[i];
 }
 console.log(findElement7(arr));
 // * ======================================================================================
@@ -80,8 +81,13 @@ function findUn(arr) {
 }
 console.log(findUn(arr2)); // [1, 2, 3, 4, 5, 'a', -2, -1]
 
+function findUn6(arr) {
+    return arr.filter((elem, index) => index == arr.indexOf(elem));
+}
+console.log(findUn6(arr2)); // [1, 2, 3, 4, 5, 'a', -2, -1]
+
 function findUn2(arr) {
-    let hh = {}
+    let hh = {};
 
     for (let i = 0; i < arr.length; i++) hh[`${arr[i]}`] = arr[i];
 
@@ -125,7 +131,9 @@ function findUn5(arr) {
 
     function find(elem) {
         if (!arr.includes(elem)) newArr.push(elem);
-        return arr.length === 0 ? newArr.reverse() : find(arr.splice(arr.length - 1, 1)[0]);
+        return arr.length === 0
+            ? newArr.reverse()
+            : find(arr.splice(arr.length - 1, 1)[0]);
     }
 
     return find(arr.splice(arr.length - 1, 1)[0]);
@@ -146,7 +154,9 @@ function findElements(arr) {
 
         if (detect === 1) newArr.push(elem);
 
-        return index === arr.length - 1 ? newArr : find(arr[index + 1], index + 1);
+        return index === arr.length - 1
+            ? newArr
+            : find(arr[index + 1], index + 1);
     }
 
     return find(arr[0], 0);
