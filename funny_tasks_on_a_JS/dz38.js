@@ -32,22 +32,7 @@ function sumNumbers(arr) {
     return sum / step;
 }
 
-console.log(
-    sumNumbers([
-        1,
-        '9',
-        NaN,
-        9.5,
-        true,
-        'WebInterview',
-        Symbol('5'),
-        null,
-        5n,
-        undefined,
-        { a: 5 },
-        () => 100,
-    ]),
-); // 4.25
+console.log(sumNumbers([1, '9', NaN, 9.5, true, 'WebInterview', Symbol('5'), null, 5n, undefined, { a: 5 }, () => 100])); // 4.25
 
 // ==================================================================
 /*
@@ -70,9 +55,7 @@ function getProductId(url) {
     }
 }
 
-console.log(
-    getProductId('exampleshop.com/fancy-coffee-cup-p-90764-12052019.html'),
-); // 90764
+console.log(getProductId('exampleshop.com/fancy-coffee-cup-p-90764-12052019.html')); // 90764
 console.log(getProductId('exampleshop.com/c-3-p-0-p-654-11112011.html')); // 654
 
 // еще более простой вариант:
@@ -81,7 +64,5 @@ function getProductId(url) {
     return arr[arr.length - 2];
 }
 
-console.log(
-    getProductId('exampleshop.com/fancy-coffee-cup-p-90764-12052019.html'),
-); // 90764
+console.log(getProductId('exampleshop.com/fancy-coffee-cup-p-90764-12052019.html')); // 90764
 console.log(getProductId('exampleshop.com/c-3-p-0-p-654-11112011.html')); // 654
