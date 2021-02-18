@@ -1,0 +1,30 @@
+// <ОСНОВНОЙ БЛОК> ========================================================================================
+.title {
+    // .title__item
+    &__item {
+        font-family: 'Conv_ceremonious_one';
+        color: #bb9c66;
+        font-size: 40px;
+    }
+
+    // .title__main
+    &__main {
+        font-family: 'Conv_pfdintextcondpro-medium';
+        font-size: 35px;
+        text-transform: uppercase;
+
+        // класс модификатор шрифта
+        &_regular {
+            font-family: 'Conv_pfdintextcondpro-regular';
+        }
+
+        &_w {
+            color: #fff;
+        }
+    }
+
+    // .title__text
+    &__text {
+    }
+}
+// </ОСНОВНОЙ БЛОК> ========================================================================================

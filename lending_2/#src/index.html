@@ -11,14 +11,24 @@
                     <div class="main-slider__body">
                         <div class="main-slider__item item-main-slider">
                             <div class="item-main-slider__content">
-                                <div class="title">
-                                    <div class="title__item">Только эксклюзивные</div>
-                                    <div class="title__main">Лоты под аукцион и свобоДную продажу</div>
-                                    <div class="title__text">Мы собираем эксклюзивную публику и экслюзивные лоты, даем удобный и автоматизированный сервис по покупке и продаже, а также выставлению лотов на аукцион, предоставляем личные кабинеты, а также оказываем сопутствубщие услуги с продажей редких и дорогих вещей</div>
+                                <div class="item-main-slider__container _container">
+                                    <div class="title">
+                                        <div class="title__item">Только эксклюзивные</div>
+
+                                        <!-- title__main_w доп класс модификатор цтвета, title__main_regular класс модификатор шрифта -->
+                                        <div class="title__main title__main_w title__main_regular">Лоты под аукцион и свобоДную продажу</div>
+                                        <div class="title__text">
+                                            Мы собираем эксклюзивную публику и экслюзивные лоты, даем удобный и автоматизированный сервис по покупке и
+                                            продаже, а также выставлению лотов на аукцион, предоставляем личные кабинеты, а также оказываем
+                                            сопутствубщие услуги с продажей редких и дорогих вещей
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- чтобы вспомогательный класс ibg небыл в БЭМе укажем его с нижним подчёркиванием _ibg -->
                             <div class="item-main-slider__bg _ibg">
-                                <img src="img/slider/Layer3.png" alt="">
+                                <img src="img/slider/Layer3.jpg" alt="" />
                             </div>
                         </div>
                     </div>
@@ -28,7 +38,7 @@
 
             @@include('_footer.html',{})
         </div>
-        
+
         @@include('_popup.html',{}) @@include('_js.html',{})
     </body>
 </html>
