@@ -169,7 +169,7 @@ function Rectangle(width, height) {
     Rectangle.prototype.width = width;
     Rectangle.prototype.height = height;
 
-    // ! Функция(объект) будет общий(один) для всех экземпляров класса Rectangle (экономит память например если будет 1000 экземпляров)
+    // ! каждый раз будет класть нофую функцию(объект) в  Rectangle.prototype (затратно)
     Rectangle.prototype.getArea = () => {
         return this.width * this.height;
     };
