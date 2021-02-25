@@ -41,7 +41,15 @@ const plugins = () => {
         // new BundleAnalyzerPlugin(), // пока закоментируем чтобы не мешал
         new HtmlWebpackPlugin({
             // укажим путь где у нас лежит наш html
-            template: './index.html',
+            template: './html/index.html',
+
+            // позволит подключить js именно вконец "body", по дефолту подключит в 'head'
+            inject: 'body',
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'new-index2.html',
+            template: './html/new-index2.html',
+            // inject: 'body',
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
@@ -49,7 +57,7 @@ const plugins = () => {
             filename: `styles/${filename('css')}`,
         }),
         new CopyWebpackPlugin({
-            patterns: [{ from: path.resolve(__dirname, './src/assets'), to: path.resolve(__dirname, 'dist/assets') }],
+            patterns: [{ from: path.resolve(__dirname, './src/assets'), to: path.resolve(__dirname, 'dist') }],
         }),
     ];
 
@@ -74,9 +82,9 @@ module.exports = {
     entry: {
         //  можем теперь не указыватв пути имя папки src так как мы установили context: 'src'
         // '@babel/polyfill' - полифил для обработки баблом асинхронного кода
-        main: ['@babel/polyfill', './index.js'],
-        analytics: './analytics.js',
-        testing_bable_code: './testing_bable.js',
+        main: ['@babel/polyfill', './javascript/index.js'],
+        analytics: './javascript/analytics.js',
+        testing_bable_code: './javascript/testing_bable.js',
     },
 
     // Для исключения как вариант дублирования кода, например если одна и таже библиотека подключена в разных файлах
@@ -84,14 +92,14 @@ module.exports = {
 
     // исключительно для режима разработки (development), для отлаживания кода в браузере. Создаст набор исходных карт js и css(scss) файлов (можно убрать закомитив)
     // карты удобны для нас так как в браузере мы сможем точно показать место в непревращенном исходном коде и в каком именно файле произогла ошибка, или просто посмотреть код
-    devtool: isDev ? 'source-map' : '',
+    devtool: isDev ? 'source-map' : false,
 
     //  Свойство (output) сконфигурирует то, куда будет выводиться результат нашей сборки и в каком виде.
     output: {
         //  [hash] позволит перед именем файла поставить зашифрованный хэшь определенный от содержимого файла. это нам дает то, что если мы поменяли хоть один символ
         //  в нашем исходном файле то у нас значение [hash] - хэша в имени файла поменяется и тогда у нас кэш браузера не сработает для этого файла. И браузер гарантированно будет обновлять содержимое
         //  [name] - подставит имя из объекта переданного в entry: {.....}
-        filename: `javascript/${filename('js')}`,
+        filename: filename('js'),
 
         //  использовать нужно только обсолютный путь. сократим код использовав для построения обсолютного пути библиотеку path
         //  __dirname - элиас показывающий текущию директорию где мы надодимся

@@ -41,6 +41,8 @@
     "dependencies": {
         "@babel/polyfill": "^7.12.1",
         "jquery": "^3.5.1",
-        "normalize.css": "^8.0.1"
+        "normalize.css": "^8.0.1",
+        "pug": "^3.0.0",
+        "pug-loader": "^2.4.0"
     }
 }
