@@ -12,6 +12,7 @@
         font-family: 'Conv_pfdintextcondpro-medium';
         font-size: 35px;
         text-transform: uppercase;
+        letter-spacing: 5.25px;
 
         // класс модификатор шрифта
         &_regular {
@@ -21,10 +22,6 @@
         &_w {
             color: #fff;
         }
-    }
-
-    // .title__text
-    &__text {
     }
 }
 // </ОСНОВНОЙ БЛОК> ========================================================================================
