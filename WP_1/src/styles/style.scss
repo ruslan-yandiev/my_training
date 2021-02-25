@@ -1,0 +1,35 @@
+@import './normalize.scss';
+@import './color.scss';
+
+h1 {
+    color: $color_1;
+}
+
+h2 {
+    color: $color_2;
+}
+
+@mixin size {
+    width: 300px;
+    height: 300px;
+}
+
+// * можем ставить дефолтные значения аргументов
+@mixin sizeAndColor($h, $w: 200px, $color: red) {
+    width: $w;
+    height: $h;
+    background: $color;
+}
+
+.main {
+    background: url(/src/assets/textile-2918844_960_720.jpg);
+    @include size;
+
+    // .main__test
+    &__test {
+        // * чтобы передать параметр внезовисимости от последовательности аргрументов
+        // * нужно указать  название аргумента и передать значение $color: yellow
+        // * Если же в миксине все попорядку, о такой гемор не нужен
+        @include sizeAndColor(100px, $color: yellow);
+    }
+}
