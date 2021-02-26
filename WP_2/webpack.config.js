@@ -13,6 +13,7 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 console.log('IS DEV:', isDev); // выводит в баш консоль
+const PUG_PAGES_PATH = path.resolve(__dirname, 'src/pug/pages');
 
 // функция вернет объект настроек оптимизации в зовисимости в разработке или продпкшене мы щас находимся
 const optimization = () => {
@@ -41,19 +42,18 @@ const plugins = () => {
         // new BundleAnalyzerPlugin(), // пока закоментируем чтобы не мешал
         new HtmlWebpackPlugin({
             // укажим путь где у нас лежит наш html
-            template: './html/index.html',
+            template: `${PUG_PAGES_PATH}/index.pug`,
 
             // позволит подключить js именно вконец "body", по дефолту подключит в 'head'
             inject: 'body',
         }),
         new HtmlWebpackPlugin({
-            filename: 'new-index2.html',
-            template: './html/new-index2.html',
-            // inject: 'body',
+            filename: 'new-index.html',
+            template: `${PUG_PAGES_PATH}/new-index.pug`,
+            inject: 'body',
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            //  [name] - подставит имя из объекта переданного в entry: {.....}
             filename: `styles/${filename('css')}`,
         }),
         new CopyWebpackPlugin({
@@ -71,7 +71,7 @@ const plugins = () => {
 
 // По умолчанию webpack использует Нодовский модуль.
 module.exports = {
-    //  облегчим задачу для вебпака прямо указав контекст папки от которой ему нужно отталкиваться (обсолютный путь)
+    //  облегчим задачу для вебпака прямо указав контекст папки от которой ему нужно отталкиваться (обсолютный путь) Все ниже пути можно прописывать без указания 'src'
     context: path.resolve(__dirname, 'src'),
 
     //  свойство (mode) позволит установить в каком режиме мы хотим работать (production(будет сжимать собранный файлы) или development(не будет сжимать файлы))
@@ -155,6 +155,11 @@ module.exports = {
                         plugins: ['@babel/plugin-proposal-class-properties'],
                     },
                 },
+            },
+
+            {
+                test: /\.pug$/,
+                use: ['pug-loader'],
             },
 
             {
