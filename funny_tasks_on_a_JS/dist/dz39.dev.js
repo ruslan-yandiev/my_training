@@ -67,6 +67,13 @@ var arr = [1, 4, 9];
 var result = 2 in arr;
 console.log(result); // true потому, что оператор in смотрит только а ключи а индекс(ключ, свойство) 2 сть в массиве.
 // * ====================================================
+
+var w1 = window;
+var w2 = self;
+var w3 = window.window;
+var w4 = window.self; // Значения переменных w1, w2, w3, w4 строго равны между собой
+// Но только переменная w2 будет работать в workers
+// * ======================================================================
 // ! Побитовые операторы
 
 console.log(14 & 9); // 8 (1000)
@@ -201,4 +208,47 @@ console.log(check2('|(|)', [['(', ')'], ['|', '|']]), false); // -> false
 console.log(check2('|()|(||)||', [['(', ')'], ['|', '|']]), true); // -> true
 
 console.log(check2('|(||||(||)||)|', [['(', ')'], ['|', '|']]), true); // -> true
+
+var check3 = function check3(str, arrayPars) {
+  if (str.length % 2) return false;
+  var mapPars = new Map(arrayPars);
+  var newArr = Array.from(str);
+  var nextPar = '';
+  var isRight = false;
+  newArr.forEach(function (item) {
+    if (!nextPar.startsWith(item)) {
+      isRight = false;
+      nextPar = mapPars.get(item) + nextPar;
+    } else {
+      isRight = true;
+      nextPar = nextPar.slice(1, nextPar.length);
+    }
+  });
+  return isRight;
+};
+
+console.log(check3('()', [['(', ')']]), true); // -> true
+
+console.log(check3('((()))()', [['(', ')']]), true); // -> true
+
+console.log(check3('())(', [['(', ')']]), false); // -> false
+
+console.log(check3('([{}])', [['(', ')'], ['[', ']'], ['{', '}']]), true); // -> true
+
+console.log(check3('[(])', [['(', ')'], ['[', ']']]), false); // -> false
+
+console.log(check3('[]()', [['(', ')'], ['[', ']']]), true); // -> true
+
+console.log(check3('[]()(', [['(', ')'], ['[', ']']]), false); // -> false
+// special case: opening and closing bracket can be the same :)
+
+console.log(check3('||', [['|', '|']]), true); // -> true
+
+console.log(check3('|()|', [['(', ')'], ['|', '|']]), true); // -> true
+
+console.log(check3('|(|)', [['(', ')'], ['|', '|']]), false); // -> false
+
+console.log(check3('|()|(||)||', [['(', ')'], ['|', '|']]), true); // -> true
+
+console.log(check3('|(||||(||)||)|', [['(', ')'], ['|', '|']]), true); // -> true
 // * ==================================================================
