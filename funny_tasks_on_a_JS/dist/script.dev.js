@@ -1,47 +1,82 @@
-"use strict";
-
-var check = function check(str, arrayPars) {
-  if (str.length % 2) return false;
-  var mapPars = new Map(arrayPars);
-  var newArr = Array.from(str);
-  var nextPar = '';
-  var isRight = false;
-  newArr.forEach(function (item) {
-    if (!nextPar.startsWith(item)) {
-      isRight = false;
-      nextPar = mapPars.get(item) + nextPar;
-    } else {
-      isRight = true;
-      nextPar = nextPar.slice(1, nextPar.length);
-    }
-  });
-  return isRight;
-};
-
-console.log(check('()', [['(', ')']]), true); // -> true
-
-console.log(check('((()))()', [['(', ')']]), true); // -> true
-
-console.log(check('())(', [['(', ')']]), false); // -> false
-
-console.log(check('([{}])', [['(', ')'], ['[', ']'], ['{', '}']]), true); // -> true
-
-console.log(check('[(])', [['(', ')'], ['[', ']']]), false); // -> false
-
-console.log(check('[]()', [['(', ')'], ['[', ']']]), true); // -> true
-
-console.log(check('[]()(', [['(', ')'], ['[', ']']]), false); // -> false
-// special case: opening and closing bracket can be the same :)
-
-console.log(check('||', [['|', '|']]), true); // -> true
-
-console.log(check('|()|', [['(', ')'], ['|', '|']]), true); // -> true
-
-console.log(check('|(|)', [['(', ')'], ['|', '|']]), false); // -> false
-
-console.log(check('|()|(||)||', [['(', ')'], ['|', '|']]), true); // -> true
-
-console.log(check('|(||||(||)||)|', [['(', ')'], ['|', '|']]), true); // -> true
+// const check = (str, arrayPars) => {
+//     if (str.length % 2) return false;
+//     const mapPars = new Map(arrayPars);
+//     const newArr = Array.from(str);
+//     let nextPar = '';
+//     let isRight = false;
+//     newArr.forEach((item) => {
+//         if (!nextPar.startsWith(item)) {
+//             isRight = false;
+//             nextPar = mapPars.get(item) + nextPar;
+//         } else {
+//             isRight = true;
+//             nextPar = nextPar.slice(1, nextPar.length);
+//         }
+//     });
+//     return isRight;
+// };
+// console.log(check('()', [['(', ')']]), true); // -> true
+// console.log(check('((()))()', [['(', ')']]), true); // -> true
+// console.log(check('())(', [['(', ')']]), false); // -> false
+// console.log(
+//     check('([{}])', [
+//         ['(', ')'],
+//         ['[', ']'],
+//         ['{', '}'],
+//     ]),
+//     true,
+// ); // -> true
+// console.log(
+//     check('[(])', [
+//         ['(', ')'],
+//         ['[', ']'],
+//     ]),
+//     false,
+// ); // -> false
+// console.log(
+//     check('[]()', [
+//         ['(', ')'],
+//         ['[', ']'],
+//     ]),
+//     true,
+// ); // -> true
+// console.log(
+//     check('[]()(', [
+//         ['(', ')'],
+//         ['[', ']'],
+//     ]),
+//     false,
+// ); // -> false
+// // special case: opening and closing bracket can be the same :)
+// console.log(check('||', [['|', '|']]), true); // -> true
+// console.log(
+//     check('|()|', [
+//         ['(', ')'],
+//         ['|', '|'],
+//     ]),
+//     true,
+// ); // -> true
+// console.log(
+//     check('|(|)', [
+//         ['(', ')'],
+//         ['|', '|'],
+//     ]),
+//     false,
+// ); // -> false
+// console.log(
+//     check('|()|(||)||', [
+//         ['(', ')'],
+//         ['|', '|'],
+//     ]),
+//     true,
+// ); // -> true
+// console.log(
+//     check('|(||||(||)||)|', [
+//         ['(', ')'],
+//         ['|', '|'],
+//     ]),
+//     true,
+// ); // -> true
 // // Дано неупорядоченный массив целых чисел и значение sum. Верните true,
 // // если сумма любых двух элементов равняется значению sum. В противном случае верните false.
 // const findSum = (arr, val) => {
@@ -58,3 +93,11 @@ console.log(check('|(||||(||)||)|', [['(', ')'], ['|', '|']]), true); // -> true
 //     return false;
 // };
 // const findSum = (arr, sum) => arr.some(((set) => (n) => set.has(n) || !set.add(sum - n))(new Set()));
+
+/*
+Реализуйте функцию squareDigits, функция принимает число, 
+вернуть функция должна также число, которое получается 
+при конкатенировании возведенных в квадрат цифр переданного 
+внутрь функции числа.
+*/
+"use strict";

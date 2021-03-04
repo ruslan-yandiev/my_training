@@ -1,11 +1,11 @@
 "use strict";
 
-Array.prototype.myMap = function (f) {
-  if (typeof f === 'function') {
+Array.prototype.myMap = function (callback) {
+  if (typeof callback === 'function') {
     var result = [];
 
     for (var i = 0; i < this.length; i++) {
-      result.push(f(this[i], i, this));
+      result.push(callback(this[i], i, this));
     }
 
     return result;

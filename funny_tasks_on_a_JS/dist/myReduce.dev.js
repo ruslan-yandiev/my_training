@@ -1,18 +1,25 @@
 "use strict";
 
-Array.prototype.myReduce = function (f, a) {
-  if (typeof f === 'function') {
-    var result = a || this[0];
-    var startIndex;
-    a === undefined ? startIndex = 1 : startIndex = 0;
+Array.prototype.myReduce = function (callback) {
+  var initialValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this[0];
+  if (typeof callback !== 'function') throw new TypeError("".concat(callback, " is not a function")); // if (typeof callback !== 'function') throw new Error(`${callback} is not a function`);
 
-    for (var i = startIndex; i < this.length; i++) {
-      result = f(result, this[i], i, this);
-    }
+  var startIndex = initialValue === this[0] ? 1 : 0;
 
-    return result;
+  for (var i = startIndex, size = this.length; i < size; i++) {
+    initialValue = callback(initialValue, this[i], i, this);
   }
+
+  return initialValue;
 };
+
+console.log([1, 2, 3, 4, 5].myReduce(function (acc, elem, index, arr) {
+  if (index % 2) {
+    return acc + elem;
+  }
+
+  return acc;
+}, 0)); // => 6
 
 console.log([1, 2, 3, 4, 5].myReduce(function (acc, elem, index, arr) {
   if (index % 2) {

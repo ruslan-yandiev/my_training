@@ -27,10 +27,7 @@ console.log(sort([2, 3, 4, 5, 6])); // [6,5,4,3,2]
 console.log(sort([2, 3, 4, 5, 6, 7])); // [6,7,4,5,2,3]
 
 function sort2(arr) {
-    return arr.map(
-        (el, i, arr) =>
-            arr[arr.length % 2 === 1 ? arr.length - i - 1 : i % 2 === 0 ? arr.length - i - 2 : arr.length - i],
-    );
+    return arr.map((el, i, arr) => arr[arr.length % 2 === 1 ? arr.length - i - 1 : i % 2 === 0 ? arr.length - i - 2 : arr.length - i]);
 }
 
 console.log(sort2([1, 2, 3, 4, 5, 6, 7, 8])); // [7,8,5,6,3,4,1,2]
@@ -109,11 +106,7 @@ function check(str, bracketsConfig) {
             }
         }
 
-        if (
-            str.startsWith(brackets[i]) &&
-            !str.endsWith(brackets[i + 1]) &&
-            str.indexOf(brackets[i]) + 1 !== str.indexOf(brackets[i + 1])
-        ) {
+        if (str.startsWith(brackets[i]) && !str.endsWith(brackets[i + 1]) && str.indexOf(brackets[i]) + 1 !== str.indexOf(brackets[i + 1])) {
             return false;
         }
     }
