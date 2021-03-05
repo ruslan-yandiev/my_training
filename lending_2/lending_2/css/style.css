@@ -148,6 +148,78 @@ body._lock {
   padding: 0 10px;
 }
 
+.btn {
+  display: inline-block;
+  position: relative;
+}
+
+.btn:before,
+.btn:after {
+  position: absolute;
+  left: 0;
+  content: '';
+  height: 3px;
+  width: 100%;
+}
+
+.btn:before {
+  top: 0;
+  background-color: #c3a774;
+}
+
+.btn:after {
+  bottom: 0;
+  background-color: #8f6630;
+}
+
+.btn__body:before,
+.btn__body:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background-image: linear-gradient(to top, #8f6630, #c3a774);
+}
+
+.btn__body:before {
+  left: 0;
+}
+
+.btn__body:after {
+  right: 0;
+}
+
+.btn__body span {
+  min-height: 50px;
+  color: #ffff;
+  font-size: 15px;
+  font-family: 'Times New Roman', Times, serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 50px;
+  position: relative;
+}
+
+.btn__body span:after {
+  content: '';
+  height: 100%;
+  opacity: 0.3;
+  transition: all 0.8s ease 0s;
+  background-image: linear-gradient(to top, #bb9c66 20%, rgba(59, 33, 209, 0) 100%);
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.btn._fw {
+  width: 100%;
+}
+
 .title__item {
   font-family: 'Conv_ceremonious_one';
   color: #bb9c66;
@@ -160,6 +232,7 @@ body._lock {
   font-size: 35px;
   text-transform: uppercase;
   letter-spacing: 5.25px;
+  line-height: calc(40 / 35);
 }
 
 .title__main_regular {
@@ -172,6 +245,8 @@ body._lock {
 
 .header {
   background-color: #1c242a;
+  position: relative;
+  z-index: 50;
 }
 
 .header__container {
@@ -312,6 +387,15 @@ body._lock {
   left: 0;
 }
 
+.item-main-slider__bg img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: top;
+     object-position: top;
+}
+
 .item-main-slider__text {
   max-width: 700px;
   margin: 25px auto 0px auto;
@@ -321,11 +405,14 @@ body._lock {
 }
 
 .item-main-slider__btn {
-  display: block;
   margin: 55px 0px 0px 0px;
 }
 
 @media (min-width: 992px) {
+  .btn:hover .btn__body span:after {
+    opacity: 0.6;
+  }
+
   .menu__link:hover,
   .menu__region:hover,
   .actions-header__region:hover {
@@ -358,6 +445,10 @@ body._lock {
     overflow: hidden;
   }
 
+  .title__main {
+    font-size: 25px;
+  }
+
   .header__container {
     justify-content: space-between;
   }
@@ -374,7 +465,7 @@ body._lock {
   }
 
   .menu__body {
-    background-color: #363a3ddc;
+    background-color: #101113dc;
     position: fixed;
     width: 100%;
     height: 100%;
