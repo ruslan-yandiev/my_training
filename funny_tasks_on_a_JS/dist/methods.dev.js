@@ -8,12 +8,6 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -22,149 +16,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-/*
-Прислал Serega Mangushev.
-В функцию realizeDistance передается дистанция, которую должен проехать человек,
-вторым параметром передается дистанция после которой необходимо сделать 
-остановку. Необходимо вывести лог всего пути внутри функции, как в примере.
-*/
-function realizeDistance(distance, stopAfter) {
-  if (distance < stopAfter) return "\u0412\u044B \u043F\u0440\u043E\u0435\u0445\u0430\u043B\u0438 ".concat(distance, " \u0438 \u0434\u043E\u0435\u0445\u0430\u043B\u0438 \u0434\u043E \u0442\u043E\u0447\u043A\u0438.");
-  var num = 0;
-  var sum = 0;
-
-  function steps(d, s) {
-    sum += s;
-    num += 1;
-    console.log("\u041E\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0430 \u2116".concat(num, ". \u0412\u044B \u043F\u0440\u043E\u0435\u0445\u0430\u043B\u0438 ").concat(sum, " \u043C\u0435\u0442\u0440\u043E\u0432."));
-    if (sum + s < distance) steps(d - sum, s);
-    return "\u0412\u044B \u043F\u0440\u043E\u0435\u0445\u0430\u043B\u0438 \u0435\u0449\u0435 ".concat(d - sum, " \u043C\u0435\u0442\u0440\u043E\u0432 \u0438 \u0434\u043E\u0435\u0445\u0430\u043B\u0438 \u0434\u043E \u0442\u043E\u0447\u043A\u0438.");
-  }
-
-  return steps(distance, stopAfter);
-} // Вы проехали 100 метров и доехали до точки.
-
-
-console.log(realizeDistance(100, 150));
-/*
-Остановка №1. Вы проехали 300 метров.
-Остановка №2. Вы проехали 600 метров.
-Остановка №3. Вы проехали 900 метров.
-Вы проехали еще 100 метров и доехали до точки.
-*/
-
-console.log(realizeDistance(1000, 300)); // * ============================================================================
-
-/*
-Дан массив возрастов в семье, вернуть
-массив c возрастом самого младшего, самого старшего и разницу между самым
-старшим и младшим. Если ребенку 9 месяцев, считаем как 0. P.S. Желательно
-не использовать встроенные функции типа sort и т.п.
-*/
-
-function differenceInAges(ages) {
-  for (var i = 0; i < ages.length; i++) {
-    for (var j = i; ages[j] < ages[j - 1]; j--) {
-      var _ref = [ages[j - 1], ages[j]];
-      ages[j] = _ref[0];
-      ages[j - 1] = _ref[1];
-    }
-  }
-
-  if (ages[0] === 9) ages[0] = 0;
-  return [ages[0], ages[ages.length - 1], ages[ages.length - 1] - ages[0]];
-}
-
-console.log(differenceInAges([82, 15, 6, 38, 35])); // [6, 82, 76]
-
-console.log(differenceInAges([57, 99, 14, 32])); // [14, 99, 85]
-// * ===================================================================================
-
-/*
-В функцию mostFrequentDays передается год (целое число), необходимо реализовать
-функцию так, чтобы из нее вернулся массив с наиболее часто встречаемыми днями
-недели в году, что был передан. Массив должен быть отсортирован по дням недели
-(от понедельника к воскресенью).
-
-В данном варианте правильные ответы, задача верна.
-*/
-
-function mostFrequentDays(year) {
-  return new Date(year, 1, 29).getMonth() === 1 ? [new Date(year, 0, 2), new Date(year, 0, 1)].sort(function (a, b) {
-    return (a.getDay() === 0 ? 7 : a.getDay()) - (b.getDay() === 0 ? 7 : b.getDay());
-  }).map(function (val) {
-    return val.toLocaleString('ru', {
-      weekday: 'long'
-    });
-  }) : [new Date(year, 0, 1).toLocaleString('ru', {
-    weekday: 'long'
-  })];
-}
-
-console.log(mostFrequentDays(2016)); // ["пятница", "суббота"]
-
-console.log(mostFrequentDays(2019)); // ["вторник"]
-
-console.log(mostFrequentDays(2020)); // ["среда", "четверг"]
-// * ========================================================================================
-
-/*
-Задача генерацию случайного постфикса
-На вход получаем значение, для которого нужно сгенерировать постфикс. Если
-постфикс уже запрашивался ранее - возвращаем его.
-Если нет - генерируем строку заданной длины, с заданным префиксом. В качестве
-рандомных символов могут быть буквы латинского алфавита в малом регистре и цифры.
-*/
-
-function genRandomPostfix(prefix, num) {
-  var obj = {};
-  var pref = prefix;
-  var size = num;
-  var rand = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  return function (str) {
-    if (str in obj) return obj[str];
-    var randSum = '';
-
-    for (var i = 0; i < size; i++) {
-      randSum += rand[Math.floor(Math.random() * rand.length)];
-    }
-
-    return obj[str] = pref + randSum;
-  };
-}
-
-var getRandomString = genRandomPostfix('_prefix_', 4); //_prefix_ag6t - это пример, последние 4 цифры могут быть любые
-
-console.log(getRandomString('5689u')); //_prefix_56po  - это пример, последние 4 цифры могут быть любые
-
-console.log(getRandomString('1iuo')); // _prefix_ag6t - это пример, последние 4 цифры могут быть любые, но должно
-// совпадать с первым console.log
-
-console.log(getRandomString('5689u'));
-console.log(getRandomString('1iuo444'));
-console.log(getRandomString('1iuo'));
-console.log('==========================================='); // 2 Используя глобальный объект window Разобраться почему не верно работает и как оно работает.
-
-function genRandomPostfix2(prefix, num) {
-  var obj = {};
-  return function (str) {
-    if (!obj.hasOwnProperty(str)) obj[str] = window.btoa(str).slice(0, num);
-    return "".concat(prefix).concat(obj[str]);
-  };
-}
-
-var getRandomString2 = genRandomPostfix2('_prefix_', 4); //_prefix_ag6t - это пример, последние 4 цифры могут быть любые
-
-console.log(getRandomString2('5689u')); //_prefix_56po  - это пример, последние 4 цифры могут быть любые
-
-console.log(getRandomString2('1iuo')); // _prefix_ag6t - это пример, последние 4 цифры могут быть любые, но должно
-// совпадать с первым console.log
-
-console.log(getRandomString2('5689u'));
-console.log(getRandomString2('1iuo444'));
-console.log(getRandomString2('1iuo')); // * ==============================================================================
 // ! МЕТОДЫ МАССИВА: =============== ///////////////////////////////////// ==============================
-
 var arr = [1, 2, 3, 4, 5, 6, 7];
 console.log(arr.slice(1, 3)); // [2, 3]
 
@@ -321,8 +173,7 @@ for (var _i2 = 0, _Object$entries = Object.entries(obj); _i2 < _Object$entries.l
       value = _Object$entries$_i[1];
 
   console.log("".concat(_key, ": ").concat(value)); // метод возвращает массив собственных перечисляемых свойств указанного объекта в формате [key, value], в том же порядке, что и в цикле for...in (разница в том, что for-in перечисляет свойства из цепочки прототипов). Порядок элементов в массиве который возвращается Object.entries() не зависит от того как объект обьявлен. Если существует необходимость в определенном порядке, то  массив должен быть отсортирован до вызова метода, например Object.entries(obj).sort((a, b) => a[0] - b[0]);.
-} // Object.entries(obj); или просто передать объект без итерации и он преобразует
-
+}
 
 console.log(Object.fromEntries([['name', 'Rusl'], ['age', 34]])); // Object { name: "Rusl", age: 34 } преобразует список пар ключ-значение в объект. Итерируемый объект, такой как Array или Map или другие объекты, реализующие iterable протокол.
 
@@ -367,45 +218,3 @@ console.log(Math.max(-10, 20, 3, 8)); // 20  возвращает наиболь
 
 console.log(Math.min(-10, 20, 6, -4)); // -10  возвращает наименьшее из нуля или более чисел.
 // * Метод Math.random() возвращает псевдослучайное число с плавающей запятой из диапазона [0, 1), то есть, от 0 (включительно) до 1 (но не включая 1), которое затем можно отмасштабировать до нужного диапазона. Реализация сама выбирает начальное зерно для алгоритма генерации случайных чисел; оно не может быть выбрано или сброшено пользователем.
-
-function User(name, birthday) {
-  this.name = name;
-  this.birthday = birthday; // возраст рассчитывается из текущей даты и дня рождения
-
-  Object.defineProperty(this, 'age', {
-    get: function get() {
-      return new Date().getFullYear() - this.birthday.getFullYear();
-    }
-  });
-}
-
-var john = new User('John', new Date(1992, 6, 1));
-alert(john.birthday); // доступен как день рождения
-
-alert(john.age); // ...так и возраст
-// ! классовый аналог
-
-var User2 =
-/*#__PURE__*/
-function () {
-  function User2(name, birthday) {
-    _classCallCheck(this, User2);
-
-    this.name = name;
-    this.birthday = birthday;
-  }
-
-  _createClass(User2, [{
-    key: "age",
-    get: function get() {
-      return new Date().getFullYear() - this.birthday.getFullYear();
-    }
-  }]);
-
-  return User2;
-}();
-
-var john2 = new User2('John2', new Date(1992, 6, 1));
-alert(john2.birthday); // доступен как день рождения
-
-alert(john2.age); // ...так и возраст

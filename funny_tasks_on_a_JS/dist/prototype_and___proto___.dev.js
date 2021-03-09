@@ -1,0 +1,40 @@
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Component = function Component(props) {
+  return '<h1>Hello</h1>';
+};
+
+function Component2(props) {
+  return '<h1>Hello</h1>';
+}
+
+var Foobar = function Foobar() {
+  _classCallCheck(this, Foobar);
+};
+
+var Foobar2 = function Foobar2() {
+  _classCallCheck(this, Foobar2);
+};
+
+function fnbar() {
+  number = 223;
+}
+
+var testStr = 'foobar'; // ! только у функций конструкторов(классов) есть свой объект прототипа object.prototype
+
+console.log(Component.prototype === Function.prototype);
+console.log(Component.__proto__ === Function.prototype);
+console.log(Component2.prototype === Function.prototype);
+console.log(Foobar.__proto__ === Function.prototype);
+console.log(Foobar.__proto__ === fnbar.__proto__);
+console.log(Function.__proto__.prototype === fnbar.__proto__.prototype);
+console.log(testStr.__proto__ === Object.prototype);
+console.log(testStr.prototype === String.prototype);
+console.log(testStr.__proto__ === String.prototype);
+console.log(Foobar.prototype.prototype === testStr.prototype);
+console.log(Foobar.prototype === Object.prototype);
+console.log(Foobar.__proto__ === Foobar2.__proto__);
+console.log(Foobar.__proto__.__proto__ === Foobar2.__proto__.__proto__);
+console.log(Foobar.__proto__.__proto__.__proto__ === Foobar2.__proto__.__proto__.__proto__);
