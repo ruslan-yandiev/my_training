@@ -106,3 +106,19 @@
 внутрь функции числа.
 */
 // ============================================
+console.log('How quickly daft jumping zebras vex.'.toLowerCase());
+function isPangram(string) {
+    let arr_en = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    let sizeResult = arr_en.length;
+    string = string.toLowerCase();
+
+    for (let i = 0; i < arr_en.length; i++) {
+        if (string.includes(arr_en[i])) {
+            sizeResult -= 1;
+            arr_en.splice(i, 1);
+            i--;
+        }
+    }
+
+    return sizeResult === 0;
+}

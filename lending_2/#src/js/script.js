@@ -28,9 +28,7 @@ document.querySelector('.user-header__icon').addEventListener('click', () => {
 document.addEventListener('click', (e) => {
     if (e.target.offsetParent.parentElement.classList[1] !== 'user-header') {
         // удалим класс _active у элемента(тега)
-        document
-            .querySelector('.user-header__menu')
-            .classList.toggle('_active', false);
+        document.querySelector('.user-header__menu').classList.toggle('_active', false);
     }
 
     // // ! такой вариант тоже работает
@@ -50,6 +48,3 @@ iconMenu.addEventListener('click', () => {
     // ! при клике будет блокировка скрола(прокрутки основного контента), при повторном нажатии клас _lock удалится и блокировка пропадет
     document.querySelector('body').classList.toggle('_lock');
 });
-
-
-
