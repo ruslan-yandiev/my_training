@@ -1,3 +1,5 @@
+"use strict";
+
 // const check = (str, arrayPars) => {
 //     if (str.length % 2) return false;
 //     const mapPars = new Map(arrayPars);
@@ -115,4 +117,12 @@
 //     }
 //     return sizeResult === 0;
 // }
-"use strict";
+var maxSequence = function maxSequence(a) {
+  var sum = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  return a.reduce(function (max, v) {
+    return Math.max(sum = Math.max(sum + v, 0), max);
+  }, 0);
+};
+
+console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]), 6);
+console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4, -1, 1, 100, -5, 3]), 100);
