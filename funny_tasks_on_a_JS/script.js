@@ -122,7 +122,7 @@
 
 //     return sizeResult === 0;
 // }
-const maxSequence = (a, sum = 0) => a.reduce((max, v) => Math.max((sum = Math.max(sum + v, 0)), max), 0);
 
-console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]), 6);
-console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4, -1, 1, 100, -5, 3]), 100);
+// const maxSequence = (a, sum = 0) => a.reduce((max, v) => Math.max((sum = Math.max(sum + v, 0)), max), 0);
+// console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]), 6);
+// console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4, -1, 1, 100, -5, 3]), 100);
