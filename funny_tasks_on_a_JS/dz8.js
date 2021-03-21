@@ -14,6 +14,10 @@ function calculate(arr) {
     return sum;
 }
 
+function calculate(arr) {
+    return arr.reduce((acc, elem, index) => (index !== 0 ? acc + elem.slice(0, index).reduce((ac, el) => ac + el) : false), 0);
+}
+
 const arr = [
     [5, 9, -1],
     [1, 7, 2],
@@ -36,9 +40,11 @@ console.log(calculate(arr2)); // 1 + 57 + 7 + 2 + -7 + 54 + 6 + 21 + 38 + -4 = 1
 иначе false.
 */
 function alphanumerica(string) {
-    return string.includes('_') || !string || string.includes(' ')
-        ? false
-        : true;
+    return string.includes('_') || !string || string.includes(' ') ? false : true;
+}
+
+function alphanumerica(string) {
+    return [...string].every((let) => let !== ' ' && let !== '_') && [...string].length ? true : false;
 }
 
 console.log(alphanumerica('JavaScript')); // true

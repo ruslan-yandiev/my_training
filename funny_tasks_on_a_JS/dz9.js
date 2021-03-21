@@ -10,6 +10,11 @@ function func(a, b) {
         return a + b + a;
     }
 }
+
+function func(a, b) {
+    return a.length < b.length ? a + b + a : b + a + b;
+}
+
 console.log(func('1', '22')); // '1221'
 console.log(func('22', '1')); // '1221'
 
@@ -18,6 +23,11 @@ console.log(func('22', '1')); // '1221'
 В функцию передается массив с целыми числами, необходимо реализовать функцию
 так, чтобы она возвращала сумму квадратных корней для всех четных чисел переданного массива
 */
+function func(arr) {
+    return arr.map((elem, index) => (elem % 2 === 0 ? elem : false)).reduce((accum, elem) => accum + Math.sqrt(elem), 0);
+}
+console.log(func([3, 4, 9, 16, 1, 0])); //6
+
 function func2(arr) {
     return arr.reduce((accum, elem) => {
         if (elem % 2 === 0 && elem !== 0) {
@@ -58,11 +68,7 @@ function sort(arr) {
             arr.splice(i, 1);
             i--;
         } else {
-            for (
-                let a = i;
-                arr[a - 1] !== undefined && arr[a - 1].val > arr[a].val;
-                a--
-            ) {
+            for (let a = i; arr[a - 1] !== undefined && arr[a - 1].val > arr[a].val; a--) {
                 [arr[a - 1], arr[a]] = [arr[a], arr[a - 1]];
             }
         }
@@ -110,8 +116,7 @@ bindedFunct(); // контекст person
     ! ВОПРОС с СОБЕСЕДОВАНИЙ
     ! реализуйте свой вариант функции bind самостоятельно!
 */
-const bind = (fn, context, ...boundArgs) => (...args) =>
-    fn.apply(context, [...boundArgs, ...args]);
+const bind = (fn, context, ...boundArgs) => (...args) => fn.apply(context, [...boundArgs, ...args]);
 
 // Пример:
 function greeting(greeting, punctuation) {
