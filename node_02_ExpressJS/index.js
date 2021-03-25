@@ -1,5 +1,9 @@
 import express, { request } from 'express'; // установили через npm и заимпортили нашу библиотеку
 import path from 'path'; // для работы с путями
+import fs from 'fs'; // для работы с файлами
+
+// const cors = require('cors');
+// import cors from 'cors'; // Для отключения CORS в Node.js воспользуемся библиотекой cors (npm install cors)
 import { requestTime, logger } from './middlewares.js'; //! Импортируем наши мидлверы
 
 const __dirname = path.resolve(); // изза использования import при подключении express придеьтся так получить полный путь используя библиотеку path
@@ -11,6 +15,8 @@ const PORT = process.env.PORT || 3000;
 системную переменную можем задать вручную через консоль и запустим наш сервак: export PORT=4200 && node index   Для винды export заменим на set
 (??) новый синтаксис в замен || так как в отличии от || работает корректно с 0 и '' не преобразуя их в логическое false*/
 const PORT = process.env.PORT ?? 3000;
+
+// app.use(cors()); // активируем в нашем приложении отключение cors()
 
 /* 
 ! Oбработаем входящий get запрос по корневому адресу В БРАУЗЕРЕ а не локалый путь на ПК (REST API)
@@ -43,9 +49,9 @@ app.use(requestTime); //! Tак мы используем наш мидлвер,
 app.use(logger); // ! зарегесрируем в нашем приложении еще один созданный нами мидлвер
 
 // ========================================================================================/
-// ! научим наш express работать с json
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+
+app.use(express.json()); // ! научим наш express работать с json
+app.use(express.urlencoded({ extended: false })); // ! научим наш express работать с данными полученными через POST запрос
 // ----------------------------------------------------------------------------------------/
 
 // =======================================================================================/
@@ -71,23 +77,69 @@ app.get('/download', (request, response) => {
 //     response.sendFile(path.resolve(__dirname, 'demo', 'demo_index.html'));
 // });
 
-app.use(
-    express.static(path.resolve(__dirname, 'demo'), {
-        dotfiles: 'ignore',
-        etag: false,
-        extensions: ['htm', 'html', 'js', 'css'],
-        index: false,
-        maxAge: '1d',
-        redirect: false,
-        setHeaders: function (response, path, stat) {
-            response.set({
-                'x-timestamp': Date.now(),
-                // специально для разработки установим заголовок запрещающий браузеру кэшировать все файлы из нашего статик
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-            });
-        },
-    }),
-);
+// ! Указав необходимые настройки заголовков и файлов, в качестве маршрута будет использоваться корень и имя файлв /demo_index без учета имени директори где он находится
+// app.use(
+//     express.static(path.resolve(__dirname, 'demo'), {
+//         dotfiles: 'ignore',
+//         etag: false,
+//         extensions: ['htm', 'html', 'js', 'css'],
+//         index: false,
+//         maxAge: '1d',
+//         redirect: false,
+//         setHeaders: function (response, path, stat) {
+//             response.set({
+//                 'x-timestamp': Date.now(),
+//                 // специально для разработки установим заголовок запрещающий браузеру кэшировать все файлы из нашего статик
+//                 'Cache-Control': 'no-cache, no-store, must-revalidate',
+//             });
+//         },
+//     }),
+// );
+
+// ! можем создать не существующий url маршрут: /demo-route/file_name.html
+app.use('/demo-route', express.static(path.resolve(__dirname, 'demo')));
+
+// ! позволит построить цепочку из запросов (all, get, post, put, delete)
+// ! заменить на '/demo-route/demo2' если мы создали для статики свой url маршрут
+// app.route('/demo2').post(function (req, res, next) {
+//     console.log('POST request to the homepage');
+
+//     res.send('POST request to the homepage');
+// });
+
+// ! просто отдельное использование обработки одного запроса
+// ! заменить на '/demo-route/demo2' если мы создали для статики свой url маршрут
+// app.post('/demo2', (req, res) => {
+//     console.log('POST request to the homepage 2');
+
+//     res.send('POST request to the homepage 2');
+// });
+
+app.post('/demo-route/demo2', (request, response) => {
+    if (!request.body) return response.sendStatus(400);
+    console.log(request.body); // в баш консоль
+    let myData = `${request.body.userName} - ${request.body.userAge}\n`;
+
+    // создадим если нет и запишем новые данные, а если есть то добавим без перезаписи
+    fs.appendFile(path.resolve(__dirname, 'demo/demo.txt'), myData, (error) => {
+        if (error) throw error;
+
+        // ! синхронный вариант работы по считыванию файла
+        // console.log('Запись файла завершена. Содержимое файла:');
+        // let data = fs.readFileSync(path.resolve(__dirname, 'demo/demo.txt'), 'utf8'); // ! Считаем данные из файла синхронно
+        // console.log(data); // выводим считанные данные из файла
+
+        //! асинхронный вариант чтения файла. Выше указан синхронный вариант.
+        fs.readFile(path.resolve(__dirname, 'demo/demo.txt'), (error, content) => {
+            if (error) throw error;
+
+            console.log('Запись файла завершена. Содержимое файла:');
+            console.log(content.toString()); // выводим считанные данные из файла
+        });
+    });
+
+    response.send(myData);
+});
 // ----------------/ИЗ ПАПКИ DEMO/------------------------------------------------/
 
 /* запустили наш веб сервер на нужном нам порте и вторымпараметром можем передать callBack
