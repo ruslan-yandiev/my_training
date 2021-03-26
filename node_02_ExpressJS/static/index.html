@@ -13,8 +13,19 @@
         <a href="/demo-route/demo_index.html"> go to demo_index</a>
         <!-- target="_blanck" для открытия в новой вкладке -->
         <a href="/download" target="_blanck">Download this page</a>
+        <br />
+        <h2>Введите данные</h2>
+        <!-- Форма будет перехвачена за счет обработчика событий браузера и отправим данные через xhr или fetch -->
+        <form name="registerForm">
+            <label>Имя</label><br />
+            <input type="text" name="userName" /><br /><br />
+            <label>Возраст</label><br />
+            <input type="number" name="userAge" /><br /><br />
+            <button type="submit" id="submit">Отправить</button>
+        </form>
 
         <div class="my_first_class"></div>
         <script src="./main.js"></script>
+        <script src="./registerForm.js"></script>
     </body>
 </html>

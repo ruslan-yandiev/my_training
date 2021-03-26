@@ -8,11 +8,22 @@
         <title>Demo</title>
     </head>
     <body>
-        <h1>Hello Demo</h1>
+        <h1>Hello Demo Index</h1>
         <a href="/"> go to index</a>
         <a href="/new_page.html"> go to new_page</a>
         <br />
         <a href="/demo-route/demo2.html">Demo2</a>
+
+        <br />
+        <h2>Введите данные</h2>
+        <!-- Форма будет отправлена с помощью post запроса с url адреса /demo-route/demo2 -->
+        <form action="/demo-route/demo_index" method="post">
+            <label>Имя</label><br />
+            <input type="text" name="userName" /><br /><br />
+            <label>Возраст</label><br />
+            <input type="number" name="userAge" /><br /><br />
+            <input type="submit" value="Отправить" />
+        </form>
 
         <div class="my_class_2"></div>
         <script src="./demo.js"></script>

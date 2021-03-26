@@ -62,6 +62,14 @@ app.get('/download', (request, response) => {
 });
 // --------------------------------------------------------------------------------------/
 
+app.post('/', (request, response) => {
+    if (!request.body) return response.sendStatus(400);
+
+    // Мы можем отправить объект и с помощью стандартного метода response.send(request.body).
+    // В реальности метод response.json() устанавливает для заголовка Content-Type значение application/json, серилизует данные в json с помощью функции JSON.stringify() и затем отправляет данные с помощью response.send().
+    response.json(request.body);
+});
+
 // ================/ИЗ ПАПКИ DEMO/===============================/
 // ! подключим через static наши css и JS так как наш html не index.html то ниже зададим путь к странице */
 // app.use(express.static(path.resolve(__dirname, 'demo')));
@@ -96,8 +104,9 @@ app.get('/download', (request, response) => {
 //     }),
 // );
 
-// ! можем создать не существующий url маршрут: /demo-route/file_name.html
+// ! можем создать не существующий url маршрут начинающийся для всез статичных файлов: /demo-route/file_name.html
 app.use('/demo-route', express.static(path.resolve(__dirname, 'demo')));
+app.use('/a', express.static(path.resolve(__dirname, 'a')));
 
 // ! позволит построить цепочку из запросов (all, get, post, put, delete)
 // ! заменить на '/demo-route/demo2' если мы создали для статики свой url маршрут
@@ -140,6 +149,24 @@ app.post('/demo-route/demo2', (request, response) => {
 
     response.send(myData);
 });
+
+app.post('/demo-route/demo_index', (request, response) => {
+    if (!request.body) return response.sendStatus(400);
+
+    let myData = `${request.body.userName} - ${request.body.userAge}`;
+
+    // response.send(`<h1>${myData}</h1>`);
+    // response.sendFile(path.resolve(__dirname, 'a', 'rederect_demo_index.html')); // откроем без перехода на новый url файл html
+
+    response.redirect('/a/rederect_demo_index.html');
+
+    app.get('/a/rederect_demo', (req, res) => {
+        console.log(myData, 'Событие');
+
+        res.send(myData);
+    });
+});
+
 // ----------------/ИЗ ПАПКИ DEMO/------------------------------------------------/
 
 /* запустили наш веб сервер на нужном нам порте и вторымпараметром можем передать callBack
