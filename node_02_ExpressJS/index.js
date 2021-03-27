@@ -169,6 +169,27 @@ app.post('/demo-route/demo_index', (request, response) => {
 
 // ----------------/ИЗ ПАПКИ DEMO/------------------------------------------------/
 
+// ================/ИЗ ПАПКИ PUBLIC/===============================/
+// app.use(express.static(path.resolve(__dirname, 'public')));
+
+app.get('/page', (request, response) => {
+    // response.set({
+    //     'Content-Type': 'text/html',
+    //     'Cache-Control': 'no-cache, no-store, must-revalidate',
+    // });
+
+    // response.sendFile(path.resolve(__dirname, 'public', 'page.html'));
+
+    // ! второй вариант передачи с момощью библиотеки (fs), не используя мидлвер express.static
+    fs.readFile(path.resolve(__dirname, 'public', 'page.html'), (err, content) => {
+        response.writeHead(200, { 'Content-Type': 'text/html' });
+
+        response.end(content);
+    });
+});
+
+// ----------------/ИЗ ПАПКИ PUBLIC/------------------------------------------------/
+
 /* запустили наш веб сервер на нужном нам порте и вторымпараметром можем передать callBack
 для передачи функционала после запуска онного */
 app.listen(PORT, () => {
