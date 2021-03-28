@@ -2,6 +2,8 @@ import express, { request } from 'express'; // установили через n
 import path from 'path'; // для работы с путями
 import fs from 'fs'; // для работы с файлами
 
+import serverRoutes from './routes/servers.js'; // импортируем изолированные маршруты в наше приложение
+
 // const cors = require('cors');
 // import cors from 'cors'; // Для отключения CORS в Node.js воспользуемся библиотекой cors (npm install cors)
 import { requestTime, logger } from './middlewares.js'; //! Импортируем наши мидлверы
@@ -17,6 +19,10 @@ const PORT = process.env.PORT || 3000;
 const PORT = process.env.PORT ?? 3000;
 
 // app.use(cors()); // активируем в нашем приложении отключение cors()
+// ========================================================================================/
+app.use(express.json()); // ! научим наш express работать с json
+app.use(express.urlencoded({ extended: false })); // ! научим наш express работать с данными полученными через POST запрос
+// ----------------------------------------------------------------------------------------/
 
 /* 
 ! Oбработаем входящий get запрос по корневому адресу В БРАУЗЕРЕ а не локалый путь на ПК (REST API)
@@ -47,12 +53,9 @@ const PORT = process.env.PORT ?? 3000;
 app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(requestTime); //! Tак мы используем наш мидлвер, передав его без вызова и расширяем наш функционал request и response объектов
 app.use(logger); // ! зарегесрируем в нашем приложении еще один созданный нами мидлвер
-
-// ========================================================================================/
-
-app.use(express.json()); // ! научим наш express работать с json
-app.use(express.urlencoded({ extended: false })); // ! научим наш express работать с данными полученными через POST запрос
-// ----------------------------------------------------------------------------------------/
+app.use(serverRoutes); //! добавим к приложению наши изолированные маршруты. serverRouters по сути является нашим мидлвером и мы его зарегистрируем в нашем приложении
+app.use('/app/javascript', express.static(path.resolve(__dirname, 'javascript')));
+app.use('/app/styles', express.static(path.resolve(__dirname, 'styles')));
 
 // =======================================================================================/
 /* Реализуем скачку по указанному маршруту в браузере страницы индекса */
@@ -70,7 +73,7 @@ app.post('/', (request, response) => {
     response.json(request.body);
 });
 
-// ================/ИЗ ПАПКИ DEMO/===============================/
+//? ================/ИЗ ПАПКИ DEMO/===============================/
 // ! подключим через static наши css и JS так как наш html не index.html то ниже зададим путь к странице */
 // app.use(express.static(path.resolve(__dirname, 'demo')));
 // ! напишем прямую обработку (get-post-...) для файлов в папке demo, без использования route, express.Router() и без автоматической обработки указанных нами статичных файлов: app.use(express.static(path.resolve(__dirname, 'static')));
@@ -158,7 +161,7 @@ app.post('/demo-route/demo_index', (request, response) => {
     // response.send(`<h1>${myData}</h1>`);
     // response.sendFile(path.resolve(__dirname, 'a', 'rederect_demo_index.html')); // откроем без перехода на новый url файл html
 
-    response.redirect('/a/rederect_demo_index.html');
+    response.redirect('/a/rederect_demo_index.html'); // ! Если во вложенных  маршрутах с методами (get, post..) или redirect путь указать начиная без '/' то маршрут будет продлен и будет вложенный, а не строиться от корня приложения
 
     app.get('/a/rederect_demo', (req, res) => {
         console.log(myData, 'Событие');
@@ -167,9 +170,9 @@ app.post('/demo-route/demo_index', (request, response) => {
     });
 });
 
-// ----------------/ИЗ ПАПКИ DEMO/------------------------------------------------/
+//? ----------------/ИЗ ПАПКИ DEMO/------------------------------------------------/
 
-// ================/ИЗ ПАПКИ PUBLIC/===============================/
+//? ================/ИЗ ПАПКИ PUBLIC/===============================/
 // app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.get('/page', (request, response) => {
@@ -188,17 +191,21 @@ app.get('/page', (request, response) => {
     });
 });
 
-// ----------------/ИЗ ПАПКИ PUBLIC/------------------------------------------------/
+//? ----------------/ИЗ ПАПКИ PUBLIC/------------------------------------------------/
 
-// ================/ИЗ ПАПКИ VIEVS (шаблонизаторы)/===============================/
-app.set('view engine', 'pug'); // установим переменную, указав, что будм использовать шаблонизатор
+//? ================/ИЗ ПАПКИ VIEVS (шаблонизаторы)/===============================/
+app.set('view engine', 'pug'); // установим значение переменной 'view engine' с помощью сеттера, указав, что будм использовать шаблонизатор
+console.log(app.get('view engine')); // выведим в консоль значение переменной с помощью геттера
+console.log(app.get('views')); // полный путь автоматически установится к данному каталогу: /home/ruslan/Документы/thinknetica/my_training/node_02_ExpressJS/views
+// app.set('views', path.resolve(__dirname, 'templates')); // Можем изменить папку с шаблонизаторами
 
 app.get('/pug_page', function (req, res) {
-    // наверное безопаснее будет передать полны путь path.resolve(__dirname, 'views', 'pug_page.pug')
-    res.render('pug_page', { title: 'Hey Pug', message: 'Hello there!', emails: ['gavgav@mycorp.com', 'mioaw@mycorp.com'] });
+    // полны путь path.resolve(__dirname, 'views', 'pug_page.pug') не обязательно так-как в автоматом будет искать полный путь во views: console.log(app.get('views'));
+    // ! укажем название файла (можно без расширения)
+    res.render('pug_page', { title: 'Hey Pug', message: 'Hello there!', emails: ['gavgav@mycorp.com', 'mioaw@mycorp.com'], serverData: [] });
 });
 
-// ----------------/ИЗ ПАПКИ VIEVS (шаблонизаторы)/------------------------------------------------/
+//? ----------------/ИЗ ПАПКИ VIEVS (шаблонизаторы)/------------------------------------------------/
 
 /* запустили наш веб сервер на нужном нам порте и вторымпараметром можем передать callBack
 для передачи функционала после запуска онного */
