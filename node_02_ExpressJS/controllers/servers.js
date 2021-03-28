@@ -15,9 +15,16 @@ export const getAll = (req, res) => {
 
 export const create = (req, res) => {
     // Пока сервер не перезагрузится данные будут сохраняться в массиве servers
-    servers.push({ userData: req.body.text });
+    // servers.push({ userData: req.body.text });
+    // res.status(201).json(req.body);
 
-    res.status(201).json(req.body);
+    const newServer = {
+        id: Date.now().toString(),
+        ...req.body,
+    }; // Оказывается мы можем и массивы и чистые объекты так диструктурировать [...[]], {...{}}
+
+    servers.push(newServer);
+    res.status(201).json(newServer);
 };
 
 // TODO Реализовать вместо базы txt файл для хранения данных вместо servers

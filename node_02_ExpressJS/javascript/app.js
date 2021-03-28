@@ -57,7 +57,7 @@ document.getElementById('submit-2').addEventListener('click', function (e) {
         let textData = JSON.parse(request.response);
 
         let p = document.createElement('p');
-        p.innerText = `${textData.text}`; // добавим наш ответ в созданный тег параграфа в качестве текста. innerHtml как вариант, чтобы добавить текст или сразу текст с html
+        p.innerText = `id: ${textData.id}, text:${textData.text}`; // добавим наш ответ в созданный тег параграфа в качестве текста. innerHtml как вариант, чтобы добавить текст или сразу текст с html
         divApp.appendChild(p); // ! без перезагрузки страницы добавим параграф с ответом на нашу страницу
     });
 
