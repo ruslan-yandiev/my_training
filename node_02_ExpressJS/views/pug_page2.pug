@@ -4,11 +4,19 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="/app/styles/app.css")
+    link(rel="stylesheet", href="/app/styles/app2.css")
     title= title
   body
     h1= message
     - for(var i = 0; i < emails.length; i++)
       p #{emails[i]}
-  
-    script(src="/app/javascript/app.js") 
+
+    .app2
+      if (servers)
+        - for(var i = 0; i < servers.length; i++)
+          - for(var key in servers[i])
+            p #{key}: #{servers[i][key]}
+          
+          br
+      else
+        p no content!!!

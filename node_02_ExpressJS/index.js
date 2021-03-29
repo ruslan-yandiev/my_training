@@ -3,6 +3,7 @@ import path from 'path'; // для работы с путями
 import fs from 'fs'; // для работы с файлами
 
 import serverRoutes from './routes/servers.js'; // импортируем изолированные маршруты в наше приложение
+import pug_page2 from './routes/pug_page2.js'; // импортируем изолированные маршруты в наше приложение
 
 // const cors = require('cors');
 // import cors from 'cors'; // Для отключения CORS в Node.js воспользуемся библиотекой cors (npm install cors)
@@ -54,6 +55,7 @@ app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(requestTime); //! Tак мы используем наш мидлвер, передав его без вызова и расширяем наш функционал request и response объектов
 app.use(logger); // ! зарегесрируем в нашем приложении еще один созданный нами мидлвер
 app.use(serverRoutes); //! добавим к приложению наши изолированные маршруты. serverRouters по сути является нашим мидлвером и мы его зарегистрируем в нашем приложении
+app.use(pug_page2);
 app.use('/app/javascript', express.static(path.resolve(__dirname, 'javascript')));
 app.use('/app/styles', express.static(path.resolve(__dirname, 'styles')));
 
