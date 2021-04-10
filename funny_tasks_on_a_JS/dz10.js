@@ -3,23 +3,35 @@
 (открывающие и закрывающие), а также порядок открывающих и закрывающих скобок верно соблюден
 */
 function validParentheses(str) {
-	if (str.length % 2 !== 0) {
-		return false;
-	}
+    if (str.length % 2 !== 0) {
+        return false;
+    }
 
-	let count = 0;
+    let count = 0;
 
-	for (let i = 0; i < str.length; i++) {
-		if (str[i] === '(') {
-			count++;
-		} else {
-			count--;
-		}
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === '(') {
+            count++;
+        } else {
+            count--;
+        }
 
-		if (count < 0) return false;
-	}
+        if (count < 0) return false;
+    }
 
-	return !count;
+    return !count;
+}
+
+function validParentheses(str) {
+    let detect = 0;
+
+    for (let i = 0; i < str.length; i++) {
+        if (detect <= 0 && str[i] === ')') return false;
+        if (str[i] === '(') detect += 1;
+        if (str[i] === ')') detect -= 1;
+    }
+
+    return detect === 0;
 }
 
 console.log(validParentheses('()')); // true
@@ -34,20 +46,19 @@ console.log(validParentheses('(())')); // true
 рейтингов, результат должен округляться до ближайшего целого числа.
 */
 function rate() {
-	let count = 0;
-	let sum = 0;
+    let count = 0;
+    let sum = 0;
 
-	return function(arg) {
-		count += 1;
-		sum += arg;
-		return Math.round(sum / count);
-	}
+    return function (arg) {
+        count += 1;
+        sum += arg;
+        return Math.round(sum / count);
+    };
 }
-
 
 const setRate = rate();
 console.log(setRate(5)); // 5 === 5 / 1
-console.log(setRate(3)); // 4 === (5 + 3) / 2 
+console.log(setRate(3)); // 4 === (5 + 3) / 2
 console.log(setRate(4)); // 4 === (5 + 3 + 4) / 3
 console.log(setRate(0)); // 3 === (5 + 3 + 4 + 0) / 4
 
@@ -56,8 +67,8 @@ console.log(setRate(0)); // 3 === (5 + 3 + 4 + 0) / 4
 Реализовать метод sum
 */
 // для любого созданного объекта массива в программе
-Array.prototype.sum = function(){
-	return this.reduce((accum, elem) => accum + elem);
+Array.prototype.sum = function () {
+    return this.reduce((accum, elem) => accum + elem);
 };
 
 const arr = [1, 2, 3, 4, 5];
@@ -65,15 +76,14 @@ const sum = arr.sum();
 console.log(sum);
 
 // только для одного массива arr
-arr.sum2 = function() {
-	return this.reduce((accum, elem) => accum + elem);
-}
+arr.sum2 = function () {
+    return this.reduce((accum, elem) => accum + elem);
+};
 const sum2 = arr.sum2();
 console.log(sum2);
 const arr2 = [1, 2, 3, 4, 5];
 console.log(arr2.sum()); // 15
 // console.log(arr2.sum2()); //  arr2.sum2 is not a function
-
 
 // * ========================================================================
 /*
@@ -81,38 +91,52 @@ console.log(arr2.sum()); // 15
 из функции вернуть максимальное количество одинаковых элементов.
 */
 function func(arr) {
-	// Функциональный стиль
-	return Object.values(arr.reduce((accum, elem) => {
-		accum[elem] = (accum[elem]) ? accum[elem] + 1 : 1;
-		return accum
-	}, {})).find((a, b) => a > b);
+    // Функциональный стиль
+    return Object.values(
+        arr.reduce((accum, elem) => {
+            accum[elem] = accum[elem] ? accum[elem] + 1 : 1;
+            return accum;
+        }, {}),
+    ).find((a, b) => a > b);
 
+    // Функциональный стиль вариант 2
+    // return Math.max(...Object.values(arr.reduce((accum, elem) => {
+    // 	accum[elem] = (accum[elem]) ? accum[elem] + 1 : 1;
+    // 	return accum
+    // }, {})))
 
-	// Функциональный стиль вариант 2
-	// return Math.max(...Object.values(arr.reduce((accum, elem) => {
-	// 	accum[elem] = (accum[elem]) ? accum[elem] + 1 : 1;
-	// 	return accum
-	// }, {})))
+    // TODO императивное решение
+    // let value = 0;
+    // let result = 0;
 
+    // for (let i = 0; i < arr.length; i++) {
+    // 	for (let j = 0; j < arr.length; j++) {
+    // 		if (arr[i] === arr[j]) {
+    // 			value += 1;
+    // 		}
+    // 	}
+    // 	if (value > result) {
+    // 		result = value;
+    // 	}
+    // 	value = 0;
+    // }
 
+    // return result;
+}
 
-	// TODO императивное решение
-	// let value = 0;
-	// let result = 0;
-
-	// for (let i = 0; i < arr.length; i++) {
-	// 	for (let j = 0; j < arr.length; j++) {
-	// 		if (arr[i] === arr[j]) {
-	// 			value += 1;
-	// 		}
-	// 	}
-	// 	if (value > result) {
-	// 		result = value;
-	// 	}
-	// 	value = 0;
-	// }
-
-	// return result;
+function func(arr) {
+    return Math.max(
+        ...Object.values(
+            arr.reduce((obj, elem) => {
+                if (elem.toString() in obj) {
+                    obj[elem] += 1;
+                } else {
+                    obj[elem] = 1;
+                }
+                return obj;
+            }, {}),
+        ),
+    );
 }
 
 console.log(func([0, 1, 3, 0, 0, 9])); // 3

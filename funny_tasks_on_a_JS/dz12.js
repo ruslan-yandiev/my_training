@@ -3,23 +3,23 @@
 перевернута строка от индекса первого числа до второго числа.
 */
 function reverse(str, from, to) {
-	const arr = str.split('');
-	const arr2 = arr.slice(from, to + 1).reverse();
-	arr.splice(from, arr2.length, ...arr2).join('');
-	return arr.join('');
+    const arr = str.split('');
+    const arr2 = arr.slice(from, to + 1).reverse();
+    arr.splice(from, arr2.length, ...arr2).join('');
+    return arr.join('');
 }
 
-console.log(reverse("mockinterview", 1, 5)); // 'mnikcotervuew' - перевернуто "ocrin"
-console.log(reverse("codingIsFun", 2, 100)); // 'conuFsIgnid' - перевернуто 'dingIsFun'
+console.log(reverse('mockinterview', 1, 5)); // 'mnikcotervuew' - перевернуто "ocrin"
+console.log(reverse('codingIsFun', 2, 100)); // 'conuFsIgnid' - перевернуто 'dingIsFun'
 
 // вариант 2
 function reverse2(str, from, to) {
-	const arr = [...str].splice(from, to);
-	return str.replace(arr.join(''), arr.reverse().join(''))
+    const arr = [...str].splice(from, to);
+    return str.replace(arr.join(''), arr.reverse().join(''));
 }
 
-console.log(reverse2("mockinterview", 1, 5)); // 'mnikcotervuew' - перевернуто "ocrin"
-console.log(reverse2("codingIsFun", 2, 100)); // 'conuFsIgnid' - перевернуто 'dingIsFun'
+console.log(reverse2('mockinterview', 1, 5)); // 'mnikcotervuew' - перевернуто "ocrin"
+console.log(reverse2('codingIsFun', 2, 100)); // 'conuFsIgnid' - перевернуто 'dingIsFun'
 
 // * =========================================================================================
 /*
@@ -27,26 +27,26 @@ console.log(reverse2("codingIsFun", 2, 100)); // 'conuFsIgnid' - перевер�
 на своих местах.
 */
 function reverseA(str) {
-	const pointArrIndex = [];
-	const arr = str.split('');
+    const pointArrIndex = [];
+    const arr = str.split('');
 
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i] === ' ') {
-			pointArrIndex.push(i);
-		}
-	}
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === ' ') {
+            pointArrIndex.push(i);
+        }
+    }
 
-	arr.reverse().filter((elem) => {
-		if (elem === ' ') {
-			arr.splice(arr.indexOf(elem), 1)
-		}
-	});
+    arr.reverse().filter((elem) => {
+        if (elem === ' ') {
+            arr.splice(arr.indexOf(elem), 1);
+        }
+    });
 
-	for (let i = 0; i < pointArrIndex.length; i++) {
-		arr.splice(pointArrIndex[i], 0, ' ');
-	}
+    for (let i = 0; i < pointArrIndex.length; i++) {
+        arr.splice(pointArrIndex[i], 0, ' ');
+    }
 
-	return arr.join('');
+    return arr.join('');
 }
 
 console.log(reverseA('привет')); // 'тевирп'
@@ -55,16 +55,36 @@ console.log(reverseA('Как дела Антон? Я'));
 
 // вариант два
 function reverseB(str) {
-	// взяли в массив все символы кроме пробелов
-	const arr = [...str].filter( x => x !== ' ');
-	// а далее возвращаем строку где заменяем все непробельные символы на то что вернет функция
-	return str.replace(/\S/g, () => arr.pop());
+    // взяли в массив все символы кроме пробелов
+    const arr = [...str].filter((x) => x !== ' ');
+    // а далее возвращаем строку где заменяем все непробельные символы на то что вернет функция
+    return str.replace(/\S/g, () => arr.pop());
 }
 
 console.log(reverseB('привет')); // 'тевирп'
 console.log(reverseB('Как дела?')); // "?ал едкаК"
 console.log(reverseB('Как дела Антон? Я'));
 
+function reverse(str) {
+    let myIndex = [...str].reduce((arr, el, i) => {
+        if (el === ' ') {
+            arr.push(i);
+        }
+
+        return arr;
+    }, []);
+
+    let arr = [...str.split(' ').join('')].reverse();
+
+    for (let i = 0; i < myIndex.length; i++) {
+        arr.splice(myIndex[i], 0, ' ');
+    }
+
+    return arr.join('');
+}
+
+console.log(reverse('привет'));
+console.log(reverse('Как дела брат?'));
 
 // * ==================================================================
 /*
@@ -73,19 +93,27 @@ console.log(reverseB('Как дела Антон? Я'));
 функциональном стиле
 */
 function f(arr) {
-	// схлопнем в один массив все вложенные массивы, объеденим в одну строку, разобъем строку по элементам и пройдемся reduce -ом
-	return [].concat.apply([], arr).join('').split('').reduce((accum, elem) => {
-		if (elem === '7') {
-			accum += 1;
-		}
-		return accum;
-	}, 0);
+    // схлопнем в один массив все вложенные массивы, объеденим в одну строку, разобъем строку по элементам и пройдемся reduce -ом
+    return [].concat
+        .apply([], arr)
+        .join('')
+        .split('')
+        .reduce((accum, elem) => {
+            if (elem === '7') {
+                accum += 1;
+            }
+            return accum;
+        }, 0);
+}
+
+function f(arr) {
+    return [...arr.flat(Infinity).join('').split('.').join('')].reduce((sum, el) => (+el === 7 ? sum + 1 : sum), 0);
 }
 
 const arr = [
-	[4, 7.7, 81.4],
-	[-17, 4.8, 171],
-	[15, 2.27, -3]
+    [4, 7.7, 81.4],
+    [-17, 4.8, 171],
+    [15, 2.27, -3],
 ];
 
 console.log(f(arr)); // 5
@@ -105,7 +133,7 @@ console.log(f(arr)); // 5
 // 	start();
 
 // 	document.querySelector('button').addEventListener('click', function myFunction() {
-// 		if (arr.length === 10) {	
+// 		if (arr.length === 10) {
 // 			span.textContent += ' конец.';
 // 			this.removeEventListener("click", myFunction);
 // 			return;
@@ -127,46 +155,45 @@ console.log(f(arr)); // 5
 // 		}
 
 // 		arr.push(rand);
-		
+
 // 		span.textContent = arr.join(',');
 // 	}
 // }, {once: true});
 
 // // вариант 2
-document.querySelector('button').addEventListener('click', (() => {
-	let span = document.querySelector('span');
-	let rand;
-	const arr = [];
+document.querySelector('button').addEventListener(
+    'click',
+    (() => {
+        let span = document.querySelector('span');
+        let rand;
+        const arr = [];
 
-	const start = () => {
+        const start = () => {
+            if (arr.length === 10) {
+                span.textContent += ' конец.';
+                this.removeEventListener('click', start);
+                return;
+            }
 
-		if (arr.length === 10) {	
-			span.textContent += ' конец.';
-			this.removeEventListener("click", start);
-			return;
-		}
+            function randoms() {
+                // случайное целое число от минимального включительно и до максимального включительно
+                return Math.floor(Math.random() * 10) + 1;
+            }
 
+            rand = randoms();
 
-		function randoms() {
-			// случайное целое число от минимального включительно и до максимального включительно
-			return Math.floor(Math.random() * 10) + 1;
-		}
+            while (arr.includes(rand)) {
+                rand = randoms();
+            }
 
-		rand = randoms();
+            arr.push(rand);
 
-		while(arr.includes(rand)) {
-			rand = randoms();
-		}
+            span.textContent = arr.join(',');
+        };
 
-		arr.push(rand);
-		
-		span.textContent = arr.join(',');
-	}
-
-	return start;
-})());
-
-
+        return start;
+    })(),
+);
 
 /*
 	* 1) zz = 99 // при 'use strict' будет ошибка, а иначе будет присвоено глобальному window.zz = 99
