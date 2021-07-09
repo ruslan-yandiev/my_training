@@ -1,43 +1,46 @@
 "use strict";
 
 /*
-Задание с https://learn.javascript.ru/
+Результатом декоратора debounce(f, ms) должна быть обёртка, 
+которая передаёт вызов f не более одного раза в ms миллисекунд. 
+Другими словами, когда мы вызываем debounce, 
+это гарантирует, что все остальные вызовы будут игнорироваться в течение ms.
 
-Создайте декоратор spy(func), который должен возвращать обёртку,
-которая сохраняет все вызовы функции в своём свойстве calls.
-Каждый вызов должен сохраняться как массив аргументов.
+На практике debounce полезен для функций, которые получают/обновляют данные, 
+и мы знаем, что повторный вызов в течение короткого промежутка времени не даст ничего нового. 
+Так что лучше не тратить на него ресурсы.
 */
-function spy(func) {}
+function debounce(f, ms) {
+  var detect = true;
+  return function (arg) {
+    if (detect) {
+      f(arg);
+      detect = false;
+    }
 
-function work(a, b) {
-  console.log(a + b);
+    setTimeout(function () {
+      return detect = true;
+    }, ms);
+  };
 }
 
-work = spy(work);
-work(1, 2); // 3
+var f = debounce(console.log, 1000);
+f(1); // выполняется немедленно
 
-work(4, 5); // 9
+f(2); // проигнорирован
 
-var _iteratorNormalCompletion = true;
-var _didIteratorError = false;
-var _iteratorError = undefined;
+setTimeout(function () {
+  return f(3);
+}, 100); // проигнорирован (прошло только 100 мс)
 
-try {
-  for (var _iterator = work.calls[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    var args = _step.value;
-    console.log('call:' + args.join()); // "call:1,2", "call:4,5"
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-      _iterator["return"]();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}
+setTimeout(function () {
+  return f(4);
+}, 1100); // выполняется
+
+setTimeout(function () {
+  return f(5);
+}, 1500); // проигнорирован (прошло только 400 мс от последнего вызова)
+
+setTimeout(function () {
+  return f(6);
+}, 2300); // выполняется
