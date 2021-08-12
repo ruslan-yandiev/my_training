@@ -30,6 +30,3 @@
 // setTimeout(() => f(4), 1100); // выполняется
 // setTimeout(() => f(5), 1500); // проигнорирован (прошло только 400 мс от последнего вызова)
 // setTimeout(() => f(6), 2300); // выполняется
-
-// http://espressocode.top/length-of-the-longest-substring-without-repeating-characters/
-
