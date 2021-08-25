@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ClassCounter from "./components/ClassCounter";
 import Counter from "./components/Counter";
 
 function App() {
@@ -9,8 +10,8 @@ function App() {
     <div className="App">
       <Counter />
       <Counter />
-      <Counter />
-      <Counter />
+      <ClassCounter />
+      <ClassCounter />
     </div>
   );
 }
