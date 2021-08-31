@@ -1,7 +1,5 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 /*
 Результатом декоратора debounce(f, ms) должна быть обёртка, 
 которая передаёт вызов f не более одного раза в ms миллисекунд. 
@@ -29,45 +27,39 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 // setTimeout(() => f(4), 1100); // выполняется
 // setTimeout(() => f(5), 1500); // проигнорирован (прошло только 400 мс от последнего вызова)
 // setTimeout(() => f(6), 2300); // выполняется
-var myObj = {
-  level: function level() {
-    return console.log('level 1');
-  },
-  hi: console.log('Hi 1'),
-  obj2: {
-    level: function level() {
-      return console.log('level 2');
-    },
-    hi2: console.log('Hi 2'),
-    'obj2-1': {
-      level: function level() {
-        return console.log('level 2-1');
-      },
-      'hi2-1': console.log('Hi 2-1')
-    },
-    'obj2-2': {
-      level: function level() {
-        return console.log('level 2-2');
-      },
-      hi22: console.log('Hi 2-2')
-    }
-  }
-}; // console.log(myObj.obj2['obj2-2'].level());
+//* =======================================================================================================================
 
-function copy(obj) {
-  var result = {};
+/*
+  Дан массив из нулей и единиц. Нужно определить, какой максимальный по длине подинтервал единиц можно получить, 
+  удалив ровно один элемент массива.
+  [1, 1, 0]
+  [1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1]
+*/
+function maxOness(arr) {
+  // detect и index можно заменить на один объкт
+  var detect;
+  var index;
+  var result = 0;
+  var step = 0;
 
-  for (var key in obj) {
-    if (_typeof(obj[key]) === 'object' && !Array.isArray(obj[key])) {
-      result[key] = copy(obj[key]);
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i]) {
+      step += 1;
+    } else if (arr[i] === 0 && !detect) {
+      index = i;
+      detect = true;
     } else {
-      result[key] = obj[key];
+      if (result < step) result = step;
+      step = 0;
+      i = index;
+      detect = false;
     }
   }
 
+  if (result < step) result = step;
   return result;
 }
 
-console.log(myObj.obj2 === copy(myObj).obj2); // ! глубокое копирование объекта (функции тоже копирует как совершенно новые)
-
-console.log(myObj.level === JSON.parse(JSON.stringify(myObj)).level);
+console.log(maxOness([1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1]), 6);
+console.log(maxOness([1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1]), 10);
+console.log(maxOness([1, 1, 0]), 2);
