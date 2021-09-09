@@ -30,3 +30,46 @@
 // setTimeout(() => f(4), 1100); // выполняется
 // setTimeout(() => f(5), 1500); // проигнорирован (прошло только 400 мс от последнего вызова)
 // setTimeout(() => f(6), 2300); // выполняется
+
+//* =======================================================================================================================
+/*
+  Sample Input ["eat", "tea", "tan", "ate", "nat", "bat"]
+  Sample Output [ ["ate", "eat", "tea"], ["nat", "tan"], ["bat"] ]
+
+  Т.е. сгруппировать слова по "общим буквам".
+*/
+function myFunction(arr) {
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        let detect;
+
+        if (!result.length) {
+            result.push([arr[i]]);
+        } else {
+            for (let j = 0; j < result.length; j++) {
+                detect = true;
+
+                for (let x = 0; x < arr[i].length; x++) {
+                    if (result[j][0].includes(arr[i][x])) {
+                        detect = false;
+                    }
+                }
+
+                if (detect) {
+                    result[j].push(arr[i]);
+                }
+            }
+        }
+
+        if (!detect) {
+            result.push([arr[i]]);
+        }
+    }
+
+    return result;
+}
+
+console.log(myFunction(['eat', 'tea', 'tan', 'ate', 'nat', 'bat']), [['ate', 'eat', 'tea'], ['nat', 'tan'], ['bat']]);
+
+// =========================================================================
