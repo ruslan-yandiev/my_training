@@ -248,3 +248,58 @@ function myFunction(arr) {
 console.log(myFunction(["eat", "tea", "tan", "ate", "nat", "bat"]), [["ate", "eat", "tea"], ["nat", "tan"], ["bat"]]);
 
 // =========================================================================
+/*
+Слияние отрезков:
+Передается строка
+Вход: [1, 3] [100, 200] [2, 4]
+Вернуть строку
+Выход: [1, 4] [100, 200]
+*/
+function myF(str) {
+  const arrs = [];
+  let arr = [];
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === "[") {
+      let num = "";
+
+      for (let j = i + 1; str[j] !== "]"; j++) {
+        if (str[j] === ",") {
+          arr.push(Number(num));
+          num = "";
+        } else {
+          num += str[j];
+        }
+
+        if (str[j + 1] === "]") {
+          i = j;
+        }
+      }
+
+      arr.push(Number(num));
+      arrs.push(arr);
+      arr = [];
+    }
+  }
+
+  arr = arrs.flat(Infinity).sort((a, b) => a - b);
+
+  let result = ``;
+  let step = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (!step.length) step.push(arr[i]);
+
+    if (arr[i + 1] === undefined || arr[i].toString().length < arr[i + 1].toString().length) {
+      step.push(arr[i]);
+      result += `[${step[0]}, ${step[1]}]`;
+      step = [];
+    }
+  }
+
+  return result;
+}
+
+console.log(myF("[1, 3] [100, 200] [2, 4]")); // => [1, 4] [100, 200]
+console.log(myF("[1, 3] [100, 200] [2, 4] [13, 16] [433, 566] [7, 9] [33, 99]")); // => [1, 9] [13 99] [100, 566]
+// =========================================================================
