@@ -303,3 +303,90 @@ function myF(str) {
 console.log(myF("[1, 3] [100, 200] [2, 4]")); // => [1, 4] [100, 200]
 console.log(myF("[1, 3] [100, 200] [2, 4] [13, 16] [433, 566] [7, 9] [33, 99]")); // => [1, 9] [13 99] [100, 566]
 // =========================================================================
+/*
+Дан список интов и число-цель. Нужно найти такой range, чтобы сумма его элементов давала число-цель.
+
+elements = [1, -3, 4, 5]
+
+target = 9
+*/
+function findRage(arr, num) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] + arr[j] === num) {
+        return `${arr[i]} + ${arr[j]} = ${num}`;
+      }
+    }
+  }
+
+  return false;
+}
+
+console.log(findRage([1, -3, 4, 5], 9)); // 4 + 5
+console.log(findRage([1, -3, 4, 5], 1)); // -3 + 4
+/*
+Сложность алгоритма должна быть не выше чем O(n)
+Дан список интов и число-цель. Нужно найти такой range, чтобы сумма его элементов давала число-цель.
+
+elements = [1, -3, 4, 5]
+
+target = 9
+*/
+function findRage2(arr, num) {
+  const obj = {};
+
+  for (let i = 0; i < arr.length; i++) {
+    if (obj[num - arr[i]]) return `${obj[num - arr[i]]} + ${arr[i]} = ${num}`;
+    obj[arr[i]] = arr[i];
+  }
+
+  return false;
+}
+
+console.log(findRage2([1, -3, 4, 5], 9)); // 4 + 5
+console.log(findRage2([1, -3, 4, 5], 1)); // -3 + 4
+// =========================================================================
+/*
+Дан список интов и число-цель. Нужно найти такой range, чтобы сумма его элементов давала число-цель.
+
+elements = [1, -3, 4, 5]
+
+target = 9
+*/
+function findRage(arr, num) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] + arr[j] === num) {
+        return `${arr[i]} + ${arr[j]} = ${num}`;
+      }
+    }
+  }
+
+  return false;
+}
+
+console.log(findRage([1, -3, 4, 5], 9)); // 4 + 5
+console.log(findRage([1, -3, 4, 5], 1)); // -3 + 4
+/*
+Сложность алгоритма должна быть не выше чем O(n)
+Дан список интов и число-цель. Нужно найти такой range, чтобы сумма его элементов давала число-цель.
+
+elements = [1, -3, 4, 5]
+
+target = 9
+*/
+function findRage2(arr, num) {
+  const obj = {};
+
+  for (let i = 0; i < arr.length; i++) {
+    if (obj[num - arr[i]]) return `${num - arr[i]} + ${arr[i]} = ${num}`;
+    obj[arr[i]] = arr[i];
+  }
+
+  return false;
+}
+
+console.log(findRage2([1, -3, 4, 5], 9)); // 4 + 5
+console.log(findRage2([1, -3, 4, 5], 1)); // -3 + 4
+// =========================================================================
+
