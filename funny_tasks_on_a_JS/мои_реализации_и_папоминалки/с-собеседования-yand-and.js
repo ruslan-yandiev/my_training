@@ -390,3 +390,63 @@ console.log(findRage2([1, -3, 4, 5], 9)); // 4 + 5
 console.log(findRage2([1, -3, 4, 5], 1)); // -3 + 4
 // =========================================================================
 
+/*
+В строке найти длину самой большей подстроки с повторяющимися символами и вывести символ и длинну
+*/
+// ! Хорошее решение. Более простой по памяти и скорости код сложность временная O(n)
+function f2(str) {
+  let result = 1, step = 1, result2;
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] !== str[i + 1]) {
+      if (result < step) {
+        result = step;
+        result2 = str[i];
+      }
+      step = 1;
+    } else {
+      step += 1;
+    }
+  }
+  
+  return `${result2}: ${result}`;
+}
+
+console.log(f2("paralleeeeelepipeуttttttууt")); // t: 6
+// ==========================================================================================
+/*
+В строке состоящей из нулей и единиц нужно найти самую длинную подстроку,
+состоящую только из единиц, если в исходной строке вы можете удалить один ноль в любой позиции
+и вернуть длину этой подстроки
+*/
+
+function finds(str) {
+  let result = 1;
+  let detect = 0;
+  let detect2 = 0;
+  let bull = true;
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === "1") {
+      detect += 1;
+    } else if (str[i] === "0" && detect2 > 0) {
+      if (detect + detect2 > result) result = detect + detect2;
+      detect2 = detect;
+      detect = 0;
+    } else if (str[i] === "0" && str[i + 1] === "1" && bull) {
+      bull = false;
+      detect2 = detect;
+      detect = 0;
+    } else {
+      if (detect > result) result = detect;
+      detect = 0;
+      bull = true;
+    }
+  }
+
+  return detect + detect2 > result ? detect + detect2 : result;
+}
+
+console.log(finds("11100110010010101010000111011111000111100111100011100111111100000111000101010111110111111111101111111")); // 17
+
+// ==============================================================================
