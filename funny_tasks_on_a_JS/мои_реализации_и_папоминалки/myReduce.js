@@ -61,3 +61,14 @@ Array.prototype.myReduce = function (callback, initialValue) {
 
   return initialValue;
 };
+
+Array.prototype.myReduce = function (callBack, acc) {
+  let result = acc === undefined ? this[0] : acc;
+  let startIndex = acc === undefined ? 1 : 0;
+
+  for (let i = startIndex; i < this.length; i++) {
+      result = callBack(result, this[i], i, this)
+  }
+
+  return result;
+}
