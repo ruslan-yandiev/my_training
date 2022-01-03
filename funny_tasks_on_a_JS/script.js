@@ -38,16 +38,8 @@
 (== удаление / замена символа).
 */
 
-const obj1 = {
-    check: 'obj1'
+function myF(arg) {
+    for (let i = 0; i < arg;  i++) {
+        console.log('#'.repeat(i + 1));
+    }
 }
-
-const obj2 = {
-    check: 'obj2',
-}
-
-function myF(a, b, c) {
-    return a + b + c;
-}
-
-console.log(myF.bind(obj1)());

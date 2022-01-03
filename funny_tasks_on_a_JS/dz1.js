@@ -139,3 +139,26 @@ function sumDigits3(num) {
 console.log(sumDigits3(123)); // 6
 console.log(sumDigits3(904)); // 13
 console.log(sumDigits3(3)); // 3
+
+/*
+! Все функции-конструкторы, созданные с помощью 'new', будут иметь тип 'object'
+var str = new String('String');
+var num = new Number(100);
+
+typeof str; // Вернёт 'object'
+typeof num; // Вернёт 'object'
+
+! Но существует исключение для конструктора Function
+
+var func = new Function();
+
+typeof func; // Вернёт 'function'
+
+! Это было определено с рождения JavaScript
+typeof null === 'object';
+
+!Исключения
+!Во всех текущих браузерах существует нестандартный host-объект document.all, который имеет тип Undefined.
+
+typeof document.all === 'undefined';
+*/
