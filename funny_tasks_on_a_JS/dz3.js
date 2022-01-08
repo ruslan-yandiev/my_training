@@ -70,6 +70,21 @@ function printHill4(lines) {
 
 printHill4(5);
 
+// 3
+function myF(num) {
+	let accum = '';
+	let result = '';
+  
+	for (let i = 0; i < num; i++) {
+	  accum += '#';
+	  result += accum + '\n';
+	}
+  
+	return result;
+  }
+  
+  console.log(myF(5));
+
 // * ==================================================================
 
 
@@ -127,3 +142,20 @@ function mySort2(arr) {
 let arr4 = [5, 18, 2, -7, 88, 20, 109];
 mySort2(arr4);
 console.log(arr4); // [5, 18, 88, 109]
+
+// Вариант 3 без удалений имутабельный, но дороже по памяти
+function myF(arr) {
+	const result = [arr[0]];
+	let sizing = result[result.length - 1];
+  
+	for (let i = 1; i < arr.length; i++) {
+	  if (arr[i] > sizing) {
+		result.push(arr[i]);
+		sizing = arr[i];
+	  }
+	}
+  
+	return result;
+  }
+  
+  console.log(myF([5, 18, 2, -7, 88, 20, 109]));// [5, 18, 88, 109]

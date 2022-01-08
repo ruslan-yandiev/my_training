@@ -38,8 +38,4 @@
 (== удаление / замена символа).
 */
 
-function myF(arg) {
-    for (let i = 0; i < arg;  i++) {
-        console.log('#'.repeat(i + 1));
-    }
-}
+//! собес #1
