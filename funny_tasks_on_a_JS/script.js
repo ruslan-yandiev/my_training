@@ -38,4 +38,11 @@
 (== удаление / замена символа).
 */
 
-//! собес #1
+//! собес #2
+function sumDigits(num) {
+    return [...String(num)].reduce((acc, el) => +acc + +(el))
+}
+
+console.log(sumDigits(123)); // 6
+console.log(sumDigits(904)); // 13
+console.log(sumDigits(3)); // 3

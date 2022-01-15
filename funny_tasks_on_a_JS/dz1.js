@@ -39,6 +39,75 @@ console.log(f3([5, 0, -5, 20, 88, 17, -32])); // 22
 true в случае если в переданном массиве есть два числа, сумма которых равна r, иначе вернет false
 */
 
+// ! Лучший способ, временная сложность алгоритма O(n)
+function check(arr, num) {
+    const obj = {};
+
+    for (let i = 0; i < arr.length; i++) {
+        if (obj[num - arr[i]]) {
+            return true;
+        } else {
+            obj[arr[i]] = num - arr[i];
+        }
+    }
+
+    return false;
+}
+
+console.log(check([10, 15, 3, 7], 17)); // true
+console.log(check([10, 15, 3, 7], 20)); // false
+
+// ! Лучший способ, временная сложность алгоритма O(n). поиск в Set имеет сложность O(1)
+function check(arr, num) {
+    const set = new Set();
+
+    for (let i = 0; i < arr.length; i++) {
+        if (set.has(num - arr[i])) {
+            return true;
+        } else {
+            set.add(arr[i]);
+        }
+    }
+
+    return false;
+}
+
+console.log(check([10, 15, 3, 7], 17)); // true
+console.log(check([10, 15, 3, 7], 20)); // false
+
+// ! Лучший способ, временная сложность алгоритма O(n).
+function check(arr, num) {
+    const map = new Map();
+
+    for (let i = 0; i < arr.length; i++) {
+		// можно как вариант не получать а поискать через map.has(.......)
+        if (map.get(num - arr[i])) {
+            return true;
+        } else {
+            map.set(arr[i], num - arr[i]);
+        }
+    }
+
+    return false;
+}
+
+console.log(check([10, 15, 3, 7], 17)); // true
+console.log(check([10, 15, 3, 7], 20)); // false
+
+
+function check(arr, num) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] + arr[j] === num) return true;
+        }
+    }
+
+    return false;
+}
+
+console.log(check([10, 15, 3, 7], 17)); // true
+console.log(check([10, 15, 3, 7], 20)); // false
+
 function check(arr, num) {
 
 	const size = arr.length;
@@ -98,6 +167,7 @@ function sumDigits(num) {
 	// * // num = (num + '').split('');
 	// * // третий вариант преобразования числа в сторок (явное преобразование)
 	// num = num.toString().split('');
+	// num = String(num).split('');
 	// еще способ преобразовать строку в массив из разбитой строки ['9', '0', ...] ES6
 	num = [...num.toString()];
 
@@ -139,6 +209,22 @@ function sumDigits3(num) {
 console.log(sumDigits3(123)); // 6
 console.log(sumDigits3(904)); // 13
 console.log(sumDigits3(3)); // 3
+
+function sumDigits(num) {
+    return [...num.toString()].reduce((acc, el) => +acc + Number(el)) // Явное преобразование всегда быстрее
+}
+
+console.log(sumDigits(123)); // 6
+console.log(sumDigits(904)); // 13
+console.log(sumDigits(3)); // 3
+
+function sumDigits(num) {
+    return [...String(num)].reduce((acc, el) => +acc + +(el))
+}
+
+console.log(sumDigits(123)); // 6
+console.log(sumDigits(904)); // 13
+console.log(sumDigits(3)); // 3
 
 /*
 ! Все функции-конструкторы, созданные с помощью 'new', будут иметь тип 'object'
