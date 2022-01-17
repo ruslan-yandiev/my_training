@@ -2,6 +2,37 @@
 функция принимает массив и возвращает значения отличающиеся от наибольшего елемента в массиве
 не более чем на 10%
 */
+// ! Чисто функциональный стиль решения
+function func(arr) {
+	let max = Math.max(...arr);
+	
+    return arr.filter((el) => el >= max * 0.9 && el !== max); //*... (max * 0.9) или (max - max / 10) или (max - max / 100 * 10)
+}
+
+console.log(func([5, 88, 95, 100, 77, 21, 92])); // [95, 92]
+console.log(func([2, 13, 55, 29, 19, 5, -5])); // []
+
+//! Чисто императивный стиль решения
+function func(arr) {
+    let maxN = -Infinity;
+
+    for (let i = 0; i < arr.length; i++) {
+        if (maxN < arr[i]) maxN = arr[i];
+    }
+
+    let maxV = maxN - maxN / 10;
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] >= maxV && arr[i] !== maxN) result.push(arr[i])
+    }
+
+    return result;
+}
+
+console.log(func([5, 88, 95, 100, 77, 21, 92])); // [95, 92]
+console.log(func([2, 13, 55, 29, 19, 5, -5])); // []
+
 
 function func(arr) {
 	let result = []
@@ -140,6 +171,12 @@ console.log(func5([2, 13, 55, 29, 19, 5, -5])); // []
 Функция принимает массив и вторым пареметром аргумента число.
 Возвращает массив равный по размеру равный цифре принятой в аргументе
 */
+function fillArr(arr, len) {
+    arr.push(...new Array(len - arr.length).fill(0));
+    return arr;
+}
+
+console.log(fillArr([2,6,8], 5));// [2,6,8,0,0]
 
 function fillArr(arr, len) {
 	let upSize = len - arr.length;
@@ -434,6 +471,22 @@ const arr = [
 
 
 console.log(uniquePoints4(arr));
+
+function uniquePoints(arr) {
+    const detect = {};
+
+    return arr.reduce((acc, obj) => {
+        if (detect[obj.x] === 'x' && detect[obj.y] === 'y') {
+            return acc;
+        } else {
+            detect[obj.x] = 'x';
+            detect[obj.y] = 'y';
+            acc.push(obj);
+        }
+
+        return acc;
+    }, []);
+}
 
 // ? Как сортируются свойства(ключи) объектов?
 // ! Сортируются: Сначала будут идти целочисленные положительные ключи (1, 2, 33, 100 и т.п.)
