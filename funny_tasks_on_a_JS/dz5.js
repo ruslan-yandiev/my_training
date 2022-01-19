@@ -141,6 +141,18 @@ function myFilter2(a, b, c) {
 console.log(myFilter2(5, 15, 3)); // [6, 9, 12, 15]
 console.log(myFilter2(15, 5, 3)); // [15, 12, 9, 6]
 
+function myFilter2(a, b, c) {
+    const arr = [];
+
+        for (let i = Math.min(a, b); i <= Math.max(a, b); i++) {
+            if (i % c === 0) arr.push(i)
+        }
+
+    return arr;
+}
+
+console.log(myFilter2(5, 15, 3)); // [6, 9, 12, 15]
+console.log(myFilter2(15, 5, 3)); // [15, 12, 9, 6]
 // * ====================================================================
 
 /*
@@ -199,6 +211,27 @@ function getLettersVariants(str) {
 console.log(getLettersVariants('asd')); // ['asd', 'ads', 'sad', 'das', 'dsa', 'sda']
 // ? Вторым способом можно было бы решить с помощью бесконечного цикла (while) и счетчиками, которые обнуляются по достижению
 // ? определенного значения от размера массива, и повторять до тех пор пока не встретится повтор.
+
+
+function getLettersVariants(str) {
+    const set = new Set();
+    
+    function build(str2) {   
+        for (let i = 0; i < str2.length; i++) {
+            set.add(str2);
+            str2 = [...str2];
+            [str2[i], str2[i + 1]] = [str2[i + 1], str2[i]];
+            str2 = str2.join('');
+
+            if (i === str2.length - 1) build(str2);
+            if (set.has(str2)) return [...set];
+        }
+    }
+    
+    return build(str);
+}
+
+console.log(getLettersVariants('asd')); // ['asd', 'ads', 'sad', 'das', 'dsa', 'sda']
 // * ====================================================================
 
 /*
