@@ -39,3 +39,13 @@
 */
 
 //! собес #4
+const obj = {};
+const obj2 = Object.create;
+const obj3 = Object.create(null);
+const obj4 = new Object();
+console.log(obj2.__proto__ === Object.__proto__); //! true     ƒ () { [native code] } === ƒ () { [native code] }
+// ! Мы не можем вывести код JS функции в консоль, потому что функции являются частью скомпилированного исполняемого файла браузера ... или, скорее, его движка JavaScript. Это нативный код.
+console.log(Object.__proto__); // ƒ () { [native code] } //! базовая конструкция функции в доичном коде, нет смысла отображать двочиный код во и пишет ƒ () { [native code] }
+console.log(obj3.__proto__ === Object.__proto__); // false
+console.log(obj3.__proto__); // undefined
+console.log(Object.prototype.__proto__); // null
