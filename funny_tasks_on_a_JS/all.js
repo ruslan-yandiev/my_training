@@ -51,3 +51,81 @@ const arr = [3, 7, 15, 18, 22, 47];
 arr.sort(); // ! изменяет исходный массив всегда. отсортирует подефолту как строки по первому символу. исправить передав колбек с кодом arr.sort((a, b) => a > b) или arr.sort((a, b) => a - b);
 console.log(arr); // [15, 18, 22, 3, 47, 7]
 // ========================================================================================================
+/*
+Карирование
+*/
+// ! Использовали ЗАМЫКАНИЯ. Возвращали новую функцию которая по очереди принимала параметры и
+// ! плюсовала к счетчику currentValue в созданном нами замыкании(области видимости) КАРРИРОВАНИЕ
+function add(num) {
+    if (!num) return 0;
+
+    return function f(number) {
+        if (!number) return num;
+        num += number;
+        return f;
+    }
+}
+
+console.log(add()); // 0
+console.log(add(2)(1)()); // 3
+console.log(add(5)(-1)(2)()); // 6
+
+// ! рекурсивный вариант
+function add(num) {
+    if (num === undefined) return 0;
+
+    return function(num2) {
+        if (num2 === undefined) return num;
+            num += num2;
+            return add(num);
+    };
+}
+
+console.log(add()); // 0
+console.log(add(10)()); // 10
+console.log(add(2)(1)()); // 3
+console.log(add(5)(-1)(2)()); // 6
+// =======================================================================================================
+/*
+В функцию sumAge передается структура, в которой описан человек и его дети.
+Функция должна возвращать сумму возрвста человека и сумму возрвстов всех его детей.
+*/
+function sumAge(user) {
+    let sum = user.age;
+    // !  (?) тут выполняет схожую работу как и в ruby не позволяя выбросить исключение если будет undefined
+    for (let i = 0; i < user.children?.length; i++) {
+        sum += sumAge(user.children[i]);
+    }
+    return sum;
+}
+
+// ! хорошее решение с рекурсией
+const sumAge = (user) => user.children ? user.children.reduce((sum, child) => sum + sumAge(child), user.age) : user.age;
+
+const user = {
+    name: 'Петр',
+    age: 49,
+    children: [
+        {
+            name: 'Nina',
+            age: 25,
+            children: [
+                {
+                    name: 'Andray',
+                    age: 3,
+                },
+                {
+                    name: 'Oleg',
+                    age: 1,
+                },
+            ],
+        },
+        {
+            name: 'Aleksandr',
+            age: 22,
+        },
+    ],
+};
+
+console.log(sumAge(user));
+// =====================================================================================================

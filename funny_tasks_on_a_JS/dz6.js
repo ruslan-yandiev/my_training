@@ -40,6 +40,19 @@ function decode(str) {
 console.log(encode('hello')); // h2ll4
 console.log(decode('h2ll4')); // hello
 
+
+function encode(str) {
+    let letter = { a: 1, e: 2, i: 3, o: 4, u: 5, y: 6 };
+    return [...str].reduce((acc, el) => letter[el] ? acc + letter[el] : acc + el, '');
+}
+
+function decode(str) {
+    let letter = { 1: 'a', 2: 'e', 3: 'i', 4: 'o', 5: 'u', 6: 'y' };
+    return [...str].reduce((acc, el) => letter[el] ? acc + letter[el] : acc + el, '');
+}
+
+console.log(encode('hello')); // h2ll4
+console.log(decode('h2ll4')); // hello
 // * =========================================================================
 /*
 Напишите программу, которая выводит на экран числа от 1 до 100. При этом вместо
@@ -79,12 +92,31 @@ console.log(add()); // 0
 console.log(add(2)(1)()); // 3
 console.log(add(5)(-1)(2)()); // 6
 
+// ! рекурсивный вариант
+function add(num) {
+    if (num === undefined) return 0;
+
+    return function(num2) {
+        if (num2 === undefined) return num;
+            num += num2;
+            return add(num);
+    };
+}
+
+console.log(add()); // 0
+console.log(add(10)()); // 10
+console.log(add(2)(1)()); // 3
+console.log(add(5)(-1)(2)()); // 6
+
 // * =========================================================================
 /*
-В функцию sumAge передается счтруктура, в уоторой описан человек и его дети.
+В функцию sumAge передается структура, в которой описан человек и его дети.
 Функция должна возвращать сумму возрвста человека и сумму возрвстов всех его детей.
 */
-// ! В функциональном стиле рекурсивное дерево
+// ! Моё лучшее решение
+const sumAge = (user) => user.children ? user.children.reduce((sum, child) => sum + sumAge(child), user.age) : user.age;
+
+// ! В функциональном стиле рекурсивное дерево. Будет ошибка если вдруг нет children
 function sumAge(user) {
     return user.children.reduce((accum, elem) => elem.children ? accum + sumAge(elem) : accum + elem.age, user.age);
 }
@@ -138,6 +170,15 @@ function sumAge5(user) {
     }
     return sum;
 }
+
+function sumAge(user) {
+    let sum = user.age ? user.age : 0;
+
+    const checkChildren = (arr) => arr.reduce((acc, el) => acc + sumAge(el) , sum);
+
+    return user.children ? checkChildren(user.children) : sum;
+}
+
 
 const user = {
     name: 'Петр',
