@@ -18,6 +18,10 @@ function calculate(arr) {
     return arr.reduce((acc, elem, index) => (index !== 0 ? acc + elem.slice(0, index).reduce((ac, el) => ac + el) : false), 0);
 }
 
+function calculate(arr) {
+    return arr.reduce((acc, el, index) => acc + el.slice(0, index).reduce((ac, e) => ac + e, 0), 0)
+}
+
 const arr = [
     [5, 9, -1],
     [1, 7, 2],
@@ -110,6 +114,36 @@ console.log(
         2,
     ),
 );
+
+// ! Мой хороший и быстрый вариант
+function selectBanners(banners, num) {
+    if (banners.length <= num) return banners;
+
+    const collectionID = banners.reduce((arr, obj) => {
+        for (let i = 0; i < obj.weight; i++) arr.push(obj.id);
+        return arr;
+    }, []);
+
+    const randCollection = new Set();
+
+    for (let i = 0; num > randCollection.size;) {
+        randCollection.add(collectionID[Math.floor(Math.random() * (collectionID.length))]);
+    }
+
+    return banners.filter((obj) => randCollection.has(obj.id));
+}
+
+const banners = [
+    { id: 2, weight: 10 },
+    { id: 4, weight: 5 },
+    { id: 8, weight: 15 },
+    { id: 22, weight: 18 },
+    { id: 41, weight: 41 },
+    { id: 53, weight: 1 },
+    { id: 69, weight: 9 },
+];
+
+console.log(selectBanners(banners, 3));
 
 // * Мой вариант
 function selectBanners2(banners, count) {

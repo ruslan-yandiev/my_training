@@ -38,7 +38,42 @@
 (== удаление / замена символа).
 */
 
-//! собес #5
-let arr = [1, 2, 3, 4, 5];
-arr.splice(Math.floor(arr.length / 2), 1);
-console.log(arr);
+//! собес #6
+/*
+Функция принимает массив банеров (объектов как в примере) и число, обозначающее количество банеров,
+которое нужно выбрать из массива. Необходимо реализовать функцию так, чтобы функция выбирала переданное
+количество случайных банеров (банеры уникальны, не должны повторяться в результате), учитывая их вес
+(свойство weight в объектах банеров). Чем больший вес имеет банер, тем больше шансов того, что этот банер
+должен быть выбран.
+Если массив банеров содержит меньше или столько же элементов, сколькко было запрошено, то функция должна
+вернуть все элементы массива.
+*/
+// !реализовать поиск со сложностью O(log n)
+function selectBanners(banners, num) {
+    if (banners.length <= num) return banners;
+
+    const collectionID = banners.reduce((arr, obj) => {
+        for (let i = 0; i < obj.weight; i++) arr.push(obj.id);
+        return arr;
+    }, []);
+
+    const randCollection = new Set();
+
+    for (let i = 0; num > randCollection.size;) {
+        randCollection.add(collectionID[Math.floor(Math.random() * (collectionID.length))]);
+    }
+
+    return banners.filter((obj) => randCollection.has(obj.id));
+}
+
+const banners = [
+    { id: 2, weight: 10 },
+    { id: 4, weight: 5 },
+    { id: 8, weight: 15 },
+    { id: 22, weight: 18 },
+    { id: 41, weight: 41 },
+    { id: 53, weight: 1 },
+    { id: 69, weight: 9 },
+];
+
+console.log(selectBanners(banners, 3));

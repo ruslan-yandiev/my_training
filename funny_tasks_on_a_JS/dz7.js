@@ -54,6 +54,19 @@ function myCalc(num) {
 
 console.log(myCalc(100)); // 648
 
+function myCalc(num) {
+    const f = (n) => n > 1 ? n = n * f(n - BigInt(1)) : n;
+    return [...f(BigInt(num)).toString()].reduce((acc, el) => +acc + +el);
+}
+
+console.log(myCalc(100)); // 648
+
+function myCalc(num) {
+    return Array.from({length: num}).map((el) => BigInt(num--)).reduce((acc, el) => acc * el).toString().split('').reduce((acc, el) => +acc + +el);
+}
+
+console.log(myCalc(100)); // 648
+
 // * ======================================================================================
 /*
 Функция принимает двумерный массив в виде треугольника (горки), необходимо найти наибольшую сумму от вершины до низа
