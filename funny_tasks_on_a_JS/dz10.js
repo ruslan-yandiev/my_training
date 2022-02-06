@@ -39,6 +39,27 @@ console.log(validParentheses('())')); // false
 console.log(validParentheses('())(')); // false
 console.log(validParentheses('(())')); // true
 
+
+function validParentheses(str) {
+    let detect = 0;
+
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === '(') {
+            detect += 1;
+        } else {
+            detect -= 1;
+        }
+
+        if (detect < 0) return false;
+    }
+
+    return true;
+}
+
+console.log(validParentheses('()')); // true
+console.log(validParentheses('())')); // false
+console.log(validParentheses('())(')); // false
+console.log(validParentheses('(())')); // true
 // * ===================================================================
 /*
 реализовать функцию, она должна работать как в примере.
@@ -124,6 +145,23 @@ function func(arr) {
     // return result;
 }
 
+// function func(arr) {
+//     let obj = {};
+
+//     arr.forEach((el) => obj[el] === undefined ? obj[el] = 1 : obj[el] += 1);
+
+//     let result = 1;
+
+//     for (let key in obj) {
+//         if (result < obj[key]) result = obj[key];
+//     }
+
+//     return result;
+// }
+
+// console.log(func([0, 1, 3, 0, 0, 9])); // 3
+// console.log(func([2, 13, 5, 9, 7])); // 1
+
 function func(arr) {
     return Math.max(
         ...Object.values(
@@ -142,12 +180,33 @@ function func(arr) {
 console.log(func([0, 1, 3, 0, 0, 9])); // 3
 console.log(func([2, 13, 5, 9, 7])); // 1
 
+function func(arr) {
+    let size;
+
+    return arr.reduce((count, el, index) =>  {
+        size = arr.filter((e) => e === el).length;
+
+        return size > count ? count = size : count;
+    }, 1);
+}
+
+console.log(func([0, 1, 3, 0, 0, 9])); // 3
+console.log(func([2, 13, 5, 9, 7])); // 1
+
+
+function func(arr) {
+    return arr.reduce((count, el, index) =>  arr.filter((e) => e === el).length > count ? count = arr.filter((e) => e === el).length : count, 1);
+}
+
+console.log(func([0, 1, 3, 0, 0, 9])); // 3
+console.log(func([2, 13, 5, 9, 7])); // 1
+
 /*
 	* 1) shadow-dom - это у элемента может быть свой теневой дом в котором есть свои div и стили которые не выходят за приделы этого элемента
 		* это веб технология для определения области видимости переменных css и веб компонентов
 
-	* 2) LIFO и FIFO - LIFO(последний пришел, первый ушел) когда вызываем функцию, внутри нее вызываем другую функцию и в нутри нее вызываем другую функцию, то вызовы будут изнутри на ружу
-		*    FIFO(первый пришел, первый ушел) класитческая очередь f1().f2().f3() f1 первый вернет результат выполнения и далее по очереди.
+	* 2) LIFO и FIFO - LIFO(последний пришел, первый ушел (СТЕК)) когда вызываем функцию, внутри нее вызываем другую функцию и в нутри нее вызываем другую функцию, то вызовы будут изнутри на ружу
+		*    FIFO(первый пришел, первый ушел (ОЧЕРЕДЬ)) класитческая очередь f1().f2().f3() f1 первый вернет результат выполнения и далее по очереди.
 
 	* 3) Что такое полифилл - помогает сделать нам доступные свойства для разных браузеров.
 

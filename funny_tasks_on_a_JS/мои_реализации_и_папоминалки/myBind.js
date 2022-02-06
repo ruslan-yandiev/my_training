@@ -1,9 +1,7 @@
 // Метод
 Function.prototype.myBind1 = function (context, ...argum) {
     // ! либо стрелочная так-как у нее нет своего свойства this, и берет чужой, внешний всегда
-    return (...args) => {
-        this.apply(context, argum.concat(args));
-    };
+    return (...args) => this.apply(context, argum.concat(args));
 
     // ! иначе обычную функцию и декларативную придется передать this через переменную, так-как у них они свойство this свое и переназначится только в месте вызова.
     // let a = this;
@@ -29,6 +27,22 @@ const person = {
 
 func.myBind1(person, 'Ruslan')(5, 4, 3);
 myBind2(func, person, 'Ruslan')(5, 4, 3);
+
+
+const person2 = {
+    name: 'Ivan',
+    age: 33
+};
+
+function func2(a, b) {
+    console.log(this, a, b);
+}
+
+Function.prototype.myBind3 = function() {
+    return (...args) => this.apply(arguments[0], [...args])
+}
+
+func2.myBind3(person2)(1, 2);
 
 // ===================
 const bind3 = (fn, context, ...rest) => {
