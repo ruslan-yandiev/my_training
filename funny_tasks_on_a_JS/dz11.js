@@ -10,7 +10,21 @@ function fibo(num) {
 }
 
 console.log(fibo(3)); // 2
-console.log(fibo(7)); // 7
+console.log(fibo(7)); // 13
+console.log(fibo(77)); // 5527939700884757
+
+function fibo(num) {
+	let a = 0, b = 1, c;
+	for (let i = 2; i <= num; i++) {
+        c = a + b;
+        a = b;
+        b = c;
+	}
+	return b;
+}
+
+console.log(fibo(3)); // 2
+console.log(fibo(7)); // 13
 console.log(fibo(77)); // 5527939700884757
 
 // * ====================================================================
@@ -20,9 +34,8 @@ console.log(fibo(77)); // 5527939700884757
 положительное в право
 */
 function moveArr(arr, step) {
-	if (step === 0 || !step) {
-		return arr;
-	}
+	if (!step) return arr;
+    if (step < 0) step -= 1;
 
 	// ! Math.abs(step) преобразует любое число в положительное!
 	for (let i = 0; i < Math.abs(step); i++) {
@@ -35,7 +48,6 @@ function moveArr(arr, step) {
 
 	return arr;
 }
-
 console.log(moveArr([1, 2, 3, 4, 5], 2)); // [4, 5, 1, 2, 3]
 console.log(moveArr([1, 2, 3, 4, 5], -6)); // [3, 4, 5, 1, 2]
 console.log(moveArr([1, 2, 3, 4, 5])); // [1, 2, 3, 4, 5]
@@ -76,6 +88,27 @@ function getChars(city) {
 console.log(getChars('Саратов'));
 
 // "н:**,о:**,в:*,ы:*,й:**,у:*,р:*,е:*,г*:"
+console.log(getChars('Новый Уренгой'));
+
+// с:*,а:*,н*,к:*,т:**,п:*,е:**,р:**,б:*,у:*,г:*
+console.log(getChars('Санкт-Петербург'));
+
+
+function getChars(str) {
+	return Object.entries([...str = str.toLowerCase().replace(/[^а-я]+/g, '')].reduce((obj, el) => {
+		obj[el] ? obj[el] += '*' : obj[el] = '*';
+		return obj;
+	}, {})).reduce((acc, el, index, arr) => {
+		acc += el[0] + ':' + el[1];
+		if (arr.length - 1 !== index) acc += ',';
+		return acc;
+	}, '');
+}
+
+// "c:*,a:**,р:*,т:*,о:*,в:*"
+console.log(getChars('Саратов'));
+
+// "н:**,о:**,в:*,ы:*,й:**,у:*,р:*,е:*,г:*"
 console.log(getChars('Новый Уренгой'));
 
 // с:*,а:*,н*,к:*,т:**,п:*,е:**,р:**,б:*,у:*,г:*

@@ -29,6 +29,8 @@ console.log(Foobar.prototype === Object.prototype);
 console.log(Foobar.__proto__ === Foobar2.__proto__);
 console.log(Foobar.__proto__.__proto__ === Foobar2.__proto__.__proto__);
 console.log(Foobar.__proto__.__proto__.__proto__ === Foobar2.__proto__.__proto__.__proto__);
+class F {};
+console.log(F.__proto__ === Function.prototype);
 
 const obj = {};
 const obj2 = Object.create;
