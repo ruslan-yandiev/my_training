@@ -9,7 +9,7 @@ function reverse(str, from, to) {
     return arr.join('');
 }
 
-console.log(reverse('mockinterview', 1, 5)); // 'mnikcotervuew' - перевернуто "ocrin"
+console.log(reverse('mockinterview', 1, 5)); // 'mnikcoterview' - перевернуто "ocrin"
 console.log(reverse('codingIsFun', 2, 100)); // 'conuFsIgnid' - перевернуто 'dingIsFun'
 
 // вариант 2
@@ -18,8 +18,27 @@ function reverse2(str, from, to) {
     return str.replace(arr.join(''), arr.reverse().join(''));
 }
 
-console.log(reverse2('mockinterview', 1, 5)); // 'mnikcotervuew' - перевернуто "ocrin"
+console.log(reverse2('mockinterview', 1, 5)); // 'mnikcoterview' - перевернуто "ocrin"
 console.log(reverse2('codingIsFun', 2, 100)); // 'conuFsIgnid' - перевернуто 'dingIsFun'
+
+function reverse(str, num1, num2) {
+    let str2 = [...str.substring(num1, num2)].reverse().join('');
+    let result = '';
+
+    for (let i = 0; i < str.length; i++) {
+        if (i === num1) {
+            result += str2;
+            i = num2;
+        } else {
+            result += str[i];
+        }
+    }
+
+    return result;
+}
+
+console.log(reverse('mockinterview', 1, 5)); // 'mnikcoterview' - перевернуто "ocrin"
+console.log(reverse('codingIsFun', 2, 100)); // 'conuFsIgnid' - перевернуто 'dingIsFun'
 
 // * =========================================================================================
 /*
@@ -86,6 +105,27 @@ function reverse(str) {
 console.log(reverse('привет'));
 console.log(reverse('Как дела брат?'));
 
+
+function reverseA(str) {
+    let indexProb = [...str].reduce((arr, el, index) => {
+        if (el === ' ') arr.push(index);
+        return arr;
+    }, []);
+
+    str = [...str].reverse().reduce((arr, el) => {
+        if (el !== ' ') arr.push(el);
+        return arr;
+    }, []);
+
+    indexProb.forEach((el) => str.splice(el, 0, ' '));
+
+    return str.join('');
+}
+
+console.log(reverseA('привет')); // 'тевирп'
+console.log(reverseA('Как дела?')); // "?ал едкаК"
+console.log(reverseA('Как дела Антон? Я'));
+
 // * ==================================================================
 /*
 Функция принимает двумерный массив чисел. Определить, сколько раз встречается
@@ -107,7 +147,11 @@ function f(arr) {
 }
 
 function f(arr) {
-    return [...arr.flat(Infinity).join('').split('.').join('')].reduce((sum, el) => (+el === 7 ? sum + 1 : sum), 0);
+    return [...arr.flat(Infinity).join('')].reduce((sum, el) => (+el === 7 ? sum + 1 : sum), 0);
+}
+
+function f(arr) {
+    return [...arr.flat(Infinity).join('')].filter((el) => el === '7').length;
 }
 
 const arr = [
