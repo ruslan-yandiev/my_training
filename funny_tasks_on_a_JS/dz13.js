@@ -65,12 +65,36 @@ console.log(getMax3(17)); // 71
 console.log(getMax3(17.5)); // 751 // коректно будет работать только в хроме
 console.log(getMax3('Hi')); // NaN
 
+function getMax(num) {
+    return Number([...num.toString()].filter((el) => el !== '.').sort((a, b) => a - b).reverse().join(''));
+}
+
+console.log(getMax(6118)); // 8611
+console.log(getMax(17)); // 71
+console.log(getMax(17.5)); // 751
+console.log(getMax('Hi')); // NaN
+
 // * ===========================================================================================
 /*
 Функция принимает строку, в которой содержатся буквы/цифры и может содержаться знак "#",
 этот знак означает, что человек нажал backspace, то есть стёр предыдущий знак,
 необходимо собрать получившуюся строку.
 */
+function cleanString(str) {
+    let result = [];
+
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === '#') {
+            result.splice(result.length - 1, 1);
+            continue;
+        }
+        result.push(str[i]);
+    }
+
+    return result.join('');
+}
+
+
 function cleanString(s) {
     const arr = [...s];
 
@@ -89,10 +113,7 @@ console.log(cleanString('Прив###ока')); // "Пока"
 
 // №2
 function cleanString2(s) {
-    return [...s].reduce(
-        (accum, elem) => (elem === '#' ? accum.slice(0, -1) : (accum += elem)),
-        '',
-    );
+    return [...s].reduce((accum, elem) => (elem === '#' ? accum.slice(0, -1) : (accum += elem)), '');
 }
 
 console.log(cleanString2('авб#г##д')); // "ад"

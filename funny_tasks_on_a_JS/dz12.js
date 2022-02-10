@@ -169,6 +169,79 @@ console.log(f(arr)); // 5
 целое число от 1 включительно до 10 включительно через зяпятую. Если все числа уже
 были выведены, обработчик должен вывести "конец." и снять обработчик события.
 */
+// ! Лучший вариант решения
+const btn = document.querySelector('#my-btn');
+const span = document.querySelector('span');
+
+btn.addEventListener('click', (() => {
+    const detect = new Set();
+    let randNum;
+
+    const rand = () => Math.floor(Math.random() * 10) + 1;
+
+    return function f() {
+        randNum = rand();
+
+        for (let i = 0; detect.has(randNum); i++) {
+            randNum = rand();
+        }
+
+        detect.add(randNum);
+        span.textContent += randNum + ',';
+
+        if (detect.size ===  10) {
+            span.textContent += ' КОНЕЦ';
+            btn.removeEventListener('click', f);
+        }
+    }
+})());
+
+
+// Вариант 4
+const btn = document.querySelector('#my-btn');
+const span = document.querySelector('span');
+
+btn.addEventListener('click', function f() {
+    const detectArr = span.textContent.split(',');
+    let randNum;
+
+    const rand = () => { 
+        randNum = Math.floor(Math.random() * 10) + 1;
+        if (detectArr.includes(randNum.toString())) rand();
+    }
+    
+    rand();
+    span.textContent += randNum + ',';
+
+    if (detectArr.length ===  10) {
+        span.textContent += ' КОНЕЦ';
+        btn.removeEventListener('click', f);
+    }
+});
+
+
+// вариант 3
+(function () {
+    const btn = document.querySelector('#my-btn');
+    const span = document.querySelector('span');
+    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let size = arr.length;
+
+    function start() {
+        let randNum = Math.floor(Math.random() * (size - 0));
+        span.textContent += arr[randNum] + ',';
+        arr.splice(randNum, 1);
+        size -= 1;
+    
+        if (!arr.length) {
+            span.textContent += ' КОНЕЦ';
+            btn.removeEventListener('click', start);
+        }
+    }
+
+    btn.addEventListener('click', start);
+})();
+
 // вариант 1
 // document.querySelector('button').addEventListener('click', () => {
 // 	let span = document.querySelector('span');
