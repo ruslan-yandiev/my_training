@@ -15,6 +15,11 @@ console.log(Number.isNaN(a)); // true
 В случае если количество символов надодится в диапозоне (1, 100), необходимо вернуть массив, в котором будут записаны все четные символы строки
 */
 function getEvenChars(str) {
+    return str.length < 2 || str.length > 100 ?  'неверная строка' : [...str].filter((el, index) => index % 2);
+}
+
+
+function getEvenChars(str) {
     if (str.length < 2 || str.length > 100) return 'неверная строка';
     return [...str].reduce((accum, elem, index) => {
         if (index % 2 !== 0) {
@@ -23,6 +28,7 @@ function getEvenChars(str) {
         return accum;
     }, []);
 }
+
 console.log(getEvenChars('abcdefghijklm')); // ['b', 'd', 'f', 'h', 'j', 'l']
 console.log(getEvenChars('a')); // 'неверная строка'
 
@@ -45,6 +51,18 @@ function isPrime(num) {
     let detect = 0;
 
     for (let i = 1; i < num; i++) {
+        if (num % i === 0) detect += 1;
+        if (detect > 2) return false;
+    }
+
+    return true;
+}
+
+function isPrime(num) {
+    if (Number.isNaN(num) || typeof num !== 'number' || num < 2) return false;
+    let detect = 0;
+
+    for (let i = 1; i <= num; i++) {
         if (num % i === 0) detect += 1;
         if (detect > 2) return false;
     }

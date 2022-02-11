@@ -38,35 +38,6 @@
 (== удаление / замена символа).
 */
 
-//! собес #11
-function Developer(......) {
-    // ...
-}
-
-function DeveloperBuilder(name) {
-    this.name = name;
-    this.skills = [];
-    this.favoriteFramework;
-
-    this.addSkill = function(skill) {
-        this.skills.push(skill);
-        return this;
-    }
-
-    this.setFavoriteFramework = function(framework) {
-        this.favoriteFramework = framework;
-        return this;
-    }
-
-    this.build = function() {
-
-    }
-}
-
-const developer = new DeveloperBuilder('Павел').addSkill('ES6').addSkill('TypeScript').setFavoriteFramework('React')//.build();
-console.log(developer);
-const developer2 = new DeveloperBuilder('Ivan').addSkill('ES9').addSkill('NodeJS').setFavoriteFramework('Vue js')//.build();
-console.log(developer2);
-
+//! собес #14
 
 

@@ -91,3 +91,80 @@ score.secondPlayerScore = 1;
 console.log(score.getHistory());
 console.log(score.firstPlayerScore);
 console.log(score.secondPlayerScore);
+
+//* ==============================================================================================================
+
+class Developer {
+    constructor(name, skills, favoriteFramework) {
+        this.name = name;
+        this.skills = skills;
+        this.favoriteFramework = favoriteFramework;
+    }
+}
+
+class DeveloperBuilder {
+    constructor(name) {
+        this.name = name;
+        this.skills = [];
+        this.favoriteFramework;
+    }
+
+    addSkill(skill) {
+        this.skills.push(skill);
+        return this;
+    }
+
+    setFavoriteFramework(framework) {
+        this.favoriteFramework = framework;
+        return this;
+    }
+
+    build() {
+        let dev = new Developer(this.name, [...this.skills], this.favoriteFramework);
+        this.skills.length = 0;
+        return dev;
+    }
+}
+
+const developer = new DeveloperBuilder('Павел').addSkill('ES6').addSkill('TypeScript').setFavoriteFramework('React');
+console.log(developer.build());
+
+const dev2 = developer.addSkill('ES9').addSkill('NodeJS').setFavoriteFramework('Vue js').build()
+dev2.name = 'Ivan';
+console.log(dev2);
+
+// ====================================================
+function Developer(name, skills, favoriteFramework) {
+    this.name = name;
+    this.skills = skills;
+    this.favoriteFramework = favoriteFramework;
+}
+
+function DeveloperBuilder(name) {
+    this.name = name;
+    this.skills = [];
+    this.favoriteFramework;
+
+    this.addSkill = function(skill) {
+        this.skills.push(skill);
+        return this;
+    }
+
+    this.setFavoriteFramework = function(framework) {
+        this.favoriteFramework = framework;
+        return this;
+    }
+
+    this.build = function() {
+        let dev = new Developer(this.name, [...this.skills], this.favoriteFramework);
+        this.skills.length = 0;
+        return dev;
+    }
+}
+
+const developer = new DeveloperBuilder('Павел').addSkill('ES6').addSkill('TypeScript').setFavoriteFramework('React');
+console.log(developer.build());
+
+const dev2 = developer.addSkill('ES9').addSkill('NodeJS').setFavoriteFramework('Vue js').build()
+dev2.name = 'Ivan';
+console.log(dev2);

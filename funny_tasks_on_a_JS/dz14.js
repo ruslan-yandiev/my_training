@@ -52,3 +52,24 @@ console.log(sumSmallest([5, 8, 12, 19, 22])); // 13
 console.log(sumSmallest([15, 28, 4, 2, 43])); // 6
 console.log(sumSmallest([5, 8, 12, 19, 22, 0, 3, 44, 32, 11, 1])); // 1
 console.log(sumSmallest([5, 8, 12, 19, 22, 0, 3, 44, 32, 11, 0])); // 0
+
+
+function sumSmallest(arr) {
+    let num1 = Infinity, num2 = Infinity;
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < num1) {
+            [num2, num1] = [num1, arr[i]]
+            continue;
+        } if (arr[i] >= num1 && arr[i] < num2) {
+            num2 = arr[i];
+        }
+    }
+
+    return num1 + num2;
+}
+
+console.log(sumSmallest([5, 8, 12, 19, 22])); // 13
+console.log(sumSmallest([15, 28, 4, 2, 43])); // 6
+console.log(sumSmallest([5, 8, 12, 19, 22, 0, 3, 44, 32, 11, 1])); // 1
+console.log(sumSmallest([5, 8, 12, 19, 22, 0, 3, 44, 32, 11, 0])); // 0
