@@ -38,6 +38,33 @@
 (== удаление / замена символа).
 */
 
-//! собес #14
+//! собес #15
+function addStr(str1, str2) {
+    const arr1 = [...str1];
+    const arr2 = [...str2];
+    let result = '';
 
+    const buildWeight = (arr) => {
+        return arr.reduce((obj, el) => {
+            obj[el] ? obj[el] += 1 : obj[el] = 1;
+            return obj;
+        }, {});
+    }
 
+    const weight1 = buildWeight(arr1);
+    const weight2 = buildWeight(arr2);
+
+    for (let i = 0; arr1.length && arr2.length; i++) {
+        if (weight1[arr1[i]] === weight2[arr2[i]]) {
+            arr1[i] < arr2[i] ? result += arr1.splice(i, 1) : result += arr2.splice(i, 1);
+        } else {
+            weight1[arr1[i]] < weight2[arr2[i]] ? result += arr1.splice(i, 1) : result += arr2.splice(i, 1);
+        }
+        i--;
+    }
+
+    return !arr1.length && !arr2.length ? result : !arr1.length ? result + arr2.join('') : result + arr1.join('');
+}
+
+console.log(addStr('super', 'tower')); // stouperwer
+console.log(addStr('dce', 'cccbd'));   // dcecccbd
