@@ -14,11 +14,11 @@
 // console.log(replaceItems([1,2,3,4,2], 2, 'a')); //  [1,'a',3,4,'a']
 
 // // №2 фукционально.
-// function replaceItems2(arr, item, replaceItem) {
-// 	return arr.map((elem, index) => elem === item ? arr[index] = replaceItem : elem)
-// }
+function replaceItems2(arr, item, replaceItem) {
+	return arr.map((elem, index) => elem === item ? replaceItem : elem)
+}
 
-// console.log(replaceItems2([1,2,3,4,2], 2, 'a')); //  [1,'a',3,4,'a']
+console.log(replaceItems2([1,2,3,4,2], 2, 'a')); //  [1,'a',3,4,'a']
 
 //* ===========================================================================
 /*
@@ -36,6 +36,15 @@ function single_number(nums) {
 // console.log(single_number([-2, -2, 1, 1, -3, 1, -3, -3, -4, -2, -4, -4, 33])); // 33
 // console.log(single_number([-2, -2, 1, 0, 1, -3, 1, -3, -3, -4, -2, -4, -4, 33, 33, 33])); // 0
 
+function replaceItems(arr, item, replaceItem) {
+    return arr.reduce((acc, el, index) => {
+        el === item ? acc.push(replaceItem) : acc.push(el)
+        return acc;
+    }, []);
+}
+
+console.log(replaceItems([1,2,3,4,2], 2, 'a')); //  [1,'a',3,4,'a']
+
 // * ===============================================================================================================
 /*
 Дан массив вида `[1, 2, [3,4,[5]], 6, 7, [[8]]]`, необходимо получить массив
@@ -46,6 +55,16 @@ let arr = [1, 2, [3, 4, [5]], 6, 7, [[8]]];
 // решение 1
 function compact(arr) {
 	return [...[].concat.apply([], arr).join('')].map(e => +e);
+}
+
+console.log(compact(arr));
+
+// решение 5
+function compact(arr) {
+    return arr.reduce((acc, el) => {
+        Array.isArray(el) ? acc.push(...compact(el)) : acc.push(el);
+        return acc
+    }, [])
 }
 
 console.log(compact(arr));

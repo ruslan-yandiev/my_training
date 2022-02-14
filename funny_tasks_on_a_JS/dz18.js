@@ -94,6 +94,17 @@ console.log(iqTest2('1 2 2')); // 1
 console.log(iqTest2('1 3 12 7 13')); // 3
 console.log('=============================================');
 
+function iqTest(str) {
+    const arr = str.split(' ');
+    const chet = arr.filter((el) => el % 2 === 0);
+    const notChet = arr.filter((el) => el % 2 === 1);
+    return chet.length < notChet.length ? arr.indexOf(chet[0]) + 1 : arr.indexOf(notChet[0]) + 1 
+}
+
+console.log(iqTest('2 4 7 8 10')); // 3
+console.log(iqTest('1 2 2')); // 1
+console.log(iqTest('1 3 12 7 13')); // 3
+
 // * ==========================================================================================
 /*
 Реализовать функцию findNearestPrimeNumber, которая возвращает ближайшее простое
