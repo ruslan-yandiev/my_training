@@ -70,6 +70,30 @@ console.log(solve2([4,9,5,0,7,3,8,4,9,0])); // [0,0,4,4,9,9,3,5,7,8]
 console.log(solve2([4,9,5,0,7,3,8,4,9,0,-1,-1,-1])); // [-1,-1,-1,0,0,4,4,9,9,3,5,7,8]
 
 
+function solve(arr) {
+    const detect = arr.reduce((obj, el) => {
+        obj[el] ? obj[el] += 1 : obj[el] = 1;
+        return obj;
+    }, {});
+    
+    const result = [];
+    const valuesCollection = Array.from(new Set(Object.values(detect))).sort((a, b) => a - b);
+    
+    for (let i = 0; i < valuesCollection.length; i++) {
+        let arr2 = [];
+
+        for (let j = 0; j < arr.length; j++) {
+            if (detect[arr[j]] === valuesCollection[i]) arr2.push(arr[j]);
+        }
+
+        result.push(arr2.sort((a, b) => a - b));
+    }
+
+    return result.reverse().flat(Infinity);
+}
+
+console.log(solve([2,3,5,3,7,9,5,3,7])); // [3,3,3,5,5,7,7,2,9]
+console.log(solve([4,9,5,0,7,3,8,4,9,0])); // [0,0,4,4,9,9,3,5,7,8]
 // * ====================================================================================
 /*
 Реализовать функцию splitByValue так, чтобы она возвращала массив, состоящий из

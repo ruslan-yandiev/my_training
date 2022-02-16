@@ -65,12 +65,43 @@ function getCompressedString2(str) {
 console.log(getCompressedString2('aaAaBbBbDFFFff')); // "a4b4d1f5"
 
 
+function getCompressedString(str) {
+    return Object.entries([...str.toLocaleLowerCase()].reduce((obj, el) => {
+        obj[el] ? obj[el] += 1 : obj[el] = 1;
+        return obj
+    }, {})).reduce((acc, el) => acc + el[0] + el[1], '');
+}
+
+console.log(getCompressedString('aaAaBbBbDFFFff')); // "a4b4d1f5"
 // * =======================================================================================
 /*
 Напишите функцию invert(obj), которая принимает в себя объект, и возвращает 
 объект с инвертированными ключами и значениями. В случае если одинаковые 
 значения встречаются несколько раз - берем последний ключ.
 */
+function invert(obj) {
+    const obj2 = {};
+
+    for (let key in obj) {
+        obj2[obj[key]] = key;
+    }
+
+    return obj2;
+}
+
+console.log(invert({ a: 1, b: 2, c: 3 })); // {1: "a", 2: "b", 3: "c"}
+console.log(invert({ a: 1, b: 2, c: 1 })); // {1: "c", 2: "b"}
+
+function invert(obj) {
+    return Object.entries(obj).reduce((acc, el) => {
+        acc[el[1]] = el[0];
+        return acc;
+    }, {});
+}
+
+console.log(invert({ a: 1, b: 2, c: 3 })); // {1: "a", 2: "b", 3: "c"}
+console.log(invert({ a: 1, b: 2, c: 1 })); // {1: "c", 2: "b"}
+
 function invert(obj) {
 	const arr = [];
 
@@ -159,6 +190,33 @@ function longestCommonPrefix(words) {
 
 console.log(longestCommonPrefix(["привет", "правила", "проезд"])); // "пр"
 console.log(longestCommonPrefix(["очень", "плохая", "музыка"])); // ""
+
+function longestCommonPrefix(words) {
+	let word = words[0];
+    let detect = false;
+    let result = '';
+
+    a: for (let i = 0; i < word.length; i++) {
+        for (let j = 1; j < words.length; j++) {
+            if (word[i] === words[j][i]) {
+                detect = true
+            } else if (word[i] === words[j][i] && result) {
+                return result;
+            } else {
+                detect = false;
+                continue a;
+            }
+        }
+        
+        if (detect) result += word[i];
+    }
+
+    return result ? result : ' ';
+}
+
+console.log(longestCommonPrefix(["привет", "правила", "проезд"])); // "пр"
+console.log(longestCommonPrefix(["очень", "плохая", "музыка"])); // ""
+
 
 // 2
 function longestCommonPrefix2(words) {
