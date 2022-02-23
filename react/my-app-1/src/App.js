@@ -2,23 +2,20 @@ import React, { useState } from "react";
 import ClassCounter from "./components/ClassCounter";
 import Counter from "./components/Counter";
 import "./styles/App.css"; // Импортируем наши стили
+import PostItem from "./components/PostItem";
 
 function App() {
-  const [likes, setLikes] = useState(5);
-  const [value, setValue] = useState("Текст в Инпуте");
+  const [posts, setPost] = useState([
+    {id: 1, title: 'JavaScript', body: 'Description'},
+    {id: 2, title: 'JavaScript 2', body: 'Description'},
+    {id: 3, title: 'JavaScript 3', body: 'Description'}
+  ])
 
   return (
     <div className="App">
-      <div className="post">
-        <div className="post__content">
-          <strong>1. Javascript</strong>
-          <div>Javascript - язык программирования</div>
-        </div>
-
-        <div className="post__btns">
-          <button>Delete</button>
-        </div>
-      </div>
+      {posts.map((post) => 
+        <PostItem post={post}/>
+        )}
       <Counter />
       <Counter />
       <ClassCounter />

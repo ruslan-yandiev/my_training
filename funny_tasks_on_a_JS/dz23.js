@@ -16,7 +16,18 @@ function getRandomArr() {
 }
 console.log(getRandomArr());
 
+// ! более эффективный вариант с помощью работы уникальных значений Set
+function getRandomArr() {
+    const set = new Set();
 
+    for (let i = 0; set.size !== 200; i++) {
+        set.add(Math.floor(Math.random() * 200) + 1);
+    }
+
+    return Array.from(set);
+}
+
+console.log(getRandomArr());
 // * =====================================================================
 /*
 Реализовать функцию так, чтобы она возвращала массив в 100 элементов,
@@ -67,6 +78,22 @@ function myF(arr) {
 }
 console.log(myF([1,2,3,4,5,0,0,0,0,0])); // [1,1,2,2,3,3,4,4,5,5]
 
+function myF(arr) {
+    // return [...arr.filter((el) => el !== 0), ...arr.filter((el) => el !== 0)] // [1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
+    for (let i = 0, size = arr.length; i < size; i++) {
+        if (!arr[i]) arr.splice(i, 1, arr[arr.length - i - 1]);
+    }
+
+    return arr;
+}
+
+console.log(myF([1,2,3,4,5,0,0,0,0,0])); // [1, 2, 3, 4, 5, 5, 4, 3, 2, 1]
+
+function myF(arr) {
+    return [...arr.filter((el) => el !== 0), ...arr.filter((el) => el !== 0)]; // правда с промежуточным массивом
+}
+
+console.log(myF([1,2,3,4,5,0,0,0,0,0])); // [1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
 // * ===============================================================
 /*
 Функция принимает массив целых чисел, найдите, содержит ли массив какие-либо повторяющиеся элементы.
@@ -107,6 +134,25 @@ console.log(exists2([4,6,7,1,8])); // false
 Функция должна принимать в качестве параметров массив или одно целое число.
 */
 Array.prototype.ecept = function (arg) {
+    return Array.isArray(arg) ? this.filter((elem, index) => !arg.includes(index)) : this.filter((elem, index) => index !== arg);
+}
+
+Array.prototype.ecept = function (arg) {
+    return this.filter((el, index) => Array.isArray(arg) ? arg.includes(index) ? false : true : index !== arg ? true : false);
+}
+
+const array = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(array.ecept([1, 3])); // ['a', 'c', 'e']
+console.log(array.ecept(1)); // ['a', 'c', 'd' 'e']
+
+const array = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(array.ecept([1, 3])); // ['a', 'c', 'e']
+console.log(array.ecept(1)); // ['a', 'c', 'd' 'e']
+
+
+Array.prototype.ecept = function (arg) {
     if (typeof arg === 'number' && !Number.isNaN(arg)) {
         return this.filter((elem, index) => index !== arg);
     } else if (Array.isArray(arg)) {
@@ -119,7 +165,54 @@ const array = ['a', 'b', 'c', 'd', 'e'];
 console.log(array.ecept([1, 3])); // ['a', 'c', 'e']
 console.log(array.ecept(1)); // ['a', 'c', 'd' 'e']
 
+Array.prototype.ecept = function (arg) {
+    return this.reduce((acc, el, index) => {
+        if (Array.isArray(arg)) {
+            if (!arg.includes(index)) acc.push(el);
+        } else {
+            if (index !== arg) acc.push(el);
+        }
 
+        return acc;
+    }, []);
+}
+
+const array = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(array.ecept([1, 3])); // ['a', 'c', 'e']
+console.log(array.ecept(1)); // ['a', 'c', 'd' 'e']
+
+
+Array.prototype.ecept = function (arg) {
+    return this.reduce((acc, el, index) => {
+        Array.isArray(arg) ? !arg.includes(index) ? acc.push(el) : false : index !== arg ? acc.push(el) : false;
+        return acc
+    }, []);
+}
+
+const array = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(array.ecept([1, 3])); // ['a', 'c', 'e']
+console.log(array.ecept(1)); // ['a', 'c', 'd' 'e']
+
+Array.prototype.ecept = function (arg) {
+    const result = [];
+
+    for (let i = 0; i < this.length; i++) {
+        if (Array.isArray(arg)) {
+            if (!arg.includes(i)) result.push(this[i]);
+        } else {
+            if (arg !== i) result.push(this[i]);
+        }
+    }
+
+    return result;
+}
+
+const array = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(array.ecept([1, 3])); // ['a', 'c', 'e']
+console.log(array.ecept(1)); // ['a', 'c', 'd' 'e']
 // * ================================================================================
 /*
 Дан объект со свойствами без значений
@@ -128,10 +221,22 @@ console.log(array.ecept(1)); // ['a', 'c', 'd' 'e']
 function mirror(obj) {
 	const newObj = {};
 
-	for (key in obj) {
-		newObj[key] = key.split('').reverse().join('');
-	}
+	for (key in obj) newObj[key] = key.split('').reverse().join('');
+	
 	return newObj;
+}
+
+console.log(mirror({
+	abc: undefined,
+	hello: undefined
+})); // {abc: 'cba', hello: 'olleh'}
+
+
+function mirror(obj) {
+    return Object.entries(obj).reduce((acc, el) => {
+        acc[el[0]] = el[0].split('').reverse().join('');
+        return acc;
+    }, {});
 }
 
 console.log(mirror({

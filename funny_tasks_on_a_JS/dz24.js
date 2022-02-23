@@ -36,6 +36,30 @@ console.log(realizeDistance(100, 150));
 */
 console.log(realizeDistance(1000, 300));
 
+function realizeDistance(distance, stopAfter) {
+    if (distance <= stopAfter) return `Вы проехали ${distance} метров и доехали до точки.`;
+    let step = 1;
+
+    for (let i = stopAfter; i < distance; i += stopAfter) {
+        console.log(`Остановка №${step}. Вы проехали ${i} метров.`);
+        step += 1;
+
+        distance - i <= stopAfter ? console.log(`Вы проехали еще ${distance - i} метров и доехали до точки.`) : false;
+    }
+}
+
+// Вы проехали 100 метров и доехали до точки.
+console.log(realizeDistance(100, 150));
+
+/*
+Остановка №1. Вы проехали 300 метров.
+Остановка №2. Вы проехали 600 метров.
+Остановка №3. Вы проехали 900 метров.
+Вы проехали еще 100 метров и доехали до точки.
+*/
+console.log(realizeDistance(1000, 300));
+
+
 // * ============================================================================
 /*
 Дан массив возрастов в семье, вернуть
@@ -44,6 +68,7 @@ console.log(realizeDistance(1000, 300));
 не использовать встроенные функции типа sort и т.п.
 */
 
+// ! Плохое решение. сложность алгоритма O(n ^ 2)
 function differenceInAges(ages) {
     for (let i = 0; i < ages.length; i++) {
         for (let j = i; ages[j] < ages[j - 1]; j--) {
@@ -54,6 +79,29 @@ function differenceInAges(ages) {
     if (ages[0] === 9) ages[0] = 0;
 
     return [ages[0], ages[ages.length - 1], ages[ages.length - 1] - ages[0]];
+}
+
+console.log(differenceInAges([82, 15, 6, 38, 35])); // [6, 82, 76]
+console.log(differenceInAges([57, 99, 14, 32])); // [14, 99, 85]
+
+// ! Хорошее сложность алгоритма линейная O(n)
+function differenceInAges(ages) {
+    let max = -Infinity;
+    let min = Infinity;
+    
+    for (let i = 0; i < ages.length; i++) {
+        ages[i] > max ? max = ages[i] : ages[i] < min ? min = ages[i] : false;
+    }
+
+    return [min, max, max - min];
+}
+
+console.log(differenceInAges([82, 15, 6, 38, 35])); // [6, 82, 76]
+console.log(differenceInAges([57, 99, 14, 32])); // [14, 99, 85]
+
+// ! просто краткое и читабельное функциональное решение в чисто дикларативном стиле
+function differenceInAges(ages) {
+    return [Math.min(...ages), Math.max(...ages), Math.max(...ages) - Math.min(...ages)]
 }
 
 console.log(differenceInAges([82, 15, 6, 38, 35])); // [6, 82, 76]

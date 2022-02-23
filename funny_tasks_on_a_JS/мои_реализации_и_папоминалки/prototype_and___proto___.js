@@ -42,3 +42,20 @@ console.log(Object.__proto__); // ƒ () { [native code] } //! базовая к�
 console.log(obj3.__proto__ === Object.__proto__); // false
 console.log(obj3.__proto__); // undefined
 console.log(Object.prototype.__proto__); // null
+
+// ======================================================================================
+
+function F1() {
+
+}
+F1.__proto__.name1 = 'Ruslan';
+console.log(F1.name1); //Ruslan 
+Function.prototype.name2 = 'Ruslan2' // и на чтение и на запись
+console.log(F1.name2); // Ruslan2
+
+function F2() {
+
+}
+console.log(F2.name1); //Ruslan 
+console.log(F2.name2); // Ruslan2
+
