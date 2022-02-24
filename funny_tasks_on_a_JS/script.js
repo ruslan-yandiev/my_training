@@ -38,50 +38,5 @@
 (== удаление / замена символа).
 */
 
-//! собес #24
-class MyPromise {
-    constructor(executor) {
-        this.queue = [];
-        this.errorHendler = () => {};
-        this.finallyHendler = () => {};
+//! собес #25
 
-        try {
-            executor.call(null, this.onResolve.bind(this), this.onReject.bind(this));
-        } catch(e) {
-            this.errorHendler(e);
-        } finally {
-            this.finallyHendler();
-        } 
-    }
-
-    onResolve(data) {
-        this.queue.forEach((callback) => {
-            data = callback(data);
-        });
-        this.finallyHendler();
-    }
-
-    onReject(error) {
-        this.errorHendler(error);
-        this.finallyHendler();
-    }
-
-    then(fn) {
-        this.queue.push(fn);
-        return this;
-    }
-
-    catch(fn) {
-        this.errorHendler = fn;
-        return this;
-    }
-
-    finally(fn) {
-        this.finallyHendler = fn;
-        return this;
-    }
-}
-
-const promise = new MyPromise(function(resolve, reject) {
-    setTimeout(() => resolve(10), 2000);
-});
