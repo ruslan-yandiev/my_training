@@ -246,3 +246,41 @@ function exists(arr) {
 
 console.log(exists([4,6,7,7,1])); // true
 console.log(exists([4,6,7,1,8])); // false
+
+// * ===========================================
+const arr = [2, 2, 1, 3, 3, 4, 1, 5, 4, 0, 9, 7, 9, 7, 5];
+
+function f(arr) {
+    return arr.find((el) => arr.indexOf(el) === arr.lastIndexOf(el))
+}
+
+console.log(f(arr));
+
+// Вернуть число повторяющееся 2 раза
+const arr = [2, 2, 1, 2, 8, 1, 3, 3, 3, 4, 8, 4, 0, 0, 1, 5, 5, 4, 0, 9, 9, 7, 7, 0, 9, 7, 5];
+
+function f(arr) {
+    return Object.entries(arr.reduce((acc, el) => {
+        acc[el] ? acc[el] += 1 : acc[el] = 1;
+        return acc;
+    }, {})).find((el) => el[1] === 2)[0]
+}
+
+console.log(f(arr));
+
+// * ==============================================================
+
+// Вернуть новый массив чисел повторяющихся 2 раза
+const arr2 = [6, 2, 2, 1, 2, 8, 1, 3, 3, 6, 3, 4, 8, 4, 0, 0, 1, 5, 5, 4, 0, 9, 9, 7, 7, 0, 9, 11, 11, 7, 5];
+
+function f2(arr) {
+    return Object.entries(arr.reduce((acc, el) => {
+        acc[el] ? acc[el] += 1 : acc[el] = 1;
+        return acc;
+    }, {}))
+    .filter((el) => el[1] === 2)
+    .flat(Infinity)
+    .filter((el) => typeof el === 'string');
+}
+
+console.log(f2(arr2));

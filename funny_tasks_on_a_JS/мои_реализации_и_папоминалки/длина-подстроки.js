@@ -134,37 +134,134 @@ function findStr(str) {
 
 console.log(findStr('0101001110100110011111000111111111111010100000001010101001')); // 12
 
+
+// вернуть длину самой длинной подстроки
+function f(str) {
+  let result = 1;
+  let step = 1;
+
+  for (let i = 0; i < str.length; i++) {
+      if (str[i] === str[i + 1]) {
+          step += 1;
+      } else {
+          if (result < step) result = step;
+          step = 1;
+      }
+  }
+  return result
+}
+
+console.log(f('01001101111100100101011111001001000111111111101111111100111001100110000100000000000000001110101')); // 16 
+
+
+// ! =================================================================================================
 /*
 В строке состоящей из нулей и единиц нужно найти самую длинную подстроку,
 состоящую только из единиц, если в исходной строке вы можете удалить один ноль в любой позиции
 и вернуть длину этой подстроки
 */
-
 function finds(str) {
-  let result = 1;
-  let detect = 0;
-  let detect2 = 0;
-  let bull = true;
+  let maxResult = 0;
+  let count = 0;
+  let lastResult = 0;
 
   for (let i = 0; i < str.length; i++) {
-    if (str[i] === "1") {
-      detect += 1;
-    } else if (str[i] === "0" && detect2 > 0) {
-      if (detect + detect2 > result) result = detect + detect2;
-      detect2 = detect;
-      detect = 0;
-    } else if (str[i] === "0" && str[i + 1] === "1" && bull) {
-      bull = false;
-      detect2 = detect;
-      detect = 0;
-    } else {
-      if (detect > result) result = detect;
-      detect = 0;
-      bull = true;
-    }
+      if (str[i] === '1') {
+          count += 1;
+      } else if (str[i] === '0' && str[i + 1] === '1') {
+          if (lastResult === 0) {
+              lastResult = count;
+              count = 0;
+          } else {
+              if (maxResult < lastResult + count) maxResult = lastResult + count;
+              lastResult = count;
+              count = 0;
+          }
+      } else if (str[i] === '0' & str[i + 1] === '0') {
+          if (maxResult < lastResult + count) maxResult = lastResult + count;
+          lastResult = 0;
+          count = 0;
+      }
   }
 
-  return detect + detect2 > result ? detect + detect2 : result;
+  return maxResult > count + lastResult ? maxResult : count + lastResult;
 }
 
+console.log(finds("0000000")); // 0
+console.log(finds("00010001")); // 1
+console.log(finds("000001010101010100000")); // 2
+console.log(finds("11111")); // 5
+console.log(finds("011111")); // 5
+console.log(finds("011111011111")); // 10
+console.log(finds("0111110111110")); // 10
+console.log(finds("001111101111100")); // 10
+console.log(finds("0011111011111")); // 10
+console.log(finds("11111001111101010101")); // 6
+console.log(finds("0111110111110011111001111101111111111")); // 15
+console.log(finds("0000011111011111011111111110111111111100111110111111111111111111110")); // 25
+console.log(finds("01001101111100100101011111001001000111111111101111111100111001100110000100000000000000001110101")); // 18
+console.log(finds("11100110010010101010000111011111000111100111100011100111111100000111000101010111110111111111101111111")); // 17
+
+
+// ! более простой и изящный вариант
+function finds(str) {
+  let result = 0;
+  const arr = str.split('0')
+
+  for (let i = 0; i < arr.length; i++) {
+      if (arr[i] && arr[i + 1]) {
+          if(result < arr[i].length + arr[i + 1].length) {
+              result = arr[i].length + arr[i + 1].length;
+          }
+      } else if (arr[i]) { // ну или указать просто else все равно пустая строка покажет длину 0, но так нагляднее будет
+          if(result < arr[i].length) {
+              result = arr[i].length;
+          }
+      }
+  }
+
+  return result;
+}
+
+console.log(finds("0000000")); // 0
+console.log(finds("00010001")); // 1
+console.log(finds("000001010101010100000")); // 2
+console.log(finds("11111")); // 5
+console.log(finds("011111")); // 5
+console.log(finds("011111011111")); // 10
+console.log(finds("0111110111110")); // 10
+console.log(finds("001111101111100")); // 10
+console.log(finds("0011111011111")); // 10
+console.log(finds("11111001111101010101")); // 6
+console.log(finds("0111110111110011111001111101111111111")); // 15
+console.log(finds("0000011111011111011111111110111111111100111110111111111111111111110")); // 25
+console.log(finds("01001101111100100101011111001001000111111111101111111100111001100110000100000000000000001110101")); // 18
+console.log(finds("11100110010010101010000111011111000111100111100011100111111100000111000101010111110111111111101111111")); // 17
+
+
+// ! еще более изящное решение
+function finds(str) {
+  return str.split('0').reduce((count, e, index, arr) => {
+      if (e && arr[index + 1]) {
+          if (count < e.length + arr[index + 1].length) count = e.length + arr[index + 1].length;
+      } else {
+          if (count < e.length) count = e.length;
+      }
+      return count;
+  }, 0)
+}
+
+console.log(finds("0000000")); // 0
+console.log(finds("00010001")); // 1
+console.log(finds("000001010101010100000")); // 2
+console.log(finds("11111")); // 5
+console.log(finds("011111")); // 5
+console.log(finds("011111011111")); // 10
+console.log(finds("0111110111110")); // 10
+console.log(finds("001111101111100")); // 10
+console.log(finds("0011111011111")); // 10
+console.log(finds("11111001111101010101")); // 6
+console.log(finds("0111110111110011111001111101111111111")); // 15
+console.log(finds("0000011111011111011111111110111111111100111110111111111111111111110")); // 25
+console.log(finds("01001101111100100101011111001001000111111111101111111100111001100110000100000000000000001110101")); // 18
 console.log(finds("11100110010010101010000111011111000111100111100011100111111100000111000101010111110111111111101111111")); // 17
