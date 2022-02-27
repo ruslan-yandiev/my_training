@@ -44,6 +44,39 @@ console.log(killer({
   'Finn': []
 }, ['Ben'])); // 'Megan'
 
+function killer(suspectInfo, dead) {
+  return Object.entries(suspectInfo).find((el) => el[1].filter((e) => dead.includes(e)).length === dead.length)[0];
+}
+
+console.log(killer({
+'James': ['Jacob', 'Bill', 'Lucas'],
+'Johnny': ['David', 'Kyle', 'Lucas'],
+'Peter': ['Lucy', 'Kyle']
+}, ['Lucas', 'Bill'])); // 'James'
+
+console.log(killer({
+'Brad': [],
+'Megan': ['Ben', 'Kevin'],
+'Finn': []
+}, ['Ben'])); // 'Megan'
+
+function killer(suspectInfo, dead) {
+  for (let key in suspectInfo) {
+      if (suspectInfo[key].filter((el) => dead.includes(el)).length === dead.length) return key;
+  }
+}
+
+console.log(killer({
+'James': ['Jacob', 'Bill', 'Lucas'],
+'Johnny': ['David', 'Kyle', 'Lucas'],
+'Peter': ['Lucy', 'Kyle']
+}, ['Lucas', 'Bill'])); // 'James'
+
+console.log(killer({
+'Brad': [],
+'Megan': ['Ben', 'Kevin'],
+'Finn': []
+}, ['Ben'])); // 'Megan'
 // * ===========================================================================
 /**
  * ! Прислал Dead__ Angel_ (задача с реального собеседования)
@@ -58,6 +91,45 @@ console.log(killer({
  * Create a function that receives an array of origin-destination tickets
  * and return the entire trip, ordered by city visited.
  */
+function rememberTheOrderOfVisitedCity(routes) {
+  let startRoute = Object.entries(routes.reduce((obj, el, index) => {
+      obj[el[0]] ? obj[el[0]][1] += 1 : obj[el[0]] = [0, 1, index];
+      obj[el[1]] ? obj[el[1]][1] += 1 : obj[el[1]] = [1, 1, index];
+      return obj;
+  }, {})).find((el) => el[1][0] === 0 && el[1][1] === 1)
+
+  function build(r, index) {
+      const newStart = r[index][1];
+      r.splice(index, 1)    
+      return !r.length ? newStart : newStart + "," + ' ' + build(r, r.indexOf(r.find((el, ind) => el[0] === newStart)));
+  }
+
+  return startRoute[0] + "," + ' ' + build(routes, startRoute[1][2]);
+}
+
+console.log(rememberTheOrderOfVisitedCity([
+["MNL", "TAG"], // 1
+["CEB", "TAC"], // 3
+["TAG", "CEB"], // 2
+["TAC", "BOR"], // 4
+]));                                        // "MNL, TAG, CEB, TAC, BOR"
+
+console.log(rememberTheOrderOfVisitedCity([
+["Chicago", "Winnipeg"], // 4
+["Halifax", "Montreal"], // 1
+["Montreal", "Toronto"], // 2
+["Toronto", "Chicago"],  // 3
+["Winnipeg", "Seattle"], // 5
+]));                                        // "Halifax, Montreal, Toronto, Chicago, Winnipeg, Seattle"
+
+console.log(rememberTheOrderOfVisitedCity([
+["USA","BRA"], // 1
+["JPN","PHL"], // 4
+["BRA","UAE"], // 2
+["UAE","JPN"], // 3
+]));                                        // "USA, BRA, UAE, JPN, PHL"
+
+
 function rememberTheOrderOfVisitedCity(routes) {
     // Получим набор уникальных мест поссещения
     let allWay = [...new Set(routes.flat(Infinity))];

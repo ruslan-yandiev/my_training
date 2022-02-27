@@ -4,6 +4,13 @@
 результата, и строку, которую нужно дополнить, если её длина меньше.
 */
 function leftPad(symbolsCount, str) {
+    return symbolsCount <= str.length ? str : [...str].reduce((acc, el) => acc + el, ' '.repeat(symbolsCount - str.length))
+}
+
+console.log(leftPad(6, 'test')); // Вернет "  test"
+console.log(leftPad(3, 'test')); // Вернет "test"
+
+function leftPad(symbolsCount, str) {
     if (symbolsCount <= str) return str;
 
     for (let i = 0; i < symbolsCount - str.length; i++) str = ' ' + str;
@@ -34,11 +41,23 @@ console.log(leftPad2(3, 'test')); // Вернет "test"
 // * ===========================================================================
 
 /*
-! С ркального сабеса
+! С рeального сабеса
 Создать функцию objCreator(arr), в которую передается массив строк. Функция
 должна вернуть объект с вложенными объектами под свойствами, переданными в
 массиве.
 */
+function objCreator(arr) {
+    const obj = {};
+    if (arr.length) obj[arr[0]] = objCreator(arr.slice(1));
+    return obj;
+}
+
+console.log(objCreator(['a', 'b', 'c'])); // {a:{b:{c:{}}}}
+console.log(objCreator(['a', 'b', 'c', 'd'])); // {a:{b:{c:{d:{}}}}}
+console.log(objCreator([])); // {}
+
+
+
 function objCreator(arr) {
     const obj = {};
 
@@ -56,6 +75,7 @@ function objCreator(arr) {
 console.log(objCreator(['a', 'b', 'c'])); // {a:{b:{c:{}}}}
 console.log(objCreator(['a', 'b', 'c', 'd'])); // {a:{b:{c:{d:{}}}}}
 console.log(objCreator([])); // {}
+
 
 function objCreator2(arr) {
     if (!arr.length) return {}
@@ -127,12 +147,40 @@ console.log(accum3("abcd")); // "A-Bb-Ccc-Dddd"
 console.log(accum3("RqaEzty")); // "R-Qq-Aaa-Eeee-Zzzzz-Tttttt-Yyyyyyy"
 console.log(accum3("cwAt")); // "C-Ww-Aaa-Tttt"
 
+function accum(str) {
+    return [...str.toUpperCase()].reduce((acc, el, index) => index < str.length - 1 ? acc + el.repeat(index + 1) + '-' :  acc + el.repeat(index + 1), '')
+}
+
+console.log(accum("abcd")); // "A-Bb-Ccc-Dddd"
+console.log(accum("RqaEzty")); // "R-Qq-Aaa-Eeee-Zzzzz-Tttttt-Yyyyyyy"
+console.log(accum("cwAt")); // "C-Ww-Aaa-Tttt"
+
 // * ==========================================================================
 /*
 Завершите решение так, чтобы оно разбило строку на пары из двух символов.
 Если строка содержит нечетное количество символов, она должна заменить
 отсутствующий второй символ последней пары символом подчеркивания ('_').
 */
+function solution(str) {
+    const result = [];
+
+    for (let i = 0; i < str.length; i += 2) {
+        str[i + 1] === undefined ? result.push(str[i] + '_') : result.push(str[i] + str[i + 1]);
+    }
+
+    return result;
+}
+
+console.log(solution('abc')); // should return ['ab', 'c_']
+console.log(solution('abcdef')); // should return ['ab', 'cd', 'ef']
+
+
+function solution2(str) {
+    return str.length === 1 ? str + '_' : str.length === 2 ? str[0] + str[1] : [str[0] + str[1], solution2(str.slice(2))].flat(Infinity);
+}
+
+console.log(solution2('abc')); // should return ['ab', 'c_']
+console.log(solution2('abcdef')); // should return ['ab', 'cd', 'ef']
 
 function solution(str) {
     const arr = [];

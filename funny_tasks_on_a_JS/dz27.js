@@ -23,6 +23,10 @@ function removeDuplicates(arr) {
     }, [])
 }
 
+function removeDuplicates(arr) {
+    return Array.from(new Set(arr));
+}
+
 console.log(
   removeDuplicates([
     "string",
