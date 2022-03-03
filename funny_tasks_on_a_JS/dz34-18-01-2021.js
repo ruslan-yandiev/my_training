@@ -53,6 +53,34 @@ const str = 'адрес карп кума мир мука парк рим сре
 // ];
 console.log(getAnagrams(str));
 
+function getAnagrams(str) {
+    let arr = str.split(' ');
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        let collection = [];
+
+        a: for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i].length !== arr[j].length) continue;
+
+            for (let x = 0; x < arr[j].length; x++) {
+                if (!arr[i].includes(arr[j][x])) continue a;
+            }
+
+            collection.push(arr[j]);
+            arr.splice(j, 1);
+            j--;
+        }
+
+        if (collection.length) {
+            collection.push(arr[i]);
+            result.push(collection);
+        };
+    }
+
+    return result;
+}
+
 // * ==================================================================
 /*
 Необходимо реализовать функцию getDigitsSum, которая будет складывать 
@@ -85,12 +113,30 @@ function digitsSum(value) {
     }
 }
 
+function digitsSum(num) {
+    if (num.toString().length === 1) return num;
+    num = [...num.toString()];
+
+    for (let i = 0; num.length > 1; i++) {
+        num = num.reduce((acc, el) => +acc + +el);
+        num = [...num.toString()];
+    }
+
+    return +num[0];
+}
+
 // Вариант с рекурсией
 function digitsSumRec(value) {
     let num = value.toString().split('');
     if (num.length === 1) return num[0];
     let result = num.reduce((acc, elem) => acc + +elem, 0);
     return digitsSumRec(result);
+}
+
+function digitsSumRec(num) {
+    if (num.toString().length === 1) return num;
+    num = [...num.toString()].reduce((acc, el) => +acc + +el);
+    return num.toString().length > 1 ? digitsSumRec(num) : num;
 }
 
 console.log(digitsSum(5)); // 5

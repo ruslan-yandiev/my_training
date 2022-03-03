@@ -227,7 +227,7 @@ console.log(sumDigits(904)); // 13
 console.log(sumDigits(3)); // 3
 
 /*
-! Все функции-конструкторы, созданные с помощью 'new', будут иметь тип 'object'
+! Все функции-конструкторы (экземпляры), созданные с помощью 'new', будут иметь тип 'object'
 var str = new String('String');
 var num = new Number(100);
 
