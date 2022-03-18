@@ -32,23 +32,6 @@
 // setTimeout(() => f(6), 2300); // выполняется
 
 //* =======================================================================================================================
-/*
-Даны две строки.
-Написать функцию, которая вернёт True, если из первой строки можно получить вторую, совершив не более 1 изменения 
-(== удаление / замена символа).
-*/
 
-//! собес #30
-function myFind(arr, num) {
-    if (arr.length > 1) {
-        const mid = Math.floor(arr.length / 2);
-        const left = arr.slice(0, mid);
-        const right = arr.slice(mid);
+//! 36
 
-        return num > left[left.length - 1] ? myFind(right, num) : myFind(left, num);
-    }
-
-    return arr[0];
-}
-
-console.log(myFind([1, 2, 3, 4, 5, 6, 7, 8], 8));

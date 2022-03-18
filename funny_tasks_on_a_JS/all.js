@@ -897,7 +897,90 @@ setTimeout(() => debounceFunc('MockInterview 2210'), 2210);
 
 // * ==================================================================================================================================
 
+// ! переписать данный код на промисы:
+const printSeconds = (number, callback) => {
+    setTimeout(() => {
+        console.log(`Прошло секунд ${number}`);
+        callback();
+    }, 1000);
+};
 
+printSeconds(1, () => {
+    printSeconds(2, () => {
+        printSeconds(3, () => {});
+    });
+});
+// мой вариант
+new Promise(function (resolve, reject) {
+    let time = 0;
+
+    resolve(function (number) {
+        setTimeout(() => console.log(`Прошло секунд ${number}`), (time += 1000));
+    });
+})
+    .then((result) => {
+        result(1);
+        return result;
+    })
+    .then((result) => {
+        result(2);
+        return result;
+    })
+    .then((result) => {
+        result(3);
+        return result;
+    });
+
+// еще вариант
+const printSeconds2 = (number) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(`Прошло секунд ${number}`);
+            resolve();
+        }, 1000);
+    });
+};
+
+printSeconds2(1)
+    .then(() => {
+        return printSeconds2(2);
+    })
+    .then(() => {
+        return printSeconds2(3);
+    });
+
+// комбо
+const printSeconds = (number) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(`Прошло секунд ${number}`);
+            resolve();
+        }, 1000);
+    });
+};
+(async function () {
+    await printSeconds(1);
+    await printSeconds(2);
+    await printSeconds(3);
+})();
+
+// такой вариант
+async function printSeconds() {
+    let time = 0;
+    return function (number) {
+        setTimeout(() => {
+            console.log(`Прошло секунд ${number}`);
+        }, (time += 1000));
+    };
+}
+(async function () {
+    const start = await printSeconds();
+    start(1);
+    start(2);
+    start(3);
+})();
+
+// * ==================================================================================================================================
 
 
 

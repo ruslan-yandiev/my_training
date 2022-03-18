@@ -86,6 +86,36 @@ console.log(solve4([16,17,14,3,14,5,2])); // [17, 14, 5, 2]
 console.log(solve4([92,52,93,31,89,87,77,105])); // [105]
 console.log(solve4([75,47,42,56,13,55])); // [75, 56, 55]
 console.log(solve4([67,54,27,85,66,88,31,24,49])); // [88, 49]
+
+function solve(arr) {
+    const result = [];
+
+    a: for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] <= arr[j]) continue a;
+        }
+        result.push(arr[i]);
+    }
+
+    return result;
+}
+
+console.log(solve([16,17,14,3,14,5,2])); // [17, 14, 5, 2]
+console.log(solve([92,52,93,31,89,87,77,105])); // [105]
+console.log(solve([75,47,42,56,13,55])); // [75, 56, 55]
+console.log(solve([67,54,27,85,66,88,31,24,49])); // [88, 49]
+
+function solve(arr) {
+    return arr.reduce((acc, el, index) => {
+        if (el > Math.max(...arr.slice(index + 1))) acc.push(el);
+        return acc;
+    }, []);
+}
+
+console.log(solve([16,17,14,3,14,5,2])); // [17, 14, 5, 2]
+console.log(solve([92,52,93,31,89,87,77,105])); // [105]
+console.log(solve([75,47,42,56,13,55])); // [75, 56, 55]
+console.log(solve([67,54,27,85,66,88,31,24,49])); // [88, 49]
 // * ===========================================================================================
 
 function intersect(arr) {
@@ -118,6 +148,8 @@ console.log(intersect(['1-5', '7-9', '2-6']));     // ['1-6', '7-9']
 console.log(intersect(['2-4', '5-5', '5-15']));    // ['2-4', '5-15']
 console.log(intersect([]));
 
+
+
 function intersect2(arr) {
     if (arr.length === 0) return arr;
 
@@ -147,4 +179,28 @@ console.log(intersect2(['2-4', '5-5', '5-15']));    // ['2-4', '5-15']
 console.log(intersect2([]));    
 
 
+function intersect(arr) {
+    const result = [];
+    arr.sort((a, b) => +a[0] - +b[0]);
 
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i][0] === arr[i][2] && arr.some((el) => el[0] === arr[i][0] || el[2] === arr[i][0])) continue;
+
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i][0] < arr[j][0] && arr[i][2] > arr[j][0] && arr[i][2] < arr[j][2]) {
+                arr[i] = arr[i][0] + '-' + arr[j][2]; // ну или arr.splice(i, 1,  arr[i][0] + '-' + arr[j][2]);
+                arr.splice(j, 1);
+                j--;
+            }
+        }
+
+        result.push(arr[i]);
+    }
+
+    return result;
+}
+
+console.log(intersect(['1-5', '7-9', '2-6']));     // ['1-6', '7-9']
+console.log(intersect(['2-4', '5-5', '5-15']));    // ['2-4', '5-15']
+console.log(intersect([]));
+console.log(intersect(['1-5', '7-9', '2-6', '4-7']));     // ['1-7', '7-9']

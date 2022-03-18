@@ -29,10 +29,7 @@ new Promise(function (resolve, reject) {
     let time = 0;
 
     resolve(function (number) {
-        setTimeout(
-            () => console.log(`Прошло секунд ${number}`),
-            (time += 1000),
-        );
+        setTimeout(() => console.log(`Прошло секунд ${number}`), (time += 1000));
     });
 })
     .then((result) => {
@@ -137,6 +134,25 @@ const arr = [2, 5, 8, 9, 22, 57, 94, 100, 127, 198, 345, 451];
 console.log(findIndexSum(79, arr)); // 4 + 5 -> 9
 console.log(findIndexSum(70, arr)); // -1
 
+
+// ! лучшее решение сложность алгоритма О(n), работает даже не отсортированными массивами
+function findIndexSum(num, arr) {
+    const obj = {};
+
+    for (let i = 0; i < arr.length; i++) {
+        if (obj[num - arr[i]]) {
+            return obj[num - arr[i]] + i;
+        } else {
+            obj[arr[i]] = i;
+        }
+    }
+
+    return -1;
+}
+
+const arr = [2, 5, 8, 9, 22, 57, 94, 100, 127, 198, 345, 451];
+console.log(findIndexSum(79, arr)); // 4 + 5 -> 9
+console.log(findIndexSum(70, arr)); // -1
 // =============================================================================================================
 
 /**
