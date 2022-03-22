@@ -34,6 +34,17 @@ function sumNumbers(arr) {
 
 console.log(sumNumbers([1, '9', NaN, 9.5, true, 'WebInterview', Symbol('5'), null, 5n, undefined, { a: 5 }, () => 100])); // 4.25
 
+
+function sumNumbers(arr) {
+    let count = 0;
+    return arr.reduce((sum, el) => {
+        if (typeof el !== 'symbol' && !Number.isNaN(Number(el))) {
+            sum += Number(el);
+            count += 1;
+        }
+        return sum;
+    }, 0) / count;
+}
 // ==================================================================
 /*
 Прислал Владислав Аткишкин

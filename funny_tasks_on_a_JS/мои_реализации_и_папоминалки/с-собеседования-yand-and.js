@@ -450,3 +450,40 @@ function finds(str) {
 console.log(finds("11100110010010101010000111011111000111100111100011100111111100000111000101010111110111111111101111111")); // 17
 
 // ==============================================================================
+
+/*
+! Задача с реального собеседования.
+
+В функцию sumNumbers передается массив, содержащий все подряд (любые
+типы данных). Необходимо реализовать функцию так, чтобы она вернула
+среднее арифметическое всех элементов, которые могут быть нативно
+представлены в javascript в виде числа, т.е. мы считаем значение, если
+при прверащении в число, значение не является NaN.
+*/
+function sumNumbers(arr) {
+  let step = 0,
+      sum = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] !== 'symbol' && !Number.isNaN(Number(arr[i]))) {
+          step += 1;
+          sum += Number(arr[i]);
+      }
+  }
+
+  return sum / step;
+}
+
+console.log(sumNumbers([1, '9', NaN, 9.5, true, 'WebInterview', Symbol('5'), null, 5n, undefined, { a: 5 }, () => 100])); // 4.25
+
+
+function sumNumbers(arr) {
+  let count = 0;
+  return arr.reduce((sum, el) => {
+      if (typeof el !== 'symbol' && !Number.isNaN(Number(el))) {
+          sum += Number(el);
+          count += 1;
+      }
+      return sum;
+  }, 0) / count;
+}
