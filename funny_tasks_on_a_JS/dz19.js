@@ -52,7 +52,7 @@ console.log(replaceItems([1,2,3,4,2], 2, 'a')); //  [1,'a',3,4,'a']
 */
 let arr = [1, 2, [3, 4, [5]], 6, 7, [[8]]];
 
-// решение 1
+//! решение 1, некорректное
 function compact(arr) {
 	return [...[].concat.apply([], arr).join('')].map(e => +e);
 }
@@ -98,7 +98,7 @@ console.log(compact3(arr));
 
 // решение 4
 function compact4(arr) {
-	return arr.toString().split(",").map(x => +x);
+	return arr.toString().split(",").map(x => x);
 }
 
 console.log(compact4(arr));
