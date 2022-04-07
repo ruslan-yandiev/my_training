@@ -62,6 +62,8 @@ Array.prototype.myReduce = function (callback, initialValue) {
   return initialValue;
 };
 
+// ===============
+
 Array.prototype.myReduce = function (callBack, acc) {
   let result = acc === undefined ? this[0] : acc;
   let startIndex = acc === undefined ? 1 : 0;
@@ -71,4 +73,27 @@ Array.prototype.myReduce = function (callBack, acc) {
   }
 
   return result;
+}
+// ================
+
+Array.prototype.myReduce = function(callBack, acc) {
+  let index = acc === undefined ? 1 : 0;
+  acc = acc === undefined ? this[0] : acc;
+
+  for (let i = index; i < this.length; i++) {
+      acc = callBack(acc, this[i], i, this);
+  }
+
+  return acc;
+}
+// ==================
+
+Array.prototype.myReduce = function() {
+  arguments[1] = arguments.length === 1 ? this[0] : arguments[1]; 
+
+  for (let i = arguments.length === 1 ? 1 : 0; i < this.length; i++) {
+      arguments[1] = arguments[0](arguments[1], this[i], i, this);
+  }
+
+  return arguments[1];
 }

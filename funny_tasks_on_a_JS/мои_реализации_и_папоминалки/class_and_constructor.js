@@ -92,6 +92,55 @@ console.log(score.getHistory());
 console.log(score.firstPlayerScore);
 console.log(score.secondPlayerScore);
 
+
+// ==================================================================================
+function Score() {
+    this.collection = [];
+    this.ferst = 0, this.second = 0;
+
+    this.add = function() {
+        this.collection.push({ferstPlayerScore: this.ferst, secondPlayerScore: this.second})
+    };
+
+    this.getHistory = function() {
+        return this.collection;
+    }
+
+    Object.defineProperties(this, {
+        'ferstPlayerScore': {
+            get: function() {
+                return this.ferst;
+            },
+
+            set: function(num) {
+                this.ferst = num;
+                this.add();
+            }
+        },
+
+        'secondPlayerScore': {
+            get() {
+                return this.second;
+            },
+
+            set(num) {
+                this.second = num;
+                this.add();
+            }
+        }
+    })
+}
+
+const score = new Score();
+
+score.ferstPlayerScore = 1;
+score.ferstPlayerScore = 2;
+score.secondPlayerScore = 1;
+
+console.log(score.ferstPlayerScore);
+console.log(score.secondPlayerScore);
+
+console.log(score.getHistory());
 //* ==============================================================================================================
 
 class Developer {

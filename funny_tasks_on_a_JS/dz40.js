@@ -37,3 +37,8 @@ console.log(
 
 const squareDigits = (num) => [...num.toString()].reduce((acc, elem) => acc + (+elem) ** 2, '');
 console.log(squareDigits(9119)); // 9^2=81, 1^2=1 => 811181
+// =================================
+function squareDigits(num) {
+    return +[...num.toString()].reduce((acc, el) => acc + el ** 2, '')
+}
+console.log(squareDigits(9119)); // 9^2=81, 1^2=1 => 811181

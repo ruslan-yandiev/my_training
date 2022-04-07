@@ -59,6 +59,19 @@ console.log(getFirstAnagram2('linkk1')); // "k1nkil"
 console.log(getFirstAnagram2('linkkk1')); // "null"
 console.log('===================================');
 
+
+const getFirstAnagram = (str) => {
+    const a = arr.filter((el) => [...el].filter((e) => str.includes(e)).length === el.length && el.length === str.length);
+    return a.length > 1 ? a[0] : null
+};
+
+console.log(getFirstAnagram('asd')); // "asd"
+console.log(getFirstAnagram('link')); // null
+console.log(getFirstAnagram('link1')); // "1nkil"
+
+
+// ====================================================================================================
+
 /*
 Представьте что вы попали на собеседование в Гугл, так-вот у Гугла
 очень крутая система защиты от взлома серверов. Каждый сервер
@@ -86,6 +99,19 @@ function getDataFromSecurityNumber(arr, floor) {
     }
 
     return result.flat(Infinity);
+}
+
+const arr = [1, 2, 3, [4, 5], [6, [7]], [8, 9]];
+
+console.log(getDataFromSecurityNumber(arr, 0)); // [1, 2, 3]
+console.log(getDataFromSecurityNumber(arr, 1)); // [4, 5, 6, 8, 9]
+console.log(getDataFromSecurityNumber(arr, 2)); // [7]
+console.log(getDataFromSecurityNumber(arr, 3)); // []
+
+
+
+function getDataFromSecurityNumber(arr, floor) {
+    return floor ? getDataFromSecurityNumber(arr.filter((el) => typeof el === 'object').flat(1), floor - 1) : arr.filter((el) => typeof el !== 'object')
 }
 
 const arr = [1, 2, 3, [4, 5], [6, [7]], [8, 9]];
