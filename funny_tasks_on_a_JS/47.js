@@ -72,11 +72,7 @@ function flatten(array) {
 
   function flating(arr) {
       for (let i = 0; i < arr.length; i++) {
-          if (Array.isArray(arr[i])) {
-              flating(arr[i]);
-          } else {
-              result.push(arr[i]);
-          }
+          Array.isArray(arr[i]) ? flating(arr[i]) : result.push(arr[i]);
       }
   }
 
@@ -84,6 +80,118 @@ function flatten(array) {
   return result;
 }
 
-
+function flatten(array) {
+  return [...array.reduce((acc, el) => Array.isArray(el) ? acc + flatten(el) : acc + el, '')].filter((el) => el !== ',').map((el) => +el);
+}
 
 console.log(flatten([[1], [[2, 3]], [[[4]]]])) // -> [1, 2, 3, 4]
+
+// * =============================================================================
+/*
+### Удаление всех повторяющихся значений в строке
+
+Напишите функцию, которая принимает строку и возвращает новую, в которой все дублирующиеся символы будут удалены.
+
+**Input**: String
+
+**Output**: String
+*/
+function removeDupes(str) {
+  return [...new Set(str)].join('');
+}
+
+function removeDupes(str) {
+  return Object.keys([...str].reduce((obj, el) => {
+      obj[el] = el;
+      return obj;
+  }, {})).join('');
+}
+
+function removeDupes(str) {
+  let result = '';
+  const detect = {};
+
+  for (let i = 0; i < str.length; i++) {
+      if (detect[str[i]]) {
+          continue;
+      } else {
+          detect[str[i]] = true;
+          result += str[i];
+      }
+  }
+
+  return result;
+}
+
+console.log(removeDupes('abcd')) // -> 'abcd'
+console.log(removeDupes('aabbccdd')) // -> 'abcd'
+console.log(removeDupes('abcddbca')) // -> 'abcd'
+console.log(removeDupes('abababcdcdcd')) // -> 'abcd'
+
+// * ===============================================================
+
+/*
+### Какая строка встречается чаще всего
+
+Напишите функцию, которая принимает массив строк и возвращает самую частовстречающуюся строку в этом массиве. Если таких строк несколько, то нужно вернуть первую, идя слева на право.
+
+**Input**: String[]
+
+**Output**: String
+*/
+function highestFrequency(array) {
+  return Object.entries(array.reduce((obj, str) => {
+      obj[str] ? obj[str] += 1 : obj[str] = 1;
+      return obj;
+  }, {})).reduce((obj, el) => {
+      if(el[1] > obj['detect']) {
+          obj['detect'] = el[1];
+          obj['result'] = el[0];
+      }
+      return obj;
+  }, {'detect': 0})['result'];
+}
+
+function highestFrequency(array) {
+  const collection = {};
+  
+  for (let i = 0; i < array.length; i++) {
+      collection[array[i]] ? collection[array[i]] += 1 : collection[array[i]] = 1;
+  }
+
+  let detect = 0, result;
+
+  for (key in collection) {
+      if (collection[key] > detect) {
+          detect = collection[key];
+          result = key;
+      }
+  }
+
+  return result;
+}
+
+console.log(highestFrequency(['a', 'b', 'c', 'c', 'd', 'e'])) // -> c
+console.log(highestFrequency(['abc', 'def', 'abc', 'def', 'abc'])) // -> abc
+console.log(highestFrequency(['abc', 'def'])) // -> abc
+console.log(highestFrequency(['abc', 'abc', 'def', 'def', 'def', 'ghi', 'ghi', 'ghi', 'ghi' ])) // -> ghi
+
+// * =========================================================================
+/*
+ЗАДАЧА: Есть массив [1,2,3,4,5] развернуть массив не создавая новый массив и не использовать revers
+*/
+
+const arr = [1,2,3,4,5];
+let accumStr = '';
+
+for (let i = 0; arr.length; i++) {
+    accumStr += arr.pop()
+}
+
+for (let i = 0; i < accumStr.length; i++) {
+    arr.push(+accumStr[i])
+}
+
+console.log(arr);
+
+// * ===========================================================================
