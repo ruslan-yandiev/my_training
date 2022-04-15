@@ -35,97 +35,240 @@
 
 //! 39
 /*
-Задача Calculator
 Описание
-Создайте функцию calculate. Функция должна принимать арифметические операции двух чисел в виде строки и возвращать строку с результатом их выполнения.
-Функция принимает данные из аргументов и возвращает с помощью return.
+Нужно реализовать функцию validate для проверки данных в объекте. На вход приходит набор данных (например, данные формы) и набор правил для валидации, описанных в определенном формате. Нужно понять, соответствуют ли данные этим правилам и, если нет, выдать информацию - какие данные каким правилам не соответствуют.
 
-Требования
-Решение должно пройти все тесты.
-Калькулятор умеет выполнять операции сложения, вычитания, умножения и деления с двумя числами: a + b, a - b, a * b, a / b. Данные передаются в виде одной строки!
-Калькулятор умеет работать как с арабскими (1,2,3,4,5…), так и с римскими (I,II,III,IV,V…) числами. Оба операнда должны быть либо арабскими, либо римскими.
-Операнды должны лежать в диапазоне от 1 до 10 включительно, без ноля. Ответ может быть больше 10.
-Калькулятор умеет работать только с целыми числами, принимает и возвращает.
-Результат на выходе всегда строка с целым числом. В делении учитываем только целую часть - десятичную отбрасываем, например 2 / 4 = 0,5 - вернём 0.
-Калькулятор умеет работать только с арабскими или римскими цифрами одновременно, при вводе пользователем строки вроде 3 + II калькулятор должен выбросить исключение (ошибку) и прекратить свою работу.
-Поскольку в римской системе счисления нет нуля и отрицательных чисел, то вместо них возвращаем пустую строку. (например I - II = '')
-При вызове калькулятора с неподходящими числами, функция выбрасывает исключение и завершает свою работу.
-При вызове калькулятора со строкой, которая не является математическим примером с одной из арифметических операций, описанных в требовании, приложение выбрасывает исключение и завершает свою работу.
-*/
-function calculate(str) {
-    /*
-        TODO - Может быть вернуть просто драбление по split(' ')
-        TODO - усовершенствовать функцию decoding
-        TODO - 
-    */
+Входные данные
+data - объект, где ключи - имена полей, а значения - значения притивных типов (не массивы/объекты)
+rules - объект набором правил, где ключи - имена полей, а значения - объект с правилами валидации. Правила записаны
+Выходные данные - объект с полями:
+result - булево значение, если ошибок не было - true, были - false
+errors - если не было ошибок - пустой массив, если были - массив объектов формата с полями:
+field - название поля
+value - значение поля
+rule - имя правила, которому не соответсвовало поле
+Пример:
 
-    str = [...str].filter((el) => el !== ' ').join(''); // распарсим варианты когда строка может быть "1+1" или "1 + 1" или "1+ 1"
-    
-    const elements = [];
-
-    function decoding(num) {
-        const decod = {'C': 100, 'XC': 90, 'L': 50, 'XL': 40, 'X': 10, 'IX': 9, 'V': 5, 'IV': 4, 'I': 1};
-
-        if (typeof num === 'string') {
-            return decod[num] ? decod[num] : [...num.toString()].reduce((acc, e) => acc + decod[e], 0);
-        }
-
-        let result = '';
-
-        for (key in decod) {
-            while(decod[key] <= num) {
-                result += key;
-                num -= decod[key];
-            }
-        }
-
-        return result;
-    }
-
-    for (let i = 0; i < str.length; i++) {
-        if (str[i] === '+' || str[i] === '-' || str[i] === '*' || str[i] === '/') {
-            elements.push(str.substring(0, i), str[i], str.substring(i + 1));
-            break;
-        }
-    }
-    
-    if (elements.length > 3) throw new Error('Формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)');
-    if (elements.length < 3) throw new Error('Cтрока не является математической операцией');
-    if (Number.isNaN(+elements[0]) && !Number.isNaN(+elements[2]) || !Number.isNaN(+elements[0]) && Number.isNaN(+elements[2])) {
-        throw new Error('Используются одновременно разные системы счисления');
-    }
-
-    let result;
-
-    if (elements[1] === '+') {
-        result = Number.isNaN(+elements[0]) ? decoding(elements[0]) + decoding(elements[2]) : +elements[0] + +elements[2];
-    } else if (elements[1] === '-') {
-        result = Number.isNaN(+elements[0]) ? decoding(elements[0]) - decoding(elements[2]) : +elements[0] - +elements[2];
-    } else if (elements[1] === '*') {
-        result = Number.isNaN(+elements[0]) ? decoding(elements[0]) * decoding(elements[2]) : +elements[0] * +elements[2];
-    } else {
-        result = Number.isNaN(+elements[0]) ? decoding(elements[0]) / decoding(elements[2]) : +elements[0] / +elements[2];
-    }
-
-    if (result === 0 && Number.isNaN(+elements[0])) return '';
-    if (result === 0) return '0';
-
-    result = Math.floor(result);
-
-    return Number.isNaN(+elements[0]) ? decoding(result).toString() : result.toString();
+var data = {
+    name: 'Alex',
+    age: 30,
+    profession: 
+};
+var rules = {
+    name: { required: true, minLength: 1, maxLength: 3 },
+    age: { min: 18, max: 60 },
 }
 
-// console.log(calculate('XCVIII + I')); // вернётся строка XCIX'
-console.log(calculate('IX - VIII')); // вернётся строка I'
-console.log(calculate('IX + VIII')); // вернётся строка XVII'
-console.log(calculate('X * X')); // вернется строка 'C'
-console.log(calculate('X + X')); // вернется строка 'XX'
-console.log(calculate('1+1')); // вернется строка '2'
-console.log(calculate('1 + 2')); // вернется строка '3'
-console.log(calculate('VI / III')); // вернется строка 'II'
-console.log(calculate('VII / III')); // вернётся строка II'
-console.log(calculate('I + II')); // вернется строка 'III'
-console.log(calculate('I - II')); // вернётся строка '' (пустая строка) т.к. в римской системе нет отрицательных чисел
-console.log(calculate('I + 1')); // вернётся исключение (ошибка) throws Error т.к. используются одновременно разные системы счисления
-console.log(calculate('I')); // вернётся исключение throws Error т.к. строка не является математической операцией
-console.log(calculate('1 + 1 + 1')); // вернётся исключение throws Error т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)
+validate(data, rules); // { result: true, errors: [] }
+data.age = 5;
+validate(data, rules); // { result: false, errors: [{field: 'age', value: 30, error: 'max'}] }
+
+
+Набор возможных правил (в скобках - параметр):
+
+required (bool) - поле содержится в объекте и не равно null. Если required в правилах нет - поле считается опциональным.
+isString (bool) - поле - это строка
+isNumber (bool) - поле - это корректное число
+isBoolean (bool) - поле - это булево значение
+minLength (number) - поле - это строка с длиной больше или равной параметру
+maxLength (number) - поле - это строка с длиной меньше или равной параметру
+min (number) - поле - это число больше или равное параметру
+max (number) - поле - это число меньше или равное параметру
+isEmail (bool) - поле - корректный email (базовая проверка на корректность, без сложных случаев)
+*/
+
+function validate(data, rules) {
+    // code here
+}
+
+console.log(validate(
+{ name: "Alex", age: 41, city: null }, 
+{},
+), { result: true, errors: [] });
+
+console.log(validate(
+{ name: "Alex", age: 41, city: null }, 
+{ name: {}, age: {}, city: {} },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ name: "Alex" }, 
+{ name: { isString: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ name: "" }, 
+{ name: { isString: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ name: NaN }, 
+{ name: { isString: true } },
+), { result: false, errors: [{ value: NaN, field: 'name', rule: 'isString' }] });
+
+console.log(validate(
+{ name: 3 }, 
+{ name: { isString: true } },
+), { result: false, errors: [{ value: 3, field: 'name', rule: 'isString' }] });
+
+console.log(validate(
+{ age: 10 }, 
+{ age: { isNumber: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ age: 0 }, 
+{ age: { isNumber: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ age: NaN }, 
+{ age: { isNumber: true } },
+), { result: false, errors: [{ value: NaN, field: 'age', rule: 'isNumber' }] });
+
+console.log(validate(
+{ age: '4' }, 
+{ age: { isNumber: true } },
+), { result: false, errors: [{ value: '4', field: 'age', rule: 'isNumber' }] });
+
+console.log(validate(
+{ value: true }, 
+{ value: { isBoolean: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ value: false }, 
+{ value: { isBoolean: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ value: 1 }, 
+{ value: { isBoolean: true } },
+), { result: false, errors: [{ value: 1, field: 'value', rule: 'isBoolean' }] });
+
+console.log(validate(
+{ age: 10 }, 
+{ age: { min: 5, max: 20 } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ age: 10 }, 
+{ age: { min: 10, max: 10 } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ age: 11 }, 
+{ age: { min: 10, max: 10 } },
+), { result: false, errors: [{ value: 11, field: 'age', rule: 'max' }] });
+
+console.log(validate(
+{ age: 9 }, 
+{ age: { min: 10, max: 10 } },
+), { result: false, errors: [{ value: 9, field: 'age', rule: 'min' }] });
+
+console.log(validate(
+{ age: NaN }, 
+{ age: { min: 10, max: 10 } },
+), { 
+result: false, 
+errors: [
+    { value: NaN, field: 'age', rule: 'min' }, 
+    { value: NaN, field: 'age', rule: 'max' },
+],
+});
+
+console.log(validate(
+{ name: "Alex" }, 
+{ name: { minLength: 3, maxLength: 5 } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ name: "Alex" }, 
+{ name: { minLength: 4, maxLength: 4 } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ name: 1 }, 
+{ name: { minLength: 4, maxLength: 4 } },
+), { 
+result: false, 
+errors: [
+    { value: 1, field: 'name', rule: 'minLength' }, 
+    { value: 1, field: 'name', rule: 'maxLength' },
+],
+});
+
+console.log(validate(
+{ name: "Alex1" }, 
+{ name: { minLength: 4, maxLength: 4 } },
+), { result: false, errors: [{ value: "Alex1", field: 'name', rule: 'maxLength' }] });
+
+console.log(validate(
+{ name: "Ale" }, 
+{ name: { minLength: 4, maxLength: 4 } },
+), { result: false, errors: [{ value: "Ale", field: 'name', rule: 'minLength' }] });
+
+console.log(validate(
+{ value: true }, 
+{ value: { required: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ value: false }, 
+{ value: { required: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ value: '' }, 
+{ value: { required: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{}, 
+{ value: { required: true } },
+), { result: false, errors: [{ value: undefined, field: 'value', rule: 'required' }] });
+
+console.log(validate(
+{ value: null }, 
+{ value: { required: true } },
+), { result: false, errors: [{ value: null, field: 'value', rule: 'required' }] });
+
+console.log(validate(
+{ name: 'Alex' }, 
+{ name: { isString: true, required: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ name: null }, 
+{ name: { isString: true, required: true } },
+), { result: false, errors: [{ value: null, field: 'name', rule: 'required' }] });
+
+console.log(validate(
+{}, 
+{ name: { isString: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{}, 
+{ name: { isNumber: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ email: 'mail@example.com' }, 
+{ naemailmemaile: { isEmail: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ email: 'fred-cooper@mail.spb.com' }, 
+{ email: { isEmail: true } },
+), { result: true, errors: [] });
+
+console.log(validate(
+{ email: 'example.com' }, 
+{ email: { isEmail: true } },
+), { result: false, errors: [{ value: 'example.com', field: 'email', rule: 'isEmail' }] });
+
+console.log(validate(
+{ email: 'pix@' }, 
+{ email: { isEmail: true } },
+), { result: false, errors: [{ value: 'pix@', field: 'email', rule: 'isEmail' }] });
