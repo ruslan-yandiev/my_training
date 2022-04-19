@@ -34,241 +34,97 @@
 //* =======================================================================================================================
 
 //! 39
-/*
-Описание
-Нужно реализовать функцию validate для проверки данных в объекте. На вход приходит набор данных (например, данные формы) и набор правил для валидации, описанных в определенном формате. Нужно понять, соответствуют ли данные этим правилам и, если нет, выдать информацию - какие данные каким правилам не соответствуют.
-
-Входные данные
-data - объект, где ключи - имена полей, а значения - значения притивных типов (не массивы/объекты)
-rules - объект набором правил, где ключи - имена полей, а значения - объект с правилами валидации. Правила записаны
-Выходные данные - объект с полями:
-result - булево значение, если ошибок не было - true, были - false
-errors - если не было ошибок - пустой массив, если были - массив объектов формата с полями:
-field - название поля
-value - значение поля
-rule - имя правила, которому не соответсвовало поле
-Пример:
-
-var data = {
-    name: 'Alex',
-    age: 30,
-    profession: 
-};
-var rules = {
-    name: { required: true, minLength: 1, maxLength: 3 },
-    age: { min: 18, max: 60 },
-}
-
-validate(data, rules); // { result: true, errors: [] }
-data.age = 5;
-validate(data, rules); // { result: false, errors: [{field: 'age', value: 30, error: 'max'}] }
-
-
-Набор возможных правил (в скобках - параметр):
-
-required (bool) - поле содержится в объекте и не равно null. Если required в правилах нет - поле считается опциональным.
-isString (bool) - поле - это строка
-isNumber (bool) - поле - это корректное число
-isBoolean (bool) - поле - это булево значение
-minLength (number) - поле - это строка с длиной больше или равной параметру
-maxLength (number) - поле - это строка с длиной меньше или равной параметру
-min (number) - поле - это число больше или равное параметру
-max (number) - поле - это число меньше или равное параметру
-isEmail (bool) - поле - корректный email (базовая проверка на корректность, без сложных случаев)
-*/
-
 function validate(data, rules) {
-    // code here
+    let result = true;
+    let errors = [];
+
+    for (let field of Object.keys(rules)) {
+        let fieldRules = rules[field];
+        let fieldVal = data[field];
+        let rulesArr = [];
+        let rulesOrder = ['required', 'isString', 'isNumber', 'isBoolean', 'minLength', 'maxLength', 'min', 'max', 'isEmail'];
+
+        for (let rule of rulesOrder) {
+            if (Object.keys(fieldRules).includes(rule)) {
+                rulesArr.push(rule);
+            }
+        }
+
+        for (let rule of rulesArr) {
+            let ruleVal = fieldRules[rule];
+
+            if (rule === 'required' && ruleVal === true) {
+                if (fieldVal === undefined || fieldVal === null) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule});
+                    break;
+                }
+            }
+
+            if (rule === 'isString' && ruleVal === true && fieldVal !== undefined) {
+                if (!(fieldVal instanceof String || typeof fieldVal === 'string')) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule})
+                    break;
+                }
+            }
+
+            if (rule === 'isNumber' && ruleVal === true && fieldVal !== undefined) {
+                if (!(fieldVal instanceof Number || typeof fieldVal === 'number') || isNaN(fieldVal)) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule})
+                    break;
+                }
+            }
+
+            if (rule === 'isBoolean' && ruleVal === true & fieldVal !== undefined) {
+                if (fieldVal !== true && fieldVal !== false) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule})
+                    break;
+                }
+            }
+
+            if (rule === 'minLength') {
+                if (String(fieldVal).length < Number(ruleVal) || !isNaN(fieldVal)) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule})
+                }
+            }
+
+            if (rule === 'maxLength') {
+                if (String(fieldVal).length > Number(ruleVal) || !isNaN(fieldVal)) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule})
+                    break;
+                }
+            }
+
+            if (rule === 'min') {
+                if (Number(fieldVal) < Number(ruleVal) || isNaN(fieldVal)) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule})
+                }
+            }
+
+            if (rule === 'max') {
+                if (Number(fieldVal) > Number(ruleVal) || isNaN(fieldVal)) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule})
+                    break;
+                }
+            }
+
+            if (rule === 'isEmail' && ruleVal === true && fieldVal !== undefined) {
+                let isEmail = true;
+                if (!(String(fieldVal).includes('@') && String(fieldVal).includes('.'))) {
+                    result = false;
+                    errors.push({field: field, value: fieldVal, rule: rule})
+                    break;
+                }
+            }
+        }
+    }
+
+    return {result: result, errors: errors};
 }
-
-console.log(validate(
-{ name: "Alex", age: 41, city: null }, 
-{},
-), { result: true, errors: [] });
-
-console.log(validate(
-{ name: "Alex", age: 41, city: null }, 
-{ name: {}, age: {}, city: {} },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ name: "Alex" }, 
-{ name: { isString: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ name: "" }, 
-{ name: { isString: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ name: NaN }, 
-{ name: { isString: true } },
-), { result: false, errors: [{ value: NaN, field: 'name', rule: 'isString' }] });
-
-console.log(validate(
-{ name: 3 }, 
-{ name: { isString: true } },
-), { result: false, errors: [{ value: 3, field: 'name', rule: 'isString' }] });
-
-console.log(validate(
-{ age: 10 }, 
-{ age: { isNumber: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ age: 0 }, 
-{ age: { isNumber: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ age: NaN }, 
-{ age: { isNumber: true } },
-), { result: false, errors: [{ value: NaN, field: 'age', rule: 'isNumber' }] });
-
-console.log(validate(
-{ age: '4' }, 
-{ age: { isNumber: true } },
-), { result: false, errors: [{ value: '4', field: 'age', rule: 'isNumber' }] });
-
-console.log(validate(
-{ value: true }, 
-{ value: { isBoolean: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ value: false }, 
-{ value: { isBoolean: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ value: 1 }, 
-{ value: { isBoolean: true } },
-), { result: false, errors: [{ value: 1, field: 'value', rule: 'isBoolean' }] });
-
-console.log(validate(
-{ age: 10 }, 
-{ age: { min: 5, max: 20 } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ age: 10 }, 
-{ age: { min: 10, max: 10 } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ age: 11 }, 
-{ age: { min: 10, max: 10 } },
-), { result: false, errors: [{ value: 11, field: 'age', rule: 'max' }] });
-
-console.log(validate(
-{ age: 9 }, 
-{ age: { min: 10, max: 10 } },
-), { result: false, errors: [{ value: 9, field: 'age', rule: 'min' }] });
-
-console.log(validate(
-{ age: NaN }, 
-{ age: { min: 10, max: 10 } },
-), { 
-result: false, 
-errors: [
-    { value: NaN, field: 'age', rule: 'min' }, 
-    { value: NaN, field: 'age', rule: 'max' },
-],
-});
-
-console.log(validate(
-{ name: "Alex" }, 
-{ name: { minLength: 3, maxLength: 5 } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ name: "Alex" }, 
-{ name: { minLength: 4, maxLength: 4 } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ name: 1 }, 
-{ name: { minLength: 4, maxLength: 4 } },
-), { 
-result: false, 
-errors: [
-    { value: 1, field: 'name', rule: 'minLength' }, 
-    { value: 1, field: 'name', rule: 'maxLength' },
-],
-});
-
-console.log(validate(
-{ name: "Alex1" }, 
-{ name: { minLength: 4, maxLength: 4 } },
-), { result: false, errors: [{ value: "Alex1", field: 'name', rule: 'maxLength' }] });
-
-console.log(validate(
-{ name: "Ale" }, 
-{ name: { minLength: 4, maxLength: 4 } },
-), { result: false, errors: [{ value: "Ale", field: 'name', rule: 'minLength' }] });
-
-console.log(validate(
-{ value: true }, 
-{ value: { required: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ value: false }, 
-{ value: { required: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ value: '' }, 
-{ value: { required: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{}, 
-{ value: { required: true } },
-), { result: false, errors: [{ value: undefined, field: 'value', rule: 'required' }] });
-
-console.log(validate(
-{ value: null }, 
-{ value: { required: true } },
-), { result: false, errors: [{ value: null, field: 'value', rule: 'required' }] });
-
-console.log(validate(
-{ name: 'Alex' }, 
-{ name: { isString: true, required: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ name: null }, 
-{ name: { isString: true, required: true } },
-), { result: false, errors: [{ value: null, field: 'name', rule: 'required' }] });
-
-console.log(validate(
-{}, 
-{ name: { isString: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{}, 
-{ name: { isNumber: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ email: 'mail@example.com' }, 
-{ naemailmemaile: { isEmail: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ email: 'fred-cooper@mail.spb.com' }, 
-{ email: { isEmail: true } },
-), { result: true, errors: [] });
-
-console.log(validate(
-{ email: 'example.com' }, 
-{ email: { isEmail: true } },
-), { result: false, errors: [{ value: 'example.com', field: 'email', rule: 'isEmail' }] });
-
-console.log(validate(
-{ email: 'pix@' }, 
-{ email: { isEmail: true } },
-), { result: false, errors: [{ value: 'pix@', field: 'email', rule: 'isEmail' }] });
