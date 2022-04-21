@@ -1031,7 +1031,13 @@ console.log(arr);
 
 // === ==== === === === === === === === === === === === === == === === =
 
+const arr = [1,2,3,4,5];
 
+for (let i = 0, size = arr.length; i < size; i++) {
+    arr.splice(0, 0, arr.splice(i, 1)[0]);
+}
+
+console.log(arr);
 
 
 

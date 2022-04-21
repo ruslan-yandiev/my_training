@@ -152,6 +152,7 @@ function highestFrequency(array) {
   }, {'detect': 0})['result'];
 }
 
+
 function highestFrequency(array) {
   const collection = {};
   
@@ -167,6 +168,26 @@ function highestFrequency(array) {
           result = key;
       }
   }
+
+  return result;
+}
+
+
+function highestFrequency(array) {
+  const map = array.reduce((acc, el) => {
+      acc.has(el) ? acc.set(el, acc.get(el) + 1) : acc.set(el, 1);
+      return acc;
+  }, new Map());
+
+  let result;
+  let detect = 0;
+
+  map.forEach((v, k) => {
+      if (detect < v) {
+          detect = v;
+          result = k;
+      }
+  })
 
   return result;
 }
@@ -196,9 +217,170 @@ console.log(arr);
 
 
 // =============================================================================
+const arr = [1,2,3,4,5];
+
+for (let i = 0, size = arr.length; i < size; i++) {
+    arr.splice(0, 0, arr.splice(i, 1)[0]);
+}
+
+console.log(arr);
 
 
 
 // * ===========================================================================
+/*
+### Повернута ли строка?
+
+Напишите функцию, которая принимает 2 строки. Верните `true` если строки являются перевернутым вариантом друг друга (см. пример). Иначе верните `false`.
+
+**Input**: String, String
+**Output**: Boolean
+*/
+function isStringRotated(source, test) {
+  if (source.length !== test.length) return false;
+
+  for (let i = 0; i < source.length; i++) {
+      if (!test.includes(source[i])) return false;
+  }
+
+  return true;
+}
 
 
+function isStringRotated(source, test) {
+  if (source.length !== test.length) return false;
+
+  const obj = [...source].reduce((acc, el) => {
+      acc[el] ? acc[el] += 1 : acc[el] = 1;
+      return acc;
+  }, {});
+
+  for (let i = 0; i < test.length; i++) {
+      if (obj[test[i]]) {
+          obj[test[i]] -= 1;
+      } else {
+          return false;
+      }
+  }
+
+  return true;
+}
+
+
+function isStringRotated(source, test) {
+  if (source.length !== test.length) return false;
+
+  const arr = [...test];
+
+  for (let i = 0; i < source.length; i++) {
+      arr.splice(arr.indexOf(source[i]), 1);
+  }
+
+  return arr.length === 0
+}
+
+
+function isStringRotated(source, test) {
+  return source.length === test.length && (source + source).includes(test)
+}
+
+
+function isStringRotated(source, test) {
+  if (source.length !== test.length) return false;
+
+  for (let i = 0; i < source.length; i++) {
+      const rotate = source.slice(i, source.length) + source.slice(0, i)
+  
+      if (rotate === test) {
+      return true
+      }
+  }
+      
+  return false;
+}
+
+console.log(isStringRotated('javascript', 'scriptjava')) // -> true
+console.log(isStringRotated('javascript', 'iptjavascr')) // -> true
+console.log(isStringRotated('javascript', 'java')) // -> false
+
+
+// * ===============================================================================================
+/*
+### Является ли массив подмножеством другого массива
+
+Напишите функцию, которая проверяет, является ли второй массив подмножеством первого. То есть есть ли элементы второго массива в первом.
+
+**Input**: Number[] & String[], Number[] & String[]
+
+**Output**: Boolean
+*/
+function arraySubset(source, subset) {
+  for (let i = 0; i < subset.length; i++) {
+      if (source.includes(subset[i])) {
+          source.splice(source.indexOf(subset[i]), 1);
+      } else {
+          return false;
+      }
+  }
+
+  return true;
+}
+
+function arraySubset(source, subset) {
+  if (source.length < subset.length) return false;
+
+  for (let i = 0; i < subset.length; i++) {
+      let index = source.indexOf(subset[i]);
+
+      if (index === -1) return false;
+
+      delete source[index];
+  }
+
+  return true;
+}
+
+console.log(arraySubset([2, 1, 3], [1, 2, 3])) // -> true
+console.log(arraySubset([2, 1, 1, 3], [1, 2, 3])) // -> true
+console.log(arraySubset([1, 1, 1, 3], [1, 3, 3])) // -> false
+console.log(arraySubset([1, 2], [1, 2, 3])) // -> false
+
+// * =====================================================================
+/*
+### Анаграммы
+
+Напишите функцию, которая проверяет, являются ли все элементы в массиве анаграммами друг друга.
+
+**Input**: String[]
+
+**Output**: Boolean
+*/
+function allAnagrams(array) {
+  for (let i = 1; i < array.length; i++) {
+      if (array[0].length !== array[i].length) return false;
+
+      for (let j = 0; j < array[0].length; j++) {
+          if (!array[i].includes(array[0][j])) return false;
+      }
+  }
+
+  return true;
+}
+
+console.log(allAnagrams(['abcd', 'bdac', 'cabd'])) // true
+console.log(allAnagrams(['abcd', 'bdXc', 'cabd'])) // false
+
+
+function allAnagrams(array) {
+  const sorted = array.map(str => str.split('').sort().join(''))
+
+  for (let i = 1; i < sorted.length; i++) {
+    if (sorted[i] !== sorted[0]) {
+      return false
+    }
+  }
+  return true
+}
+
+console.log(allAnagrams(['abcd', 'bdac', 'cabd'])) // true
+console.log(allAnagrams(['abcd', 'bdXc', 'cabd'])) // false

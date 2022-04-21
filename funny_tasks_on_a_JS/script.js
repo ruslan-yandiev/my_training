@@ -11,6 +11,8 @@
 // function debounce(f, ms) {
 //   let detect = true;
 
+const { relativeTimeRounding } = require("moment");
+
 //   return function (arg) {
 //     if (detect) {
 //       f(arg);
@@ -34,97 +36,26 @@
 //* =======================================================================================================================
 
 //! 39
-function validate(data, rules) {
-    let result = true;
-    let errors = [];
+/*
+### Анаграммы
 
-    for (let field of Object.keys(rules)) {
-        let fieldRules = rules[field];
-        let fieldVal = data[field];
-        let rulesArr = [];
-        let rulesOrder = ['required', 'isString', 'isNumber', 'isBoolean', 'minLength', 'maxLength', 'min', 'max', 'isEmail'];
+Напишите функцию, которая проверяет, являются ли все элементы в массиве анаграммами друг друга.
 
-        for (let rule of rulesOrder) {
-            if (Object.keys(fieldRules).includes(rule)) {
-                rulesArr.push(rule);
-            }
-        }
+**Input**: String[]
 
-        for (let rule of rulesArr) {
-            let ruleVal = fieldRules[rule];
+**Output**: Boolean
+*/
+function allAnagrams(array) {
+    for (let i = 1; i < array.length; i++) {
+        if (array[0].length !== array[i].length) return false;
 
-            if (rule === 'required' && ruleVal === true) {
-                if (fieldVal === undefined || fieldVal === null) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule});
-                    break;
-                }
-            }
-
-            if (rule === 'isString' && ruleVal === true && fieldVal !== undefined) {
-                if (!(fieldVal instanceof String || typeof fieldVal === 'string')) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule})
-                    break;
-                }
-            }
-
-            if (rule === 'isNumber' && ruleVal === true && fieldVal !== undefined) {
-                if (!(fieldVal instanceof Number || typeof fieldVal === 'number') || isNaN(fieldVal)) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule})
-                    break;
-                }
-            }
-
-            if (rule === 'isBoolean' && ruleVal === true & fieldVal !== undefined) {
-                if (fieldVal !== true && fieldVal !== false) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule})
-                    break;
-                }
-            }
-
-            if (rule === 'minLength') {
-                if (String(fieldVal).length < Number(ruleVal) || !isNaN(fieldVal)) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule})
-                }
-            }
-
-            if (rule === 'maxLength') {
-                if (String(fieldVal).length > Number(ruleVal) || !isNaN(fieldVal)) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule})
-                    break;
-                }
-            }
-
-            if (rule === 'min') {
-                if (Number(fieldVal) < Number(ruleVal) || isNaN(fieldVal)) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule})
-                }
-            }
-
-            if (rule === 'max') {
-                if (Number(fieldVal) > Number(ruleVal) || isNaN(fieldVal)) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule})
-                    break;
-                }
-            }
-
-            if (rule === 'isEmail' && ruleVal === true && fieldVal !== undefined) {
-                let isEmail = true;
-                if (!(String(fieldVal).includes('@') && String(fieldVal).includes('.'))) {
-                    result = false;
-                    errors.push({field: field, value: fieldVal, rule: rule})
-                    break;
-                }
-            }
+        for (let j = 0; j < array[0].length; j++) {
+            if (!array[i].includes(array[0][j])) return false;
         }
     }
 
-    return {result: result, errors: errors};
+    return true;
 }
+
+console.log(allAnagrams(['abcd', 'bdac', 'cabd'])) // true
+console.log(allAnagrams(['abcd', 'bdXc', 'cabd'])) // false
