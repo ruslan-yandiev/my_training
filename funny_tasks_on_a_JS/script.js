@@ -11,7 +11,7 @@
 // function debounce(f, ms) {
 //   let detect = true;
 
-const { relativeTimeRounding } = require("moment");
+// const { relativeTimeRounding } = require("moment");
 
 //   return function (arg) {
 //     if (detect) {
@@ -37,25 +37,18 @@ const { relativeTimeRounding } = require("moment");
 
 //! 39
 /*
-### Анаграммы
-
-Напишите функцию, которая проверяет, являются ли все элементы в массиве анаграммами друг друга.
-
-**Input**: String[]
-
-**Output**: Boolean
+  ! Вернуть true если такой элемент есть в массиве и false если нет
 */
-function allAnagrams(array) {
-    for (let i = 1; i < array.length; i++) {
-        if (array[0].length !== array[i].length) return false;
+function myFind(arr, num) {
+  if (arr.length > 1) {
+      const mid = Math.floor(arr.length / 2);
+      const left = arr.slice(0, mid);
+      const right = arr.slice(mid);
 
-        for (let j = 0; j < array[0].length; j++) {
-            if (!array[i].includes(array[0][j])) return false;
-        }
-    }
+      return num > left[left.length - 1] ? myFind(right, num) : myFind(left, num);
+  }
 
-    return true;
+  return arr[0] === num;
 }
 
-console.log(allAnagrams(['abcd', 'bdac', 'cabd'])) // true
-console.log(allAnagrams(['abcd', 'bdXc', 'cabd'])) // false
+console.log(myFind([1, 2, 3, 4, 5, 6, 7, 8], 7));
