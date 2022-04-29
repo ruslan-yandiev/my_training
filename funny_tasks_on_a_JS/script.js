@@ -36,19 +36,15 @@
 //* =======================================================================================================================
 
 //! 39
-/*
-  ! Вернуть true если такой элемент есть в массиве и false если нет
-*/
-function myFind(arr, num) {
-  if (arr.length > 1) {
-      const mid = Math.floor(arr.length / 2);
-      const left = arr.slice(0, mid);
-      const right = arr.slice(mid);
-
-      return num > left[left.length - 1] ? myFind(right, num) : myFind(left, num);
+const video = {
+  title: 'title',
+  tags: ['a', 'b', 'c'],
+  showTags() {
+    this.tags.forEach((tag) => {
+      console.log(this.title, tag);
+    });
   }
-
-  return arr[0] === num;
 }
 
-console.log(myFind([1, 2, 3, 4, 5, 6, 7, 8], 7));
+video.showTags();
+
