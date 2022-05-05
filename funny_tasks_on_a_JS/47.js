@@ -540,3 +540,43 @@ console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 6)) // -> 2
 console.log(search([1, 3, 6, 13, 17], 12)) // -> -1
 console.log(search([1, 3, 6, 13, 17], 3)) // -> 1
 console.log(search([1, 3, 6, 13, 17], 6)) // - > 2
+
+
+// * =============================================================================================================
+/*
+### Сбалансированные скобки
+
+Напишите функцию, которая проверит строку на сбалансированность скобок: `{}, (), []`. 
+Вернуть `true` если они сбалансированы, иначе `false`.
+
+**Input**: String
+
+**Output**: Boolean
+*/
+function isBalanced(string) {
+  let arr = [...string].filter((el) => el === '(' || el === ')' || el === '[' || el === ']' || el === '{' || el === '}');
+  if (arr.length % 2 > 0) return false;
+
+  const obj = {
+    '(': ')',
+    ')': '(',
+    '[': ']',
+    ']': '[',
+    '{': '}',
+    '}': '{'
+  };
+
+  for (let i = 0; i < arr.length / 2; i++) {
+    if (obj[arr[i]] !== arr[arr.length - (1 + i)]) return false;
+  }
+
+  return true;
+}
+
+console.log(isBalanced('(x + y) - (4)')) // -> true
+console.log(isBalanced('(((10 ) ()) ((?)(:)))')) // -> true
+console.log(isBalanced('[{()}]')) // -> true
+console.log(isBalanced('(50)(')) // -> false
+console.log(isBalanced('[{]}')) // -> false
+
+
