@@ -1050,3 +1050,40 @@ seconds = Math.floor((t / 1000) % 60);
 */
 
 // * =================================================================================================================================
+/*
+### Deep Equal
+
+Напишите функцию, которая будет проверять на “глубокое” равенство 2 входящих параметра
+
+**Inputs**: Any, Any
+
+**Output**: Boolean
+*/
+// ! Лучшее решение
+function deepEqual(a, b) {
+  if (Number.isNaN(a) && Number.isNaN(b)) {
+    return true;
+  }
+
+  if (typeof a !== typeof b) {
+    return false;
+  }
+
+  if (typeof a !== "object" || a === null || b === null) {
+    return a === b;
+  }
+
+  if (Object.keys(a).length !== Object.keys(b).length) {
+    return false;
+  }
+
+  for (const key of Object.keys(a)) {
+    if (!deepEqual(a[key], b[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// * ==============================================================================================================================

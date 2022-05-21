@@ -8,50 +8,48 @@
 **Output**: Boolean
 */
 function isUnique(string) {
-	const detect = {};
+  const detect = {};
 
-    for (let i = 0; i < string.length; i++) {
-        if (detect[string[i]]) return false;
-        detect[string[i]] = true;
-    }
+  for (let i = 0; i < string.length; i++) {
+    if (detect[string[i]]) return false;
+    detect[string[i]] = true;
+  }
 
-    return true
+  return true;
 }
 
 function isUnique(str) {
-    for (let i = 0; i < str.length; i++) {
-      if (str.lastIndexOf(str[i]) !== i) {
-        return false
-      }
+  for (let i = 0; i < str.length; i++) {
+    if (str.lastIndexOf(str[i]) !== i) {
+      return false;
     }
-    return true
+  }
+  return true;
 }
 
 function isUnique(str) {
+  const chars = new Set();
 
-    const chars = new Set()
+  for (let i = 0; i < str.length; i++) {
+    const current = str[i];
 
-    for (let i = 0; i < str.length; i++) {
-      const current = str[i]
-    
-      if (chars.has(current)) {
-        return false
-      }
-    
-      chars.add(current)
+    if (chars.has(current)) {
+      return false;
     }
-    return true
+
+    chars.add(current);
+  }
+  return true;
 }
 
 function isUnique(str) {
-  return new Set(str).size === str.length
+  return new Set(str).size === str.length;
 }
 
-
-console.log(isUnique('abcdef')) // -> true
-console.log(isUnique('1234567')) // -> true
-console.log(isUnique('abcABC')) // -> true
-console.log(isUnique('abcadef')) // -> false
+console.log(isUnique("abcdef")); // -> true
+console.log(isUnique("1234567")); // -> true
+console.log(isUnique("abcABC")); // -> true
+console.log(isUnique("abcadef")); // -> false
 // * ===================================================================
 
 /*
@@ -64,16 +62,16 @@ console.log(isUnique('abcadef')) // -> false
 **Output**: Array
 */
 function flatten(array) {
-  return array.flat(Infinity)
+  return array.flat(Infinity);
 }
 
 function flatten(array) {
   const result = [];
 
   function flating(arr) {
-      for (let i = 0; i < arr.length; i++) {
-          Array.isArray(arr[i]) ? flating(arr[i]) : result.push(arr[i]);
-      }
+    for (let i = 0; i < arr.length; i++) {
+      Array.isArray(arr[i]) ? flating(arr[i]) : result.push(arr[i]);
+    }
   }
 
   flating(array);
@@ -81,10 +79,10 @@ function flatten(array) {
 }
 
 function flatten(array) {
-  return [...array.reduce((acc, el) => Array.isArray(el) ? acc + flatten(el) : acc + el, '')].filter((el) => el !== ',').map((el) => +el);
+  return [...array.reduce((acc, el) => (Array.isArray(el) ? acc + flatten(el) : acc + el), "")].filter((el) => el !== ",").map((el) => +el);
 }
 
-console.log(flatten([[1], [[2, 3]], [[[4]]]])) // -> [1, 2, 3, 4]
+console.log(flatten([[1], [[2, 3]], [[[4]]]])); // -> [1, 2, 3, 4]
 
 // * =============================================================================
 /*
@@ -97,36 +95,38 @@ console.log(flatten([[1], [[2, 3]], [[[4]]]])) // -> [1, 2, 3, 4]
 **Output**: String
 */
 function removeDupes(str) {
-  return [...new Set(str)].join('');
+  return [...new Set(str)].join("");
 }
 
 function removeDupes(str) {
-  return Object.keys([...str].reduce((obj, el) => {
+  return Object.keys(
+    [...str].reduce((obj, el) => {
       obj[el] = el;
       return obj;
-  }, {})).join('');
+    }, {})
+  ).join("");
 }
 
 function removeDupes(str) {
-  let result = '';
+  let result = "";
   const detect = {};
 
   for (let i = 0; i < str.length; i++) {
-      if (detect[str[i]]) {
-          continue;
-      } else {
-          detect[str[i]] = true;
-          result += str[i];
-      }
+    if (detect[str[i]]) {
+      continue;
+    } else {
+      detect[str[i]] = true;
+      result += str[i];
+    }
   }
 
   return result;
 }
 
-console.log(removeDupes('abcd')) // -> 'abcd'
-console.log(removeDupes('aabbccdd')) // -> 'abcd'
-console.log(removeDupes('abcddbca')) // -> 'abcd'
-console.log(removeDupes('abababcdcdcd')) // -> 'abcd'
+console.log(removeDupes("abcd")); // -> 'abcd'
+console.log(removeDupes("aabbccdd")); // -> 'abcd'
+console.log(removeDupes("abcddbca")); // -> 'abcd'
+console.log(removeDupes("abababcdcdcd")); // -> 'abcd'
 
 // * ===============================================================
 
@@ -140,92 +140,93 @@ console.log(removeDupes('abababcdcdcd')) // -> 'abcd'
 **Output**: String
 */
 function highestFrequency(array) {
-  return Object.entries(array.reduce((obj, str) => {
-      obj[str] ? obj[str] += 1 : obj[str] = 1;
+  return Object.entries(
+    array.reduce((obj, str) => {
+      obj[str] ? (obj[str] += 1) : (obj[str] = 1);
       return obj;
-  }, {})).reduce((obj, el) => {
-      if(el[1] > obj['detect']) {
-          obj['detect'] = el[1];
-          obj['result'] = el[0];
+    }, {})
+  ).reduce(
+    (obj, el) => {
+      if (el[1] > obj["detect"]) {
+        obj["detect"] = el[1];
+        obj["result"] = el[0];
       }
       return obj;
-  }, {'detect': 0})['result'];
+    },
+    { detect: 0 }
+  )["result"];
 }
-
 
 function highestFrequency(array) {
   const collection = {};
-  
+
   for (let i = 0; i < array.length; i++) {
-      collection[array[i]] ? collection[array[i]] += 1 : collection[array[i]] = 1;
+    collection[array[i]] ? (collection[array[i]] += 1) : (collection[array[i]] = 1);
   }
 
-  let detect = 0, result;
+  let detect = 0,
+    result;
 
   for (key in collection) {
-      if (collection[key] > detect) {
-          detect = collection[key];
-          result = key;
-      }
+    if (collection[key] > detect) {
+      detect = collection[key];
+      result = key;
+    }
   }
 
   return result;
 }
 
-
 function highestFrequency(array) {
   const map = array.reduce((acc, el) => {
-      acc.has(el) ? acc.set(el, acc.get(el) + 1) : acc.set(el, 1);
-      return acc;
+    acc.has(el) ? acc.set(el, acc.get(el) + 1) : acc.set(el, 1);
+    return acc;
   }, new Map());
 
   let result;
   let detect = 0;
 
   map.forEach((v, k) => {
-      if (detect < v) {
-          detect = v;
-          result = k;
-      }
-  })
+    if (detect < v) {
+      detect = v;
+      result = k;
+    }
+  });
 
   return result;
 }
 
-console.log(highestFrequency(['a', 'b', 'c', 'c', 'd', 'e'])) // -> c
-console.log(highestFrequency(['abc', 'def', 'abc', 'def', 'abc'])) // -> abc
-console.log(highestFrequency(['abc', 'def'])) // -> abc
-console.log(highestFrequency(['abc', 'abc', 'def', 'def', 'def', 'ghi', 'ghi', 'ghi', 'ghi' ])) // -> ghi
+console.log(highestFrequency(["a", "b", "c", "c", "d", "e"])); // -> c
+console.log(highestFrequency(["abc", "def", "abc", "def", "abc"])); // -> abc
+console.log(highestFrequency(["abc", "def"])); // -> abc
+console.log(highestFrequency(["abc", "abc", "def", "def", "def", "ghi", "ghi", "ghi", "ghi"])); // -> ghi
 
 // * =========================================================================
 /*
 ЗАДАЧА: Есть массив [1,2,3,4,5] развернуть массив не создавая новый массив и не использовать revers
 */
 
-const arr = [1,2,3,4,5];
-let accumStr = '';
+const arr = [1, 2, 3, 4, 5];
+let accumStr = "";
 
 for (let i = 0; arr.length; i++) {
-    accumStr += arr.pop()
+  accumStr += arr.pop();
 }
 
 for (let i = 0; i < accumStr.length; i++) {
-    arr.push(+accumStr[i])
+  arr.push(+accumStr[i]);
 }
 
 console.log(arr);
-
 
 // =============================================================================
-const arr = [1,2,3,4,5];
+const arr = [1, 2, 3, 4, 5];
 
 for (let i = 0, size = arr.length; i < size; i++) {
-    arr.splice(0, 0, arr.splice(i, 1)[0]);
+  arr.splice(0, 0, arr.splice(i, 1)[0]);
 }
 
 console.log(arr);
-
-
 
 // * ===========================================================================
 /*
@@ -240,32 +241,30 @@ function isStringRotated(source, test) {
   if (source.length !== test.length) return false;
 
   for (let i = 0; i < source.length; i++) {
-      if (!test.includes(source[i])) return false;
+    if (!test.includes(source[i])) return false;
   }
 
   return true;
 }
-
 
 function isStringRotated(source, test) {
   if (source.length !== test.length) return false;
 
   const obj = [...source].reduce((acc, el) => {
-      acc[el] ? acc[el] += 1 : acc[el] = 1;
-      return acc;
+    acc[el] ? (acc[el] += 1) : (acc[el] = 1);
+    return acc;
   }, {});
 
   for (let i = 0; i < test.length; i++) {
-      if (obj[test[i]]) {
-          obj[test[i]] -= 1;
-      } else {
-          return false;
-      }
+    if (obj[test[i]]) {
+      obj[test[i]] -= 1;
+    } else {
+      return false;
+    }
   }
 
   return true;
 }
-
 
 function isStringRotated(source, test) {
   if (source.length !== test.length) return false;
@@ -273,36 +272,33 @@ function isStringRotated(source, test) {
   const arr = [...test];
 
   for (let i = 0; i < source.length; i++) {
-      arr.splice(arr.indexOf(source[i]), 1);
+    arr.splice(arr.indexOf(source[i]), 1);
   }
 
-  return arr.length === 0
+  return arr.length === 0;
 }
-
 
 function isStringRotated(source, test) {
-  return source.length === test.length && (source + source).includes(test)
+  return source.length === test.length && (source + source).includes(test);
 }
-
 
 function isStringRotated(source, test) {
   if (source.length !== test.length) return false;
 
   for (let i = 0; i < source.length; i++) {
-      const rotate = source.slice(i, source.length) + source.slice(0, i)
-  
-      if (rotate === test) {
-      return true
-      }
+    const rotate = source.slice(i, source.length) + source.slice(0, i);
+
+    if (rotate === test) {
+      return true;
+    }
   }
-      
+
   return false;
 }
 
-console.log(isStringRotated('javascript', 'scriptjava')) // -> true
-console.log(isStringRotated('javascript', 'iptjavascr')) // -> true
-console.log(isStringRotated('javascript', 'java')) // -> false
-
+console.log(isStringRotated("javascript", "scriptjava")); // -> true
+console.log(isStringRotated("javascript", "iptjavascr")); // -> true
+console.log(isStringRotated("javascript", "java")); // -> false
 
 // * ===============================================================================================
 /*
@@ -316,11 +312,11 @@ console.log(isStringRotated('javascript', 'java')) // -> false
 */
 function arraySubset(source, subset) {
   for (let i = 0; i < subset.length; i++) {
-      if (source.includes(subset[i])) {
-          source.splice(source.indexOf(subset[i]), 1);
-      } else {
-          return false;
-      }
+    if (source.includes(subset[i])) {
+      source.splice(source.indexOf(subset[i]), 1);
+    } else {
+      return false;
+    }
   }
 
   return true;
@@ -330,20 +326,20 @@ function arraySubset(source, subset) {
   if (source.length < subset.length) return false;
 
   for (let i = 0; i < subset.length; i++) {
-      let index = source.indexOf(subset[i]);
+    let index = source.indexOf(subset[i]);
 
-      if (index === -1) return false;
+    if (index === -1) return false;
 
-      delete source[index];
+    delete source[index];
   }
 
   return true;
 }
 
-console.log(arraySubset([2, 1, 3], [1, 2, 3])) // -> true
-console.log(arraySubset([2, 1, 1, 3], [1, 2, 3])) // -> true
-console.log(arraySubset([1, 1, 1, 3], [1, 3, 3])) // -> false
-console.log(arraySubset([1, 2], [1, 2, 3])) // -> false
+console.log(arraySubset([2, 1, 3], [1, 2, 3])); // -> true
+console.log(arraySubset([2, 1, 1, 3], [1, 2, 3])); // -> true
+console.log(arraySubset([1, 1, 1, 3], [1, 3, 3])); // -> false
+console.log(arraySubset([1, 2], [1, 2, 3])); // -> false
 
 // * =====================================================================
 /*
@@ -357,49 +353,47 @@ console.log(arraySubset([1, 2], [1, 2, 3])) // -> false
 */
 function allAnagrams(array) {
   for (let i = 1; i < array.length; i++) {
-      if (array[0].length !== array[i].length) return false;
+    if (array[0].length !== array[i].length) return false;
 
-      for (let j = 0; j < array[0].length; j++) {
-          if (!array[i].includes(array[0][j])) return false;
-      }
+    for (let j = 0; j < array[0].length; j++) {
+      if (!array[i].includes(array[0][j])) return false;
+    }
   }
 
   return true;
 }
 
-console.log(allAnagrams(['abcd', 'bdac', 'cabd'])) // true
-console.log(allAnagrams(['abcd', 'bdXc', 'cabd'])) // false
-
+console.log(allAnagrams(["abcd", "bdac", "cabd"])); // true
+console.log(allAnagrams(["abcd", "bdXc", "cabd"])); // false
 
 function allAnagrams(array) {
-  const sorted = array.map(str => str.split('').sort().join(''))
+  const sorted = array.map((str) => str.split("").sort().join(""));
 
   for (let i = 1; i < sorted.length; i++) {
     if (sorted[i] !== sorted[0]) {
-      return false
+      return false;
     }
   }
-  return true
+  return true;
 }
 
-console.log(allAnagrams(['abcd', 'bdac', 'cabd'])) // true
-console.log(allAnagrams(['abcd', 'bdXc', 'cabd'])) // false
-
+console.log(allAnagrams(["abcd", "bdac", "cabd"])); // true
+console.log(allAnagrams(["abcd", "bdXc", "cabd"])); // false
 
 function allAnagrams(array) {
   for (let i = 1; i < array.length; i++) {
-      if (array[0].length !== array[i].length) return false;
+    if (array[0].length !== array[i].length) return false;
 
-      for (let j = 0; j < array[0].length; j++) {
-          if (!array[i].includes(array[0][j])) return false;
-      }
+    for (let j = 0; j < array[0].length; j++) {
+      if (!array[i].includes(array[0][j])) return false;
+    }
   }
 
   return true;
 }
 
-console.log(allAnagrams(['abcd', 'bdac', 'cabd'])) // true
-console.log(allAnagrams(['abcd', 'bdXc', 'cabd'])) // false
+console.log(allAnagrams(["abcd", "bdac", "cabd"])); // true
+console.log(allAnagrams(["abcd", "bdXc", "cabd"])); // false
 
 // * ===========================================================================================
 
@@ -418,8 +412,8 @@ function search(array, target) {
   return array.indexOf(target);
 }
 
-console.log(search([1, 3, 6, 13, 17], 13)) // -> 3
-console.log(search([1, 3, 6, 13, 17], 12)) // -> -1
+console.log(search([1, 3, 6, 13, 17], 13)); // -> 3
+console.log(search([1, 3, 6, 13, 17], 12)); // -> -1
 
 //! Time: O(n)
 function search(array, target) {
@@ -427,49 +421,47 @@ function search(array, target) {
     if (array[i] === target) return i;
   }
 
-  return -1
+  return -1;
 }
 
-console.log(search([1, 3, 6, 13, 17], 13)) // -> 3
-console.log(search([1, 3, 6, 13, 17], 12)) // -> -1
-
+console.log(search([1, 3, 6, 13, 17], 13)); // -> 3
+console.log(search([1, 3, 6, 13, 17], 12)); // -> -1
 
 //! Time: O(log(n))
 function search(array, target) {
-  let start = 0
-  let end = array.length - 1
+  let start = 0;
+  let end = array.length - 1;
 
   if (target < array[start] || target > array[end]) {
-    return -1
+    return -1;
   }
 
   while (true) {
     if (target === array[start]) {
-      return start
+      return start;
     }
 
     if (target === array[end]) {
-      return end
+      return end;
     }
 
     if (end - start <= 1) {
-      return -1
+      return -1;
     }
 
-    const middle = Math.floor((start + end) / 2)
+    const middle = Math.floor((start + end) / 2);
 
     if (target > array[middle]) {
-      start = middle + 1
+      start = middle + 1;
     } else if (target < array[middle]) {
-      end = middle - 1
+      end = middle - 1;
     } else {
-      return middle
+      return middle;
     }
   }
 }
-console.log(search([1, 3, 6, 13, 17], 13)) // -> 3
-console.log(search([1, 3, 6, 13, 17], 12)) // -> -1
-
+console.log(search([1, 3, 6, 13, 17], 13)); // -> 3
+console.log(search([1, 3, 6, 13, 17], 12)); // -> -1
 
 //! Time: O(log n)
 function search(array, target) {
@@ -490,26 +482,25 @@ function search(array, target) {
   return array[index] === target ? index : -1;
 }
 
-console.log(search([1, 3, 6, 13, 17], 13)) // -> 3
-console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 3)) // -> 1
-console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 17)) // -> 4
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 25)) // -> 7
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 3)) // -> 1
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 22)) // -> 6
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 1)) // -> 0
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 30)) // -> 8
-console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 6)) // -> 2
-console.log(search([1, 3, 6, 13, 17], 12)) // -> -1
-console.log(search([1, 3, 6, 13, 17], 3)) // -> 1
-console.log(search([1, 3, 6, 13, 17], 6)) // - > 2
-
+console.log(search([1, 3, 6, 13, 17], 13)); // -> 3
+console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 3)); // -> 1
+console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 17)); // -> 4
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 25)); // -> 7
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 3)); // -> 1
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 22)); // -> 6
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 1)); // -> 0
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 30)); // -> 8
+console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 6)); // -> 2
+console.log(search([1, 3, 6, 13, 17], 12)); // -> -1
+console.log(search([1, 3, 6, 13, 17], 3)); // -> 1
+console.log(search([1, 3, 6, 13, 17], 6)); // - > 2
 
 //! Time: O(log n)
 function search(array, target) {
   let index = array.length;
   let arr = [...array];
 
-  while(arr.length > 1) {
+  while (arr.length > 1) {
     let mid = Math.floor(arr.length / 2);
     let left = arr.slice(0, mid);
     let right = arr.slice(mid);
@@ -523,24 +514,23 @@ function search(array, target) {
     }
   }
 
-  index = Math.floor(index / 2)
+  index = Math.floor(index / 2);
 
   return array[index] === target ? index : -1;
 }
 
-console.log(search([1, 3, 6, 13, 17], 13)) // -> 3
-console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 3)) // -> 1
-console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 17)) // -> 4
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 25)) // -> 7
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 3)) // -> 1
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 22)) // -> 6
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 1)) // -> 0
-console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 30)) // -> 8
-console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 6)) // -> 2
-console.log(search([1, 3, 6, 13, 17], 12)) // -> -1
-console.log(search([1, 3, 6, 13, 17], 3)) // -> 1
-console.log(search([1, 3, 6, 13, 17], 6)) // - > 2
-
+console.log(search([1, 3, 6, 13, 17], 13)); // -> 3
+console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 3)); // -> 1
+console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 17)); // -> 4
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 25)); // -> 7
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 3)); // -> 1
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 22)); // -> 6
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 1)); // -> 0
+console.log(search([1, 3, 6, 13, 17, 19, 22, 25, 30], 30)); // -> 8
+console.log(search([1, 3, 6, 13, 17, 22, 25, 30], 6)); // -> 2
+console.log(search([1, 3, 6, 13, 17], 12)); // -> -1
+console.log(search([1, 3, 6, 13, 17], 3)); // -> 1
+console.log(search([1, 3, 6, 13, 17], 6)); // - > 2
 
 // * =============================================================================================================
 /*
@@ -554,16 +544,16 @@ console.log(search([1, 3, 6, 13, 17], 6)) // - > 2
 **Output**: Boolean
 */
 function isBalanced(string) {
-  let arr = [...string].filter((el) => el === '(' || el === ')' || el === '[' || el === ']' || el === '{' || el === '}');
+  let arr = [...string].filter((el) => el === "(" || el === ")" || el === "[" || el === "]" || el === "{" || el === "}");
   if (arr.length % 2 > 0) return false;
 
   const obj = {
-    '(': ')',
-    ')': '(',
-    '[': ']',
-    ']': '[',
-    '{': '}',
-    '}': '{'
+    "(": ")",
+    ")": "(",
+    "[": "]",
+    "]": "[",
+    "{": "}",
+    "}": "{",
   };
 
   for (let i = 0; i < arr.length / 2; i++) {
@@ -573,10 +563,136 @@ function isBalanced(string) {
   return true;
 }
 
-console.log(isBalanced('(x + y) - (4)')) // -> true
-console.log(isBalanced('(((10 ) ()) ((?)(:)))')) // -> true
-console.log(isBalanced('[{()}]')) // -> true
-console.log(isBalanced('(50)(')) // -> false
-console.log(isBalanced('[{]}')) // -> false
+console.log(isBalanced("(x + y) - (4)")); // -> true
+console.log(isBalanced("(((10 ) ()) ((?)(:)))")); // -> true
+console.log(isBalanced("[{()}]")); // -> true
+console.log(isBalanced("(50)(")); // -> false
+console.log(isBalanced("[{]}")); // -> false
 
+function isBalanced(string) {
+  const start = "({[";
+  const end = "]})";
 
+  const map = {
+    "}": "{",
+    ")": "(",
+    "]": "[",
+  };
+
+  const queue = [];
+
+  for (let i = 0; i < string.length; i++) {
+    const char = string[i];
+
+    if (start.includes(char)) {
+      queue.push(char);
+    } else if (end.includes(char)) {
+      const last = queue.pop();
+
+      if (map[char] !== last) {
+        return false;
+      }
+    }
+  }
+
+  return !queue.length;
+}
+// * =============================================================================================================
+/*
+### Deep Equal
+
+Напишите функцию, которая будет проверять на “глубокое” равенство 2 входящих параметра
+
+**Inputs**: Any, Any
+
+**Output**: Boolean
+*/
+function deepEqual(a, b) {
+  let result = true;
+
+  function check(first, second) {
+    if (typeof first !== typeof second) {
+      result = false;
+      return;
+    }
+
+    if (first !== null && second !== null && typeof first === "object") {
+      if (Object.keys(first).length !== Object.keys(second).length) {
+        result = false;
+        return;
+      }
+
+      for (let key in first) {
+        if (typeof first[key] === typeof second[key]) {
+          if (first[key] !== null && second[key] !== null && typeof first[key] === "object") {
+            check(first[key], second[key]);
+          } else if (!Number.isNaN(first[key]) && !Number.isNaN(second[key]) && first[key] !== second[key]) {
+            result = false;
+            return;
+          }
+        } else {
+          result = false;
+          return;
+        }
+      }
+    } else if (!Number.isNaN(first) && !Number.isNaN(second) && first !== second) {
+      result = false;
+      return;
+    }
+  }
+
+  check(a, b);
+
+  return result;
+}
+
+const source = { a: 1, b: { c: 1 } };
+const test1 = { a: 1, b: { c: 1 } };
+const test2 = { a: 1, b: { c: 2 } };
+console.log(deepEqual(source, test1)); // -> true
+console.log(deepEqual(source, test2)); // -> false
+console.log(deepEqual(NaN, NaN)); // -> true
+console.log(deepEqual("test", "test!")); // -> false
+console.log(deepEqual()); // -> true
+
+// ! Лучшее решение
+function deepEqual(a, b) {
+  if (Number.isNaN(a) && Number.isNaN(b)) {
+    return true;
+  }
+
+  if (typeof a !== typeof b) {
+    return false;
+  }
+
+  if (typeof a !== "object" || a === null || b === null) {
+    return a === b;
+  }
+
+  if (Object.keys(a).length !== Object.keys(b).length) {
+    return false;
+  }
+
+  for (const key of Object.keys(a)) {
+    if (!deepEqual(a[key], b[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+console.log(deepEqual(firstObject, secondObject)); // true
+console.log(deepEqual({ a: 1, b: 3 }, { b: 2, a: 1 })); // false
+console.log(deepEqual(1, 2)); // false
+console.log(deepEqual(true, false)); // false
+console.log(deepEqual(null, null)); // true
+console.log(deepEqual(null, 1)); // false
+console.log(deepEqual({}, null)); // false
+console.log(deepEqual(c, d)); // false
+console.log(deepEqual(e, f)); // false
+console.log(deepEqual(a, b)); // false
+console.log(deepEqual(3, 3)); // true
+console.log(deepEqual(NaN, NaN)); // true
+console.log(deepEqual(g, h)); // true
+// * =============================================================================================================
