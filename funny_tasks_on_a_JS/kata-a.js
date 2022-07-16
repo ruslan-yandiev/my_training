@@ -177,3 +177,55 @@ console.log(getDaysBetweenDates(new Date(2011, 6, 2, 6, 0), new Date(2012, 6, 2,
 console.log(getDaysBetweenDates(1409796000000, 1409925600000)); // 1
 
 //* =======================================================================================================================
+const x = [{ a: 1 }, 1, "a"];
+const y = [[0, 1], "b", { b: 2 }, undefined];
+const z = [null, 3, { c: 3 }, "c", { d: 4 }];
+
+function myF(arr) {
+  return arr.reduce((count, el) => {
+    if (el !== null && !Array.isArray(el) && typeof el === "object") {
+      count += 1;
+    }
+    return count;
+  }, 0);
+}
+
+console.log(myF(x)); // 1
+console.log(myF(y)); // 1
+console.log(myF(z)); // 2
+// * =======================================================================================================================
+/*
+compareWithPrecision
+Напишите функцию, которая сравнивает два числа с определенной погрешностью.
+
+Пример:
+
+compareWithPrecision(0.1 + 0.2, 0.3, 0.0001) // true
+*/
+function compareWithPrecision(a, b, precision) {
+  return +(Math.max(a, b) - Math.min(a, b)) <= precision;
+}
+
+console.log(compareWithPrecision(1, 0.5, 0.5)); // true
+console.log(compareWithPrecision(10, 9.7001, 0.3)); // true
+console.log(compareWithPrecision(10, 9.699, 0.3)); // false
+// * =======================================================================================================================
+/*
+Capitalize
+Реализуйте функцию capitalize, которая принимает строку в качестве аргумента и возвращает новую строку, в которой первые буквы слов заглавные, а все остальные - строчные.
+
+Пример:
+
+const str = 'sOme RanDoM sTRING';
+console.log(capitalize(str)); // Some Random String
+*/
+function capitalize(str) {
+  return str
+    .split(" ")
+    .map((el) => [...el.toLowerCase()].reduce((acc, lett, i) => (!i ? (acc += lett.toUpperCase()) : (acc += lett)), ""))
+    .join(" ");
+}
+
+const str = "sOme RanDoM sTRING";
+console.log(capitalize(str)); // Some Random String
+// * =======================================================================================================================
