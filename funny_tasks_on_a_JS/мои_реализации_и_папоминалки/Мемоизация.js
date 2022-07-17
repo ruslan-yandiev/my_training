@@ -6,24 +6,24 @@
     var calc = (function () { var results = {};
 */
 function mn(f) {
-    const results = {}; // лучше с Map
+  const results = {}; // лучше с Map
 
-    return function (arg) {
-        if (results[arg]) {
-            console.log('Результат из Кэша');
-            return results[arg];
-        }
+  return function (arg) {
+    if (results[arg]) {
+      console.log("Результат из Кэша");
+      return results[arg];
+    }
 
-        const result = f.call(this, arg);
-        results[arg] = result;
-        console.log('Закешированно');
+    const result = f.call(this, arg);
+    results[arg] = result;
+    console.log("Закешированно");
 
-        return result;
-    };
+    return result;
+  };
 }
 
 function sum(arg) {
-    return arg + arg;
+  return arg + arg;
 }
 
 const mySum = mn(sum);
@@ -31,7 +31,6 @@ const mySum = mn(sum);
 console.log(mySum(10)); // Вернуть 10 и закешировать
 console.log(mySum(20)); // Вернуть 20 и закешировать
 console.log(mySum(20)); // Извлечет из кеша 20
-
 
 // ! ===============================================================================
 /*
@@ -76,20 +75,26 @@ console.log(mySum(20)); // Извлечет из кеша 20
 * ЗАМЫКАНИЕ - это некая инкапсулированная область видимости, используемая инициализированной в ней функцией.
 * Замыкание — это комбинация функции и ее лексического окружения (окружения, в котором эта функция была объявлена).
 * Лексическое окружение в JS - Это просто ссылка на физическое положение переменных в момент написания кода.
+
+* Замыкание — это комбинация функции и лексического окружения, в которой эта функция была объявлена. 
+
+* Слово “лексический” относится к тому факту, что лексическая область видимости использует место, где переменная объявлена в исходном коде, чтобы определить, где эта переменная доступна. 
+
+* Замыкания — это функции, которые имеют доступ к переменным внешней (замыкающей) функции — цепочке областей видимости даже после того, как внешняя функция вернулась.
 */
 
 function mem() {
-    const cache = {};
+  const cache = {};
 
-    return function(arg) {
-        if (cache[arg]) {
-            console.log('Задействован КЭШ:');
-            return cache[arg];
-        }
-
-        cache[arg] = arg * 2;
-        return arg * 2;
+  return function (arg) {
+    if (cache[arg]) {
+      console.log("Задействован КЭШ:");
+      return cache[arg];
     }
+
+    cache[arg] = arg * 2;
+    return arg * 2;
+  };
 }
 
 const fn = mem();
@@ -99,136 +104,129 @@ console.log(fn(3));
 console.log(fn(2));
 console.log(fn(4));
 console.log(fn(3));
-console.log('=======================================================');
+console.log("=======================================================");
 
 function mem2(fn) {
-    const cache = {};
+  const cache = {};
 
-    return function(arg) {
-        if (cache[arg]) {
-            console.log('Задействован КЭШ:');
-            return cache[arg];
-        }
-
-        cache[arg] = arg * 2;
-        return arg * 2;
+  return function (arg) {
+    if (cache[arg]) {
+      console.log("Задействован КЭШ:");
+      return cache[arg];
     }
+
+    cache[arg] = arg * 2;
+    return arg * 2;
+  };
 }
 
 // фибоначи с мемоизацией
-function fibonacci(n,memo) {
-    memo = memo || {}
-    if (memo[n]) {
-        return memo[n]
-    }
-    if (n <= 1) {
-        return 1
-    }
-    return memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo)
+function fibonacci(n, memo) {
+  memo = memo || {};
+  if (memo[n]) {
+    return memo[n];
+  }
+  if (n <= 1) {
+    return 1;
+  }
+  return (memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo));
 }
 
 function memoizer(fn) {
-    const cache = {};
+  const cache = {};
 
-    return function (n) {
-        if (cache[n]) return cache[n];
-        cache[n] = fn(n);
-        return cache[n];
-    }
+  return function (n) {
+    if (cache[n]) return cache[n];
+    cache[n] = fn(n);
+    return cache[n];
+  };
 }
 
 // простая функция, прибавляющая 10 к переданному ей числу
-const add = (n) => (n + 10);
+const add = (n) => n + 10;
 add(9);
 // аналогичная функция с мемоизацией
 const memoizedAdd = () => {
   let cache = {};
   return (n) => {
     if (n in cache) {
-      console.log('Fetching from cache');
+      console.log("Fetching from cache");
       return cache[n];
-    }
-    else {
-      console.log('Calculating result');
+    } else {
+      console.log("Calculating result");
       let result = n + 10;
       cache[n] = result;
       return result;
     }
-  }
-}
+  };
+};
 // эту функцию возвратит memoizedAdd
 const newAdd = memoizedAdd();
 console.log(newAdd(9)); // вычислено
 console.log(newAdd(9)); // взято из кэша
 
 // простая чистая функция, которая возвращает сумму аргумента и 10
-const add = n => n + 10;
-console.log('Simple call', add(3));
+const add = (n) => n + 10;
+console.log("Simple call", add(3));
 // простая функция, принимающая другую функцию и
 // возвращающая её же, но с мемоизацией
-const memoize = fn => {
-    let cache = {};
+const memoize = (fn) => {
+  let cache = {};
 
-    return (...args) => {
-        let n = args[0]; // тут работаем с единственным аргументом
+  return (...args) => {
+    let n = args[0]; // тут работаем с единственным аргументом
 
-        if (n in cache) {
-            console.log('Fetching from cache');
-            return cache[n];
-        }
-
-        console.log('Calculating result');
-        let result = fn(n);
-        cache[n] = result;
-        return result;
+    if (n in cache) {
+      console.log("Fetching from cache");
+      return cache[n];
     }
-}
+
+    console.log("Calculating result");
+    let result = fn(n);
+    cache[n] = result;
+    return result;
+  };
+};
 // создание функции с мемоизацией из чистой функции 'add'
 const memoizedAdd = memoize(add);
-console.log(memoizedAdd(3));  // вычислено
-console.log(memoizedAdd(3));  // взято из кэша
-console.log(memoizedAdd(4));  // вычислено
-console.log(memoizedAdd(4));  // взято из кэша
+console.log(memoizedAdd(3)); // вычислено
+console.log(memoizedAdd(3)); // взято из кэша
+console.log(memoizedAdd(4)); // вычислено
+console.log(memoizedAdd(4)); // взято из кэша
 
 // *Подобное можно написать самостоятельно, но существуют и библиотечные решения:
 // В Lodash имеется функция _.memoize(func, [resolver])
 // В ES7 можно воспользоваться декораторами @memoize из decko.
 
-
-// Для того, чтобы решить эту проблему, рекурсивная функция должна вызывать свой вариант с мемоизацией. 
+// Для того, чтобы решить эту проблему, рекурсивная функция должна вызывать свой вариант с мемоизацией.
 // Вот как можно добавить мемоизацию в рекурсивную функцию вычисления факториала.
 // уже знакомая нам функция memoize
 const memoize = (fn) => {
-    let cache = {};
-    return (...args) => {
-      let n = args[0];
-      if (n in cache) {
-        console.log('Fetching from cache', n);
-        return cache[n];
-      }
-      else {
-        console.log('Calculating result', n);
-        let result = fn(n);
-        cache[n] = result;
-        return result;
-      }
+  let cache = {};
+  return (...args) => {
+    let n = args[0];
+    if (n in cache) {
+      console.log("Fetching from cache", n);
+      return cache[n];
+    } else {
+      console.log("Calculating result", n);
+      let result = fn(n);
+      cache[n] = result;
+      return result;
     }
+  };
+};
+const factorial = memoize((x) => {
+  if (x === 0) {
+    return 1;
+  } else {
+    return x * factorial(x - 1);
   }
-  const factorial = memoize(
-    (x) => {
-      if (x === 0) {
-        return 1;
-      }
-      else {
-        return x * factorial(x - 1);
-      }
-    }
-  );
+});
 console.log(factorial(5)); // вычислено
 console.log(factorial(6)); // вычислено для 6, но для предыдущих значений взято из кэша
 // Функция factorial рекурсивно вызывает свою версию с мемоизацией.
-// Функция с мемоизацией кэширует результаты вычисления факториала, 
-// что, при её последующих вызовах, значительно улучшает производительность. 
-// То есть, в вышеприведённом примере оказывается, что вместо перемножения чисел от 1 до 6 для нахождения факториала числа 6, 
+// Функция с мемоизацией кэширует результаты вычисления факториала,
+// что, при её последующих вызовах, значительно улучшает производительность.
+// То есть, в вышеприведённом примере оказывается, что вместо перемножения чисел от 1 до 6 для нахождения факториала числа 6,
 // на 6 придётся умножить лишь то, что было возвращено предыдущим вызовом factorial(5).
-
