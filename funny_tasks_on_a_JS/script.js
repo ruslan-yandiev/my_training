@@ -51,4 +51,4 @@
 function fizzbuzz(number) {
   return !!number % 5;
 }
-console.log(fizzbuzz(15)); // "Fizz";
+console.log(fizzbuzz(15)); // "Fizz"
