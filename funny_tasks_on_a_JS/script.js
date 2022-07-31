@@ -48,29 +48,10 @@
 
 // video.showTags();
 //* =======================================================================================================================
-function getDaysBetweenDates(date1, date2) {
-  if (arguments.length < 2) throw new TypeError("TypeError");
-  if (date1 === null || date2 === null) return 365;
-
-  date1 = Date.parse(new Date(date1));
-  date2 = Date.parse(new Date(date2));
-
-  if (!date1 || !date2) return NaN;
-
-  let result;
-
-  if (date1 > date2) {
-    result = Math.ceil((date2 - date1) / (86400 * 1000));
-    return result === -0 ? 0 : result;
-  }
-
-  result = date2 > date1 ? date2 - date1 : date1 - date2;
-
-  return Math.floor(result / (86400 * 1000));
+//! Функция которая возвращает класс объекта
+function showClass(object) {
+  return typeof object;
 }
 
-console.log(Date.parse(null));
-console.log(getDaysBetweenDates("1-1-2020", "1-2-2020")); // 1
-console.log(getDaysBetweenDates(new Date(2011, 6, 2, 6, 0), new Date(2012, 6, 2, 6, 0))); // 366
-console.log(getDaysBetweenDates(1409796000000, 1409925600000)); // 1
-console.log(getDaysBetweenDates(new Date(2011, 6, 2, 6, 0), new Date(2012, 6, 2, 18, 0))); // 366
+console.log(showClass("")); // String
+console.log(showClass(null)); // Boolen
