@@ -1,19 +1,19 @@
 let Component = (props) => {
-    return '<h1>Hello</h1>';
+  return "<h1>Hello</h1>";
 };
 
 function Component2(props) {
-    return '<h1>Hello</h1>';
+  return "<h1>Hello</h1>";
 }
 
 class Foobar {}
 class Foobar2 {}
 
 function fnbar() {
-    number = 223;
+  number = 223;
 }
 
-const testStr = 'foobar';
+const testStr = "foobar";
 // ! только у функций конструкторов(классов) есть свой объект прототипа object.prototype
 console.log(Component.prototype === Function.prototype);
 console.log(Component.__proto__ === Function.prototype);
@@ -29,7 +29,7 @@ console.log(Foobar.prototype === Object.prototype);
 console.log(Foobar.__proto__ === Foobar2.__proto__);
 console.log(Foobar.__proto__.__proto__ === Foobar2.__proto__.__proto__);
 console.log(Foobar.__proto__.__proto__.__proto__ === Foobar2.__proto__.__proto__.__proto__);
-class F {};
+class F {}
 console.log(F.__proto__ === Function.prototype);
 
 const obj = {};
@@ -45,35 +45,31 @@ console.log(Object.prototype.__proto__); // null
 
 // ======================================================================================
 
-function F1() {
-
-}
-F1.__proto__.name1 = 'Ruslan';
-console.log(F1.name1); //Ruslan 
-Function.prototype.name2 = 'Ruslan2' // и на чтение и на запись
+function F1() {}
+F1.__proto__.name1 = "Ruslan";
+console.log(F1.name1); //Ruslan
+Function.prototype.name2 = "Ruslan2"; // и на чтение и на запись
 console.log(F1.name2); // Ruslan2
 
-function F2() {
-
-}
-console.log(F2.name1); //Ruslan 
+function F2() {}
+console.log(F2.name1); //Ruslan
 console.log(F2.name2); // Ruslan2
 
 // ============================================================================================================================
 
 function A() {
-    this.a = 1;
-    this.b = {
-        c: 2
-    }
+  this.a = 1;
+  this.b = {
+    c: 2,
+  };
 }
 
 A.prototype = {
-    a: 200,
-    b: {
-        c: 500
-    }
-}
+  a: 200,
+  b: {
+    c: 500,
+  },
+};
 
 const myA = new A();
 
@@ -96,3 +92,45 @@ console.log(myA.a); // undefined
   !  Если JS не находит нужное свойство и метод в самом экземпляре, он лезет выше по линии наследования по ссылке __proto__ и так до Object.prototype
   !  Удалить у объекта можно только то свойство которое вызвано (имеется) напрямую у объекта, а не полученное по наследству от родителя. Ну или удалить у родителя напрямую через delete экземпляр.__proto__.a или delete Родител.prototype.a
 */
+
+// * ====================================================================
+const newObj = Object.create(
+  {},
+  {
+    name: {
+      value: "Ruslan",
+      enumerable: true,
+      writable: true,
+    },
+
+    age: {
+      value: 36,
+      enumerable: true,
+    },
+
+    text: {
+      value:
+        "Мы не сможем это свойство итерировать, перезаписать или удалить из-за дискриптеров, подефолту находящитхся в false (enumerable: false, writable: false ....)",
+    },
+
+    sayName: {
+      letter: ".....",
+
+      get() {
+        return this.name;
+      },
+
+      set(arg) {
+        this.name = arg;
+      },
+    },
+  }
+);
+
+console.log(Object.keys(newObj)); // ['name', 'age']
+console.log(newObj.text); // "Мы не сможем это свойство итерировать, перезаписать или удалить из-за дискриптеров, подефолту находящитхся в false (enumerable: false, writable: false ....)
+console.log(newObj.sayName); // Ruslan
+newObj.sayName = "Sultan";
+console.log(newObj.sayName); // Sultan
+newObj.name = "Toma";
+console.log(newObj.sayName); // Toma

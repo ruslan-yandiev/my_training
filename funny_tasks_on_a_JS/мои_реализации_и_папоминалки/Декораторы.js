@@ -7,24 +7,24 @@
 */
 //! Декоратор-шпион
 function spy(func) {
-    function w(...args) {
-        func.apply(this, args); // или передать песевдо массив из ES5 arguments вместо args-не является зарезервированным
-        w.calls.push(args);
-        return func;
-    }
+  function w(...args) {
+    func.apply(this, args); // или передать песевдо массив из ES5 arguments вместо args-не является зарезервированным
+    w.calls.push(args);
+    return func;
+  }
 
-    // ! вариант без привязки контекста
-    // function w(...args) {
-    //     w.calls.push(args);
-    //     return func(...args);
-    // }
+  // ! вариант без привязки контекста
+  // function w(...args) {
+  //     w.calls.push(args);
+  //     return func(...args);
+  // }
 
-    w.calls = [];
-    return w;
+  w.calls = [];
+  return w;
 }
 
 function work(a, b) {
-    console.log(a + b);
+  console.log(a + b);
 }
 
 work = spy(work);
@@ -33,7 +33,7 @@ work(1, 2); // 3
 work(4, 5); // 9
 
 for (let args of work.calls) {
-    console.log('call:' + args.join()); // "call:1,2", "call:4,5"
+  console.log("call:" + args.join()); // "call:1,2", "call:4,5"
 }
 
 // P.S.: Этот декоратор иногда полезен для юнит-тестирования. Его расширенная форма – sinon.spy – содержится в библиотеке Sinon.JS.
@@ -51,6 +51,7 @@ for (let args of work.calls) {
 */
 
 // !Декоратор – это обёртка вокруг функции, которая изменяет поведение последней. Основная работа по-прежнему выполняется функцией.
+// !Декоратор - это это функции обертки, которые принимают какую то функцию и могут расширять ее функционал. На выходе возвращая новую функцию которую мы можем использовать (с увеличеным функционалом).
 
 /*
 *Мемоизация - это сохранение результатов вызова функции для того чтобы в следующий раз не выполнять вычисления при одинаковых аргументах.
@@ -72,8 +73,8 @@ memo(2);
 */
 
 function hash() {
-    // ! Этот трюк называется заимствование метода.
-    alert( [].join.call(arguments) ); // 1,2
+  // ! Этот трюк называется заимствование метода.
+  alert([].join.call(arguments)); // 1,2
 }
 
 hash(1, 2);
@@ -90,18 +91,18 @@ hash(1, 2);
 
 //! Задерживающий декоратор
 function delay(f, ms) {
-    return function(...args) {
-        setTimeout(()=>  f.apply(this, args), ms);
-    }
+  return function (...args) {
+    setTimeout(() => f.apply(this, args), ms);
+  };
 
-    // ! вариант два
-    // return function() {
-    //     setTimeout(()=>  f.apply(this, arguments), ms);
-    // }
+  // ! вариант два
+  // return function() {
+  //     setTimeout(()=>  f.apply(this, arguments), ms);
+  // }
 }
 
 function f(x) {
-    alert(x);
+  alert(x);
 }
 
 // создаём обёртки
@@ -129,3 +130,49 @@ function delay(f, ms) {
 
 }
 */
+
+//* ===================================================================
+/*
+Prototypes Decorator
+Необходимо добавить возможность логирования в функцию add класса Addition
+
+Используя прототип класса Addition добавить декоратор к функции add, дающий возможность логировать ее вызов
+При этом результат выполнения add должен быть как и в оригинале, но дополнительно при вызове выводить в консоль 'called'
+
+Менять изначальную функцию, класс или созданный объект нельзя.
+Код можно писать только в обозначенной зоне.
+
+Пример:
+const startedValue = new Addition(5);
+const result = startedValue.add(3,5,6) //В консоль выводится "called"
+console.log(result) //В консоль выводится 19
+*/
+
+class Addition {
+  constructor(num) {
+    this.num = num;
+  }
+
+  add(...nums) {
+    const sum = (a, b) => a + b;
+    return this.num + nums.reduce(sum);
+  }
+}
+
+function deck(f) {
+  return function (...nums) {
+    console.log("called");
+    return f.bind(this)(...nums);
+  };
+}
+
+Addition.prototype.add = deck(Addition.prototype.add);
+
+// Пример:
+const startedValue = new Addition(5);
+const result = startedValue.add(3, 5, 6); //В консоль выводится "called"
+console.log(result); //В консоль выводится 19
+
+const startedValue2 = new Addition(5);
+const result2 = startedValue.add(3, 5, 6, 10); //В консоль выводится "called"
+console.log(result2); //В консоль выводится 29

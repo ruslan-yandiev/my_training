@@ -678,3 +678,109 @@ console.log(counts2.get(2)); // 4
 console.log(counts2.get(true)); // 2
 console.log(counts2.get(obj2)); // 2
 // * ===================================================================================================================================
+/*
+Prototypes Decorator
+Необходимо добавить возможность логирования в функцию add класса Addition
+
+Используя прототип класса Addition добавить декоратор к функции add, дающий возможность логировать ее вызов
+При этом результат выполнения add должен быть как и в оригинале, но дополнительно при вызове выводить в консоль 'called'
+
+Менять изначальную функцию, класс или созданный объект нельзя.
+Код можно писать только в обозначенной зоне.
+
+Пример:
+const startedValue = new Addition(5);
+const result = startedValue.add(3,5,6) //В консоль выводится "called"
+console.log(result) //В консоль выводится 19
+*/
+
+class Addition {
+  constructor(num) {
+    this.num = num;
+  }
+
+  add(...nums) {
+    const sum = (a, b) => a + b;
+    return this.num + nums.reduce(sum);
+  }
+}
+
+function deck(f) {
+  return function (...nums) {
+    console.log("called");
+    return f.bind(this)(...nums);
+  };
+}
+
+Addition.prototype.add = deck(Addition.prototype.add);
+
+// Пример:
+const startedValue = new Addition(5);
+const result = startedValue.add(3, 5, 6); //В консоль выводится "called"
+console.log(result); //В консоль выводится 19
+
+const startedValue2 = new Addition(5);
+const result2 = startedValue.add(3, 5, 6, 10); //В консоль выводится "called"
+console.log(result2); //В консоль выводится 29
+// * ========================================================
+/*
+Object Create
+В данном задании вам нужно будет реализовать полифл Object.create.
+
+Реализуйте аналог стандартной фунции Object.create - создаёт и возвращает новый объект, прототипом которого является первый аргумент, переданный в функцию. 
+Если передан второй аргумент - устанавливает его в качестве свойств для нового объекта. 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+
+Ваша функция должна принимать два параметра:
+
+prototype (обязательный) - объект или null (но не undefined), который будет являтся прототипом для созданного объекта.
+properties (optional) - аргумент, который установит свойства для нового объекта (будет передан в Object.defineProperties).
+Если параметры фунции отсутствуют или prototype НЕ является объектом или null, то необходимо пробросить TypeError.
+
+В результате Object.create вернет созданный объект с внутренним свойством [[Prototype]], установленным в значение переданного в аргументе prototype. Если properties передан и НЕ является undefined, то будет вызван Object.defineProperties(obj, properties), где obj - объект,который должен быть возвращен из Object.create.
+
+Подсказки:
+
+Для доступа к внутреннему свойству объекта [[Prototype]] используйте методы Object.getPrototypeOf/Object.setPrototypeOf.
+В JavaScript все является объектом, кроме: null и undefined.
+NaN, Infinity, /regular expression literals/, function(){} - это всё тоже объекты.
+*/
+Object.myCreate = function (proto, propertiesObject) {
+  if (typeof proto !== "object") throw new TypeError("TypeError");
+
+  const obj = {};
+  obj.__proto__ = proto;
+
+  if (typeof propertiesObject !== "object" || propertiesObject === null) {
+    return obj;
+  } else {
+    for (let key in propertiesObject) {
+      obj[key] = propertiesObject[key].value;
+    }
+
+    return obj;
+  }
+};
+
+const A = {
+  objectName: "Object A",
+  getObjectName: function () {
+    return `This is ${this.objectName}!`;
+  },
+};
+
+const B = Object.myCreate(A, {
+  objectName: {
+    value: "Object B",
+  },
+});
+
+console.log(A.getObjectName()); // This is Object A!
+console.log(B.getObjectName()); // This is Object B!
+
+console.log(A.hasOwnProperty("getObjectName")); // true
+console.log(A.hasOwnProperty("objectName")); // true
+
+console.log(B.hasOwnProperty("getObjectName")); // false
+console.log(B.hasOwnProperty("objectName")); // true
+console.log(B.objectName); // true

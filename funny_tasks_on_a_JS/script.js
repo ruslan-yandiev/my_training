@@ -48,10 +48,3 @@
 
 // video.showTags();
 //* =======================================================================================================================
-//! Функция которая возвращает класс объекта
-function showClass(object) {
-  return typeof object;
-}
-
-console.log(showClass("")); // String
-console.log(showClass(null)); // Boolen
