@@ -44,7 +44,7 @@ Event Emitter можно перевести как “транслятор” с
 
 class EventEmitter {
   constructor() {
-    this.events = { oncing: [] };
+    this.events = {};
   }
 
   on(eventName, callback) {
@@ -63,26 +63,22 @@ class EventEmitter {
   }
 
   once(eventName, callback) {
-    if (this.events[eventName] === undefined) {
-      this.events[eventName] = [];
-      this.events[eventName].push(callback);
-      this.events.oncing.push(callback);
-    } else {
-      this.events[eventName].push(callback);
-      this.events.oncing.push(callback);
-    }
+    const oncing = (fn) => {
+      const f = (arg) => {
+        this.off(eventName, f);
+        return fn(arg);
+      };
+
+      return f;
+    };
+
+    this.on(eventName, oncing(callback));
   }
 
   emit(eventName, args) {
     if (this.events[eventName]) {
       for (let i = 0; i < this.events[eventName].length; i++) {
         this.events[eventName][i].call(null, args);
-
-        if (this.events.oncing.some((el) => el === this.events[eventName][i])) {
-          this.events.oncing = this.events.oncing.filter((el) => el !== this.events[eventName][i]);
-          this.events[eventName].splice(i, 1);
-          i--;
-        }
       }
     }
   }
@@ -94,29 +90,18 @@ class BroadcastEventEmitter extends EventEmitter {
       if (this.events[eventName]) {
         for (let i = 0; i < this.events[eventName].length; i++) {
           this.events[eventName][i].apply(null, args);
-
-          if (this.events.oncing.some((el) => el === this.events[eventName][i])) {
-            this.events.oncing = this.events.oncing.filter((el) => el !== this.events[eventName][i]);
-            this.events[eventName].splice(i, 1);
-            i--;
-          }
         }
       }
     } else {
       for (let key in this.events) {
         for (let i = 0; i < this.events[key].length; i++) {
           this.events[key][i].apply(null, args);
-
-          if (this.events.oncing.some((el) => el === this.events[key][i])) {
-            this.events.oncing = this.events.oncing.filter((el) => el !== this.events[key][i]);
-            this.events[key].splice(i, 1);
-            i--;
-          }
         }
       }
     }
   }
 }
+
 let emitter = new EventEmitter();
 
 const multiplyTwo = (num) => num * 2;
@@ -154,7 +139,7 @@ emitter.emit("division", 6);
 
 // Вызываем еще раз событие division - срабатывает ТОЛЬКО обработчики divideTwo
 emitter.emit("division", 6);
-// -> 3
+//-> 3
 
 let broadcastEmitter = new BroadcastEventEmitter();
 
@@ -171,4 +156,8 @@ broadcastEmitter.emit("*", 6);
 // -> 18
 // -> 3
 // -> 2
+
+broadcastEmitter.emit("multiplication", 6);
+// -> 12
+// -> 18
 // * ======================================================================================================================

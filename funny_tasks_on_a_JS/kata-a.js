@@ -784,3 +784,343 @@ console.log(A.hasOwnProperty("objectName")); // true
 console.log(B.hasOwnProperty("getObjectName")); // false
 console.log(B.hasOwnProperty("objectName")); // true
 console.log(B.objectName); // true
+
+// ! Функционально
+Object.create = function (proto, propertiesObject) {
+  if (typeof proto !== "object") throw new TypeError("TypeError");
+
+  const obj = {};
+  Object.setPrototypeOf(obj, proto);
+
+  return typeof propertiesObject !== "object" || propertiesObject === null ? obj : Object.defineProperties(obj, propertiesObject);
+};
+//* =====================================================================================
+/*
+Транслятор событий
+Cоздайте класс EventEmitter для управления событиями. У этого класса должны быть следующие методы:
+.on(event, callback) - добавить обработчик события
+
+.off(event, callback) - удалить обработчик события
+
+.once(event, callback) - добавить обработчик события, который сработает единожды
+
+.emit(event, [...arg]) - вызвать все обработчики события event, можно передать аргументы
+
+Расширьте EventEmitter классом BroadcastEventEmitter так, чтобы была возможность вызвать все обработчики всех событий:
+emit("*", [...arg]) - вызвать все обработчики событий, можно передать аргументы
+Event Emitter можно перевести как “транслятор” событий.
+
+Представьте себе такую ситуацию: происходит какое-то событие, например пользователь кликнул на кнопку, 
+на которое должны отреагировать разные участки программы. Чтобы проще организовать такую логику, 
+используют шаблон Event Emitter, который можно реализовать разными способами. Основная идея в том, 
+чтобы грамотно создать основу для управления событиями и реализовать возможность любым элементам “подписаться” на него 
+(и быть в курсе происходящего).
+*/
+
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+
+  on(eventName, callback) {
+    if (this.events[eventName] === undefined) {
+      this.events[eventName] = [];
+      this.events[eventName].push(callback);
+    } else {
+      this.events[eventName].push(callback);
+    }
+  }
+
+  off(eventName, callback) {
+    if (this.events[eventName]) {
+      this.events[eventName] = this.events[eventName].filter((el) => el !== callback);
+    }
+  }
+
+  once(eventName, callback) {
+    const oncing = (fn) => {
+      const f = (arg) => {
+        this.off(eventName, f);
+        return fn(arg);
+      };
+
+      return f;
+    };
+
+    this.on(eventName, oncing(callback));
+  }
+
+  emit(eventName, args) {
+    if (this.events[eventName]) {
+      for (let i = 0; i < this.events[eventName].length; i++) {
+        this.events[eventName][i].call(null, args);
+      }
+    }
+  }
+}
+
+class BroadcastEventEmitter extends EventEmitter {
+  emit(eventName, ...args) {
+    if (eventName !== "*") {
+      if (this.events[eventName]) {
+        for (let i = 0; i < this.events[eventName].length; i++) {
+          this.events[eventName][i].apply(null, args);
+        }
+      }
+    } else {
+      for (let key in this.events) {
+        for (let i = 0; i < this.events[key].length; i++) {
+          this.events[key][i].apply(null, args);
+        }
+      }
+    }
+  }
+}
+
+let emitter = new EventEmitter();
+
+const multiplyTwo = (num) => num * 2;
+const multiplyThree = (num) => num * 3;
+
+const divideTwo = (num) => num / 2;
+const divideThree = (num) => num / 3;
+
+// Добавляем для события multiplication два обработчка
+emitter.on("multiplication", multiplyTwo);
+emitter.on("multiplication", multiplyThree);
+emitter.emit("multiplication", 2); // 4  // 6
+
+// Удалим обработчик multiplyThree для события multiplication
+emitter.off("multiplication", multiplyThree);
+
+// Еще раз вызываем событие multiplication, теперь срабатывает только один обработчик multiplyTwo
+emitter.emit("multiplication", 2);
+// -> 4
+
+// Создадим новое событие divideTwo и добавим два обработчика:
+// divideTwo - срабатывает всегда, когда вызывается событие division (до тех пор, пока не удалим этот обработчик)
+//  divideThree - сработает только ОДИН раз, во время первого ВЫЗОВА события division
+emitter.on("division", divideTwo);
+emitter.once("division", divideThree);
+
+// Вызываем событие division - срабатывают обработчики divideTwo и divideThree
+emitter.emit("division", 6);
+// -> 3
+// -> 2
+
+// Вызываем еще раз событие division - срабатывает ТОЛЬКО обработчики divideTwo
+emitter.emit("division", 6);
+// -> 3
+
+// Вызываем еще раз событие division - срабатывает ТОЛЬКО обработчики divideTwo
+emitter.emit("division", 6);
+//-> 3
+
+let broadcastEmitter = new BroadcastEventEmitter();
+
+broadcastEmitter.on("multiplication", multiplyTwo);
+broadcastEmitter.on("multiplication", multiplyThree);
+broadcastEmitter.on("division", divideTwo);
+broadcastEmitter.on("division", divideThree);
+
+// Вызываем все события (multiplication и division) => все обработчики для всех событий будут вызваны.
+// Для события multiplication - вызовутся обработчики multiplyTwo и multiplyThree.
+// Для события division - вызовутся обработчики divideTwo и divideThree.
+broadcastEmitter.emit("*", 6);
+// -> 12
+// -> 18
+// -> 3
+// -> 2
+
+broadcastEmitter.emit("multiplication", 6);
+// -> 12
+// -> 18
+// * =================================================================================================================
+/*
+Нужно написать функцию, которая переводит двумерный массив (массив массивов) в CSV формат и возвращать строку О формате: https://ru.wikipedia.org/wiki/CSV (детали в разделе "Спецификация")
+
+Допустимые значения в качестве элементов массива - числа и строки Если встречается функция - выбрасывать ошибку с текстом "Unexpected value"
+
+Функция принимает: data - массив массивов, содержашие числа или строки
+
+Функция возвращает: Строку в формате CSV
+
+Пример:
+
+arrayToCsv([[1, 2], ['a', 'b']]) // '1,2
+a,b'
+arrayToCsv([[1, 2], ['a,b', 'c,d']]) // '1,2
+"a,b","c,d"'
+*/
+// function arrayToCsv(data) {
+//   let finalResult = "";
+
+//   for (let i = 0; i < data.length; i++) {
+//     let value = data[i];
+
+//     for (let j = 0; j < value.length; j++) {
+//       try {
+
+//       } catch(error) {
+
+//       }
+//       let innerValue = value[j] === null ? "" : value[j].toString();
+//       let result = innerValue.replace(/\"/g, '""');
+//       if (result.search(/("|,|\n)/g) >= 0) result = '"' + result + '"';
+//       if (j > 0) finalResult += ',';
+//       finalResult += result;
+//     }
+
+//     finalResult += "\n";
+//   }
+
+//   return finalResult;
+// }
+
+function arrayToCsv(data) {
+  return data
+    .map((v) =>
+      v
+        .map((x) => {
+          try {
+            if (Number.isNaN(x) || x.length > 1) {
+              return `"${x.replace(/\"/g, '""')}"`;
+            } else if (typeof x === "number" || typeof x === "string") {
+              return x;
+            } else {
+              throw new TypeError("Unexpected value");
+            }
+          } catch (error) {
+            console.log(error.message);
+          }
+        })
+        .join(",")
+    )
+    .join("\n");
+}
+
+console.log(
+  arrayToCsv([
+    [1, 2],
+    ["a", "b"],
+  ])
+);
+
+console.log(
+  arrayToCsv([
+    [1, 2],
+    ["a,b", "c,d"],
+  ])
+);
+//                                                           """text""","other ""long"" text"
+console.log(arrayToCsv([['"text"', 'other "long" text']]));
+
+console.log(
+  arrayToCsv([
+    [1, 2],
+    [3, 4],
+    ["a", "b"],
+  ])
+);
+
+console.log(
+  arrayToCsv([
+    [1, 2],
+    [3, 4],
+    ["a", "b"],
+    [1, {}],
+  ])
+);
+// * ==================================================================================
+/*
+В localStorage по ключу "counters" находится JSON c объектом, полями которого являются имена счётчиков, 
+а значениями - числовое значение счётчика. Напишите функцию incrementCounter, которой на вход первым параметром передаётся counterName - имя счётчика.
+
+Задача функцции увеличить значение счётчика counterName на 1 и обновить данные в localStorage. 
+В localStorage может находится невалидный JSON, чтение которого может првести к ошибке, 
+в этом случае функция должна записывать новые данные, где у указанного счетчика будет значение 1. 
+В конце функция должна возвращать значение счетчика после инкремента.
+*/
+function incrementCounter(counterName) {
+  let obj;
+
+  try {
+    obj = JSON.parse(localStorage.getItem("counters"));
+    obj[counterName] ? (obj[counterName] += 1) : (obj[counterName] = 1);
+    localStorage.setItem("counters", JSON.stringify(obj));
+  } catch (err) {
+    obj = {};
+    obj[counterName] = 1;
+    localStorage.setItem("counters", JSON.stringify(obj));
+  }
+
+  return obj[counterName];
+}
+
+// в localStorage 1 счетчик: bannerClick = 5
+incrementCounter("bannerClick"); // 6
+incrementCounter("bannerClose"); // 1
+// в localStorage 2 счетчика: bannerClick = 6, bannerClose = 1
+// * ============================================================================================================
+/*
+getRepeatableData
+Написать функцию getRepeatableData, котрая принимает на вход три параметра:
+
+getData- функция, возвращающая данные со стороннего источника. Может генерировать ошибки (см ниже)
+key - аргумент, с которым нужно вызвать getData
+maxRequestsNumber- максимальное количество вызовов getData функции. Если этот параметр отсутствует - повторяем бесконечное количество раз.
+getRepeatableData(getData, key, maxRequestNumber);
+
+Функция getRepeatableData должна вызывать getData и обрабатывать ошибки по условию:
+
+Если вызов getData возвращает ошибку NotFoundError, то мы пробрасываем исключение.
+Если вызов getData возвращает ошибку TemporaryError, то мы должны делать повторный вызов getData функции. Кол-во таких вызовов не должно превышать значение maxRequestsNumber. Если кол-во повторого вызыва превышает maxRequestsNumber, то функция getRepeatableData должна пробрасывать ошибку AttemtsLimitExceeded.
+Если getData выполняется без ошибок - функция должна вернуть то, что вернула getData. Пример:
+*/
+class AttemptsLimitExceeded extends Error {
+  constructor() {
+    super("Max attempts limit exceed");
+    this.name = "AttemptsLimitExceeded";
+  }
+}
+
+class NotFoundError extends Error {
+  constructor() {
+    super("Not found");
+    this.name = "NotFoundError";
+  }
+}
+
+class TemporaryError extends Error {
+  constructor() {
+    super("TemporaryError");
+    this.name = "TemporaryError";
+  }
+}
+
+function getRepeatableData(getData, key, maxRequestsNumber) {
+  try {
+    getData(key);
+    return key;
+  } catch (error) {
+    if (error.message === "NotFoundError") {
+      throw new Error("NotFoundError");
+    } else if (error.message === "TemporaryError") {
+      if (maxRequestsNumber === 1) throw new AttemptsLimitExceeded("AttemptsLimitExceeded");
+    } else {
+      throw error;
+    }
+  }
+
+  if (maxRequestsNumber === undefined) getRepeatableData(getData, key);
+  return maxRequestsNumber > 1 ? getRepeatableData(getData, key, maxRequestsNumber - 1) : key;
+}
+
+const getData = (key) => {
+  return "hello" + key;
+};
+const res = getRepeatableData(getData, "1", 3); // 'hello1'
+console.log(res);
+
+console.log(undefined === undefined);
+// * ===============================================================================================
