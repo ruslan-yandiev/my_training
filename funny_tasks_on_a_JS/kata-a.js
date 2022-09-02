@@ -1124,3 +1124,58 @@ console.log(res);
 
 console.log(undefined === undefined);
 // * ===============================================================================================
+/*
+Написать функцию applyFn, которая принимает на вход 2 параметра:
+
+Массив с входными данными
+Функцию, которую нужно применить к каждому элементу массива входных данных applyFn(dataArr, callback);
+Функция должна возвращать объект в котором 2 массива массив результатов succeeded и массив ошибок errors с правильными call stacks
+
+{
+  succeeded: [...], // Массив данных после функции обработчика, как при вызове .map
+  errors: [...],    // Массив инстансов ExecutionError
+}
+Создать класс ошибки ExecutionError с методом .getArgData(), по которому можно получить входные данные, на которых упала функция-коллбэк, 
+то есть возвращать element входного массива dataArr, если вызов callback(element) сгенерирует ошибку
+
+Стек трейс должен указывать на корректную позицию в функции-коллбэке Примечание: класс ExecutionError нужно сделать наследником другого класса
+*/
+class ExecutionError extends Error {
+  constructor(elem, stack) {
+    super();
+    this.name = "ExecutionError";
+    this.elem = elem;
+    this.stack = stack;
+  }
+
+  getArgData() {
+    return this.elem;
+  }
+}
+
+function applyFn(dataArr, callback) {
+  const result = { succeeded: [], errors: [] };
+
+  for (let i = 0; i < dataArr.length; i++) {
+    try {
+      result.succeeded.push(callback(dataArr[i]));
+    } catch (err) {
+      result.errors.push(new ExecutionError(dataArr[i], err.stack));
+    }
+  }
+
+  return result;
+}
+
+var { succeeded, errors } = applyFn([1, 2, 3], (arg) => arg + 1);
+console.log(succeeded); //   succeeded: [2, 3, 4],
+console.log(errors); //   errors: [],
+
+const dataArr = ['{"login":"login","password":"password"}', "{{}", "[]["];
+const callback = JSON.parse;
+var { succeeded, errors } = applyFn(dataArr, callback);
+console.log(succeeded); //   succeeded: [{ login: 'login', password: "password" }],
+console.log(errors); //   errors: [ExecutionError],
+console.log(errors[0].getArgData()); // '{{}'
+console.log(errors[1].stack); // '{{}'
+// * =============================================================================================================================
