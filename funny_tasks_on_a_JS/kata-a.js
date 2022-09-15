@@ -1253,3 +1253,453 @@ function getUsersInfo(onLoad) {
   });
 }
 // * ========================================================================================================================
+/*
+increaseSalary
+Давайте напишем функцию, которая будет увеличивать зарплату сотруднику с наименьшей зарплатой.
+
+Вам нужно
+
+Получает данные по всем работникам
+Находит работника с наименьшей зарплатой
+Отправляет запрос на повышение зарплаты этому сотруднику на 20%
+Если запрос прошел успешно - отправить сотруднику уведомление об увеличении ЗП тектом: Hello, <имя>! Congratulations, your new salary is <новая ЗП>!
+Если запрос завершился неудачей - отправить данные об ошибке администратору
+Должна всегда возвращать resolved промис с boolean значением:
+
+true если увеличение прошло успешно
+false если нет
+Все функции для получения/изменения данных асинхронны и возвращают промисы.
+Вам предоставлены функции:
+
+api.getEmployees(); // Возвращает массив с объектами {id: 343, name: 'Alex', salary: 20000}
+api.setEmployeeSalary(employeeId, newSalary); // Принимает id сотрудника и новую зарплату. Возвращает новые данные по сотруднику.
+api.notifyEmployee(employeeId, text); // Принимает id сотрудника и текст уведомления
+api.notifyAdmin(error); // Принимает ошибку
+*/
+function increaseSalary() {
+  return Promise.resolve()
+    .then((data) => {
+      return api.getEmployees();
+    })
+    .then((data) => {
+      const minSalary = Math.min(...data.map((el) => el.salary));
+      const employee = data.find((el) => el.salary === minSalary);
+      const newSalary = minSalary * (1 + 20 / 100);
+
+      return api.setEmployeeSalary(employee.id, newSalary);
+    })
+    .then((data) => {
+      api.notifyEmployee(data.id, `Hello, ${data.name}! Congratulations, your new salary is ${data.salary}!`);
+
+      return true;
+    })
+    .catch((err) => {
+      api.notifyAdmin(err);
+
+      return false;
+    });
+}
+
+const api = {
+  _employees: [
+    { id: 1, name: "Alex", salary: 120000 },
+    { id: 2, name: "Fred", salary: 110000 },
+    { id: 3, name: "Bob", salary: 80000 },
+  ],
+
+  getEmployees() {
+    return new Promise((resolve) => {
+      resolve(this._employees.slice());
+    });
+  },
+
+  setEmployeeSalary(employeeId, newSalary) {
+    return new Promise((resolve) => {
+      this._employees = this._employees.map((employee) =>
+        employee.id !== employeeId
+          ? employee
+          : {
+              ...employee,
+              salary: newSalary,
+            }
+      );
+      resolve(this._employees.find(({ id }) => id === employeeId));
+    });
+  },
+
+  notifyEmployee(employeeId, text) {
+    return new Promise((resolve) => {
+      resolve(true);
+    });
+  },
+
+  notifyAdmin(error) {
+    return new Promise((resolve) => {
+      resolve(true);
+    });
+  },
+
+  setEmployees(newEmployees) {
+    return new Promise((resolve) => {
+      this._employees = newEmployees;
+      resolve();
+    });
+  },
+};
+// * ==================================================================================================
+/*
+PromiseRace
+Напишите функцию, которая принимает массив промисов и возвращает результат того, который завершился первым. При этом если первый промис выдал ошибку - необходимо вернуть ее.
+
+Пример:
+
+const firstPromise = new Promise((resolve) =>
+  setTimeout(() => resolve(300), 300)
+);
+
+const secondPromise = new Promise((resolve) =>
+  setTimeout(() => resolve(200), 200)
+);
+
+const thirdPromise = new Promise((resolve) =>
+  setTimeout(() => resolve(100), 100)
+);
+
+promiseRace([firstPromise, secondPromise, thirdPromise]); // 100
+*/
+function promiseRace(promises) {
+  return new Promise((resolve, reject) => {
+    promises.forEach((el) => {
+      el.then((data) => {
+        resolve(el);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  });
+}
+
+const firstPromise = new Promise((resolve) => setTimeout(() => resolve(300), 300));
+
+const secondPromise = new Promise((resolve) => setTimeout(() => resolve(200), 200));
+
+const thirdPromise = new Promise((resolve) => setTimeout(() => resolve(100), 100));
+
+promiseRace([firstPromise, secondPromise, thirdPromise]); // 100
+// * ===============================================================================================================
+/*
+SumFileSizes
+Напишите функцию, которая принимает имена двух файлов и вызывает функцию, переданную третьим параметром и передает ей первым агрументом сумму их размеров.
+
+Для получения рамзера файла необходимо использовать функцию getFileSize(filename, cb).
+*/
+// let fileSizes = {
+//   testFile1: 65,
+//   testFile2: 48,
+// };
+
+// function getFileSize(filename, cb) {
+//   setTimeout(() => cb(fileSizes[filename]), Math.random() * 500);
+// }
+
+// function sumFileSizes(filename1, filename2, cb) {
+//   getFileSize(filename1, (arg) => {
+//     getFileSize(filename2, (arg2) => {
+//       cb(arg + arg2);
+//     });
+//   });
+// }
+
+// sumFileSizes("testFile1", "testFile2", (arg) => {
+//   console.log(arg);
+// });
+
+function promiseAll(promises) {
+  const arr = [];
+  let index = 0;
+
+  return new Promise((resolve, reject) => {
+    function go(promis) {
+      if (promis !== undefined) {
+        promis.then((data) => {
+          arr.push(data);
+          index += 1;
+          go(promises[index]);
+        });
+      } else {
+        resolve(arr);
+      }
+    }
+
+    go(promises[index]);
+  });
+}
+
+const firstPromise = new Promise((resolve) => setTimeout(() => resolve(300), 300));
+
+const secondPromise = new Promise((resolve) => setTimeout(() => resolve(200), 200));
+
+const thirdPromise = new Promise((resolve) => setTimeout(() => resolve(100), 100));
+
+promiseAll([firstPromise, secondPromise, thirdPromise]).then((data) => {
+  console.log(data);
+}); // [300, 200, 100]
+// * =====================================================================================================================================
+/*
+increaseSalary
+Давайте доработаем нашу функцию увеличения зарплат, но теперь будем увеличивать ЗП всем сотрудникам и добавим к ней дополнительный функционал.
+Теперь будем использовать функционал async/await для решения этой задачи.
+
+Вам нужно написать функцию, которая
+
+Получает данные по всем работникам
+Считаем среднее-арифметическое по ЗП
+Тем сотрудникам, у которых ЗП меньше средней - повышаем на 20%, у кого больше - на 10%
+Если запрос прошел успешно - отправлять сотруднику уведомление об увеличении ЗП тектом: Hello, <имя>! Congratulations, your new salary is <новая ЗП>!
+Если запрос завершился неудачей - отправлять данные ошибки администратору
+По итогу отправить суммарное ЗП работников после повышения в бухгалтерию
+Должна всегда возвращать resolved промис с числовым значением, сколько зарплат успешно повышено.
+
+Все функции для получения/изменения данных асинхронны и возвращают промисы.
+Вам предоставлены функции:
+
+api.getEmployees(); // Возвращает массив с объектами {id: 343, name: 'Alex', salary: 20000}
+api.setEmployeeSalary(employeeId, newSalary); // Принимает id сотрудника и новую зарплату. Возвращает новые данные по сотруднику.
+api.notifyEmployee(employeeId, text); // Принимает id сотрудника и текст уведомления
+api.notifyAdmin(error); // Принимает ошибку
+api.sendBudgetToAccounting(summarySalaries); // Принимает суммарную ЗП
+*/
+function increaseSalary() {
+  return new Promise((resolve, reject) => {
+    let detect = 0;
+    let summarySalaries = 0;
+    let index = 0;
+
+    function go(employees, arithmeticMean) {
+      if (employees[index] !== undefined) {
+        let newSalary =
+          employees[index].salary < arithmeticMean ? employees[index].salary * (1 + 20 / 100) : employees[index].salary * (1 + 10 / 100);
+
+        api
+          .setEmployeeSalary(employees[index].id, newSalary)
+          .then((employee) => {
+            detect += 1;
+            summarySalaries += employee.salary;
+            api.notifyEmployee(employee.id, `Hello, ${employee.name}! Congratulations, your new salary is ${employee.salary}!`);
+          })
+          .catch((err) => {
+            api.notifyAdmin(err);
+          })
+          .finally(() => {
+            index += 1;
+            go(employees, arithmeticMean);
+          });
+      } else {
+        api.sendBudgetToAccounting(summarySalaries).then((data) => {
+          resolve(detect);
+        });
+      }
+    }
+
+    api
+      .getEmployees()
+      .then((arr) => {
+        go(arr, arr.reduce((acc, el) => acc + el.salary, 0) / arr.length);
+      })
+      .catch((err) => {
+        api.notifyAdmin(err);
+      });
+  });
+}
+
+const api = {
+  _employees: [
+    { id: 1, name: "Alex", salary: 120000 },
+    { id: 2, name: "Fred", salary: 110000 },
+    { id: 3, name: "Bob", salary: 80000 },
+  ],
+
+  getEmployees() {
+    return new Promise((resolve) => {
+      resolve(this._employees.slice());
+    });
+  },
+
+  setEmployeeSalary(employeeId, newSalary) {
+    return new Promise((resolve) => {
+      const updatedEmployees = this._employees.map((employee) =>
+        employee.id !== employeeId
+          ? employee
+          : {
+              ...employee,
+              salary: newSalary,
+            }
+      );
+      this._employees = updatedEmployees;
+      resolve(this._employees.find(({ id }) => id === employeeId));
+    });
+  },
+
+  notifyEmployee(employeeId, text) {
+    return new Promise((resolve) => {
+      resolve(true);
+    });
+  },
+
+  notifyAdmin(error) {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  },
+
+  setEmployees(newEmployees) {
+    return new Promise((resolve) => {
+      this._employees = newEmployees;
+      resolve();
+    });
+  },
+
+  sendBudgetToAccounting(newBudget) {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  },
+};
+// ==============================================
+// Второй вариант
+async function increaseSalary() {
+  try {
+    const employees = await api.getEmployees();
+    let detect = 0;
+    let summarySalaries = 0;
+    const arithmeticMean = employees.reduce((acc, el) => acc + el.salary, 0) / employees.length;
+
+    for (let employee of employees) {
+      let newSalary = employee.salary < arithmeticMean ? employee.salary * (1 + 20 / 100) : employee.salary * (1 + 10 / 100);
+
+      try {
+        employee = await api.setEmployeeSalary(employee.id, newSalary);
+        detect += 1;
+        summarySalaries += employee.salary;
+        await api.notifyEmployee(employee.id, `Hello, ${employee.name}! Congratulations, your new salary is ${employee.salary}!`);
+      } catch (err) {
+        await api.notifyAdmin(err);
+      }
+    }
+
+    await api.sendBudgetToAccounting(summarySalaries);
+    return Promise.resolve(detect);
+  } catch (err) {
+    await api.notifyAdmin(err);
+  }
+}
+
+increaseSalary().then((data) => {
+  console.log(data);
+});
+// * ========================================================================================================
+/*
+PromisesInSeries
+Напишите функцию, которая принимает массив асинхронных функций и последовательно(следующая начинается, когда закончилась предыдущая) вызывает их, передавая в аргументы результат вызова предыдущей функции.
+
+Пример:
+
+const firstPromise = () =>
+  new Promise((resolve) => setTimeout(() => resolve(300)), 300);
+
+const secondPromise = () =>
+  new Promise((resolve) => setTimeout(() => resolve(200)), 200);
+
+const thirdPromise = () =>
+  new Promise((resolve) => setTimeout(() => resolve(100)), 100);
+
+promisesInSeries([firstPromise, secondPromise, thirdPromise]);
+// Выполнит resolve(300) через 300 мс, потом resolve(200) через 200 мс, потом resolve(100) через 100 мс
+*/
+async function promisesInSeries(asyncFns) {
+  let result;
+
+  for (let fn of asyncFns) {
+    result = await fn(result);
+  }
+
+  return result;
+}
+// * ==========================================================================================
+/*
+Throttle
+Реализуйте функции throttle.
+
+Примечание: из-за особенностей тестирования реализация new Date() изменена так, что изначальная текущая дата (new Date() или Date.now()) будет равна нулю и будут вручную увеличиваться в тестах. Учтите это, если будете использовать дату в реализации функций.
+
+Примечание: функции, полученные из throttle, должны передавать полученные аргументы и контекст вызова в оригинальную функцию
+
+Примечание: функция throttle может быть реализована без использования таймеров
+
+Функция должна принимать функцию и время задержки, а возвращать модифицированную функцию. Возвращенная функция должна следовать следующим правилам:
+
+Функция throttle должна вызывать функцию и запускать таймер, равный времени задержки, в течение которого функция не может быть вызвана заново. Throttle необходим для того, чтобы обеспечить возможность вызова функции не чаще, чем указанное время задержки. Если время задержки равно 500 мс, то при вызове функции, возвращенной из throttle, каждые 100 мс 10 раз подряд функция будет вызвана лишь три раза:
+первый вызов функции на 0мс (первая попытка вызова функции после 0 мс задержки),
+второй на 500 мс (пятая попытка вызова функции после 500 мс задержки)
+и третий на 1000 мс (десятая попытка вызова функции после 1000 мс задержки).
+*/
+const throttle = (fn, throttleTime) => {
+  let bull = true;
+
+  return function () {
+    if (bull) {
+      fn.call(this, ...arguments);
+      bull = false;
+      setTimeout(() => (bull = true), throttleTime);
+    }
+  };
+};
+
+let counter = 0;
+const fn = () => {
+  counter++;
+};
+
+const throttledFn = throttle(fn, 500); // функция может быть вызвана не чаще, чем раз в 500 мс
+const intervalId = setInterval(throttledFn, 100);
+setTimeout(() => clearInterval(intervalId), 1000); // удаляем интервал через 10 вызовов
+
+setTimeout(() => console.log(counter), 1000); // 2
+// * =============================================================================
+/*
+Debounce
+Реализуйте функции debounce.
+
+Примечание: функции, полученные из debounce, должны передавать полученные аргументы и контекст вызова в оригинальную функцию
+Функция должна принимать функцию и время задержки, а возвращать модифицированную функцию. Возвращенная функция должна следовать следующим правилам:
+
+Функция debounce должна запускать таймер, равный времени задержки, и игнорировать вызовы функции в течение времени задержки, 
+а так же начинать отсчет задержки заново каждый раз, когда функция была вызвана. Как только пройдет время задержки с момента последнего вызова функции, 
+дебаунс должен вызвать последнюю вызванную функцию. Debounce нужен для того, чтобы "собрать" многократные вызовы одной и той же функции в течение короткого промежутка времени и вызвать ее только единожды после окончания вызовов. 
+При вызове функции, возвращенной из debounce (переданная в debounce задержка равна 200 мс), 100 раз подряд с задержкой в меньше, чем 200 мс, функция будет вызвана лишь единожды спустя 200 мс после последнего (сотого) вызова.
+*/
+const debounce = (fn, debounceTime) => {
+  let timerId;
+
+  return function () {
+    if (timerId) clearTimeout(timerId);
+    timerId = setTimeout(() => fn.call(this, ...arguments), debounceTime);
+  };
+};
+
+let counter = 0;
+const fn = () => {
+  counter++;
+};
+
+const debouncedFn = debounce(fn, 200);
+debouncedFn(); // первый вызов
+setTimeout(debouncedFn, 100); // вызов через 100 мс после последнего вызова
+// первый вызов был заблокирован, второй ожидает окончания таймера
+setTimeout(debouncedFn, 200); // вызов через 100 мс после последнего вызова
+// второй вызов был заблокирован, третий ожидает окончания таймера
+setTimeout(debouncedFn, 300); // ...
+setTimeout(debouncedFn, 400); // после этого вызова не следует других вызовов
+// только этот вызов сработает, т.к. после него прошло 200 мс и других вызовов не было
+console.log(counter); // 1
+setTimeout(() => console.log(counter), 1000); // 1
