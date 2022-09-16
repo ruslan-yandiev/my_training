@@ -14,9 +14,8 @@
 const info = document.querySelector(".info");
 const textFild = document.querySelector(".text-fild");
 let url = "https://api.github.com/search/repositories?q=react";
+let id;
 textFild.addEventListener("keydown", () => {
-  let id;
-
   if (!id) clearTimeout(id);
 
   id = setTimeout(() => {
