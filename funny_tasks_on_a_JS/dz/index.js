@@ -1,33 +1,52 @@
-// async function start() {
-//   let url = "https://api.github.com/search/repositories?q=react";
-//   let response = await fetch(url);
-
-//   if (response.ok) {
-//     let json = await response.json();
-//     console.log(json);
-//   } else {
-//     alert("Ошибка HTTP: " + response.status);
-//   }
-// }
-// start();
-
-const info = document.querySelector(".info");
+const autocomBox = document.querySelector(".autocom-box");
 const textFild = document.querySelector(".text-fild");
-let url = "https://api.github.com/search/repositories?q=react";
-let id;
-textFild.addEventListener("keydown", () => {
-  if (!id) clearTimeout(id);
+const resultCollection = document.querySelector(".result-collection");
+const autocomBoxItem = document.querySelectorAll(".autocom-box__item");
 
-  id = setTimeout(() => {
-    fetch(url)
-      .then((response) => {
-        response.json().then((json) => {
-          console.log(json);
-          info.innerHTML += " + + ";
-        });
-      })
-      .catch((err) => {
-        alert("Ошибка HTTP: " + err.status);
-      });
-  }, 800);
+let url = "https://api.github.com/search/repositories";
+let id;
+let response;
+let json;
+let keyWord = "?q=";
+
+textFild.addEventListener("keydown", (event) => {
+  if (id) clearTimeout(id);
+  event.key === "Backspace" ? (keyWord = keyWord.substring(0, keyWord.length - 1)) : (keyWord += event.key);
+
+  try {
+    id = setTimeout(async () => {
+      for (let i = 0; i < autocomBoxItem.length; i++) {
+        autocomBoxItem[i].classList.add("hide");
+      }
+
+      if (keyWord !== "?q=") {
+        fetch(url + keyWord)
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) => {
+            return json.items?.filter((el, index) => index < 5);
+          })
+          .then((repCollection) => {
+            repCollection?.forEach((el, index) => {
+              autocomBoxItem[index].innerHTML = el.name;
+              if (autocomBoxItem[index].classList.contains("hide")) {
+                autocomBoxItem[index].classList.remove("hide");
+              }
+            });
+            console.log(repCollection);
+            console.log(event.key);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    }, 100);
+  } catch (err) {
+    alert("Ошибка HTTP: " + err.status);
+  }
 });
+
+// {}.name
+// {}.owner.login
+// {}.stargazers_count
