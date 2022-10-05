@@ -43,7 +43,12 @@
 }
 
 .autocom-box__item {
+  cursor: pointer;
   max-width: 500px;
+}
+
+.autocom-box__item:hover {
+  background-color: #65cdf9;
 }
 
 .search-input__autocom-box {
@@ -72,6 +77,10 @@
   position: relative;
   width: 42px;
   height: 42px;
+}
+
+.close {
+  cursor: pointer;
 }
 
 .result-collection__close::before {
