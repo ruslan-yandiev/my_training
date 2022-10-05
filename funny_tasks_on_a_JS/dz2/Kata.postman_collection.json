@@ -1,0 +1,310 @@
+{
+	"info": {
+		"_postman_id": "492b13a5-2454-439a-951e-b879bc576761",
+		"name": "Kata",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": {\r\n    \"username\": \"ruslan_1986\",\r\n    \"email\": \"cool-net3@yandex.ru\",\r\n    \"password\": \"3178373\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://blog.kata.academy/api/users",
+					"protocol": "https",
+					"host": [
+						"blog",
+						"kata",
+						"academy"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Registration",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user\": {\r\n    \"username\": \"ruslan1988\",\r\n    \"email\": \"cool-net3@yandex.ru\",\r\n    \"password\": \"3178373\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://blog.kata.academy/api/users",
+							"protocol": "https",
+							"host": [
+								"blog",
+								"kata",
+								"academy"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 05 Oct 2022 19:54:54 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "278"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Vary",
+							"value": "X-HTTP-Method-Override"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"116-sJERNC1RzLqkFKDakFVjJA\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user\": {\n        \"username\": \"ruslan1988\",\n        \"email\": \"cool-net3@yandex.ru\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2RlMTBlM2NmNzA1MWIwMDgyYWFlMSIsInVzZXJuYW1lIjoicnVzbGFuMTk4OCIsImV4cCI6MTY3MDE4MzY5NCwiaWF0IjoxNjY0OTk5Njk0fQ.URmNfUn6Jmicf-S6I854OfEI_OfH37-JHybnj7q5pJ8\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": {\r\n    \"email\": \"cool-net3@yandex.ru\",\r\n    \"password\": \"3178373\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://blog.kata.academy/api/users/login",
+					"protocol": "https",
+					"host": [
+						"blog",
+						"kata",
+						"academy"
+					],
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Authentication",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user\": {\r\n    \"email\": \"cool-net3@yandex.ru\",\r\n    \"password\": \"3178373\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://blog.kata.academy/api/users/login",
+							"protocol": "https",
+							"host": [
+								"blog",
+								"kata",
+								"academy"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 05 Oct 2022 20:10:40 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "278"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Vary",
+							"value": "X-HTTP-Method-Override"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"116-+6B6QPXO9wnWDywovWQheA\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user\": {\n        \"username\": \"ruslan1988\",\n        \"email\": \"cool-net3@yandex.ru\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2RlMTBlM2NmNzA1MWIwMDgyYWFlMSIsInVzZXJuYW1lIjoicnVzbGFuMTk4OCIsImV4cCI6MTY3MDE4NDY0MCwiaWF0IjoxNjY1MDAwNjQwfQ.7hLgw_YfXTS7BUqNdMG1UL5J-LyLYex_cyAerofLOSI\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Current User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2RlMTBlM2NmNzA1MWIwMDgyYWFlMSIsInVzZXJuYW1lIjoicnVzbGFuMTk4OCIsImV4cCI6MTY3MDE4NDY0MCwiaWF0IjoxNjY1MDAwNjQwfQ.7hLgw_YfXTS7BUqNdMG1UL5J-LyLYex_cyAerofLOSI",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://blog.kata.academy/api/user",
+					"protocol": "https",
+					"host": [
+						"blog",
+						"kata",
+						"academy"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Current User",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2RlMTBlM2NmNzA1MWIwMDgyYWFlMSIsInVzZXJuYW1lIjoicnVzbGFuMTk4OCIsImV4cCI6MTY3MDE4NDY0MCwiaWF0IjoxNjY1MDAwNjQwfQ.7hLgw_YfXTS7BUqNdMG1UL5J-LyLYex_cyAerofLOSI",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://blog.kata.academy/api/user",
+							"protocol": "https",
+							"host": [
+								"blog",
+								"kata",
+								"academy"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 05 Oct 2022 20:15:26 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "278"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"116-AQYWoOhQW8q39Oj3DouC0Q\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user\": {\n        \"username\": \"ruslan1988\",\n        \"email\": \"cool-net3@yandex.ru\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2RlMTBlM2NmNzA1MWIwMDgyYWFlMSIsInVzZXJuYW1lIjoicnVzbGFuMTk4OCIsImV4cCI6MTY3MDE4NDkyNiwiaWF0IjoxNjY1MDAwOTI2fQ._IISWxbAgnc79ezJ9wiiH9RMHG2IUhYpbf1d0DH1yTk\"\n    }\n}"
+				}
+			]
+		}
+	]
+}
