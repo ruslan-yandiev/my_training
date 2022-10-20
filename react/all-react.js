@@ -11,44 +11,59 @@
 // =========================================================================================
 //! функциональный компонент
 const Counter = function () {
-    const [count, setCount] = useState(0); //! возвращает массив под 0: само значение, а под 1: функция изменяющая состояние
-  
-    function increment() {
-      setCount(count + 1);
-    }
-  
-    function dencrement() {
-      setCount(count - 1);
-    }
-  
-    return (
-      <div>
-        <h1>{count}</h1>
-        <button onClick={increment}>Increment</button>
-        <button onClick={dencrement}>Decrement</button>
-      </div>
-    );
-  };
+  const [count, setCount] = useState(0); //! возвращает массив под 0: само значение, а под 1: функция изменяющая состояние
+
+  function increment() {
+    setCount(count + 1);
+  }
+
+  function dencrement() {
+    setCount(count - 1);
+  }
+
+  return (
+    <div>
+      <h1>{count}</h1>
+      <button onClick={increment}>Increment</button>
+      <button onClick={dencrement}>Decrement</button>
+    </div>
+  );
+};
 
 // ==================================================================
 
 // * Входные данные в контексте Риакта называются пропсами (props)
 // * Свойства объекта props доступны только для чтения
 const PostItem = (props) => {
-    return (
-        <div className="post">
-            <div className="post__content">
-                <strong>{props.post.id}. {props.post.title}</strong>
-                <div>{props.post.body}</div>
-            </div>
+  return (
+    <div className="post">
+      <div className="post__content">
+        <strong>
+          {props.post.id}. {props.post.title}
+        </strong>
+        <div>{props.post.body}</div>
+      </div>
 
-            <div className="post__btns">
-                <button>Delete</button>
-            </div>
-        </div>
-    );
-}
-
+      <div className="post__btns">
+        <button>Delete</button>
+      </div>
+    </div>
+  );
+};
 // =====================================================================
+const PostList = ({ posts, title }) => {
+  return (
+    //! В компоненте может быть только один корневой элемент
+    <div>
+      <h1 style={{ textAlign: "center" }}>{title}</h1>
 
-
+      {posts.map((post) => (
+        <PostItem post={post} key={post.id} />
+      ))}
+    </div>
+  );
+};
+// =====================================================================
+import "./styles/App.css"; // Импортируем наши стили (один из способов) //! Для всего приложения
+import classes from "./MyButton.module.css"; // один из способов работы со стилями //! для конкретного UI компонента (кнопки)
+// =====================================================================
