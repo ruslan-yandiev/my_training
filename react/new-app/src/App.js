@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 // import Counter from "./components/Counter"; // ! когда export default Counter;
 // import { Postitem } from "./components/Postitem"; // ! кога export function Postitem() {...}
 import PostList from "./components/PostList";
@@ -20,22 +20,28 @@ function App() {
     { id: 3, title: "HTML", body: ["HTML - 1", "HTML - 2", "HTML - 3"], info: "Toma" },
   ];
 
-  function addNewPost() {
-    posts.push({ id: posts[posts.length - 1].id + 1, title: namePost, body: bodyPost });
-    setPosts(posts);
-  }
+  const [post, setPost] = useState({ title: "", body: "" });
+  // const bodyInputRef = useRef(); // с помощью этого хука мы можем получить доступ к DOM элементу и уже у этого DOM элемента забрать value
 
-  const [namePost, setNamePost] = useState("");
-  const [bodyPost, setBodyPost] = useState("");
+  function addNewPost(event) {
+    event.preventDefault();
+
+    setPosts([...posts, { ...post, id: Date.now() }]); //! мы не изменяем состояние напрямую а используем для этого хук. Важная концепция !!!!!!!!!!!!!
+    setPost({ title: "", body: "" });
+    // console.log(bodyInputRef.current.value);
+  }
 
   return (
     <div className="App">
       <form>
-        <MyInput type="text" placeholder="Название поста" value={namePost} onChange={(event) => setNamePost(event.target.value)} />
-        <MyInput type="text" placeholder="Описание поста" value={bodyPost} onChange={(event) => setBodyPost(event.target.value)} />
-        <MyButton onClick={addNewPost} disabled>
-          Create post
-        </MyButton>
+        {/*//!Управляемые компоненты*/}
+        <MyInput value={post.title} type="text" placeholder="Название поста" onChange={(event) => setPost({ ...post, title: event.target.value })} />
+        <MyInput value={post.body} type="text" placeholder="Описание поста" onChange={(event) => setPost({ ...post, body: event.target.value })} />
+
+        {/*//!Не управляемые компоненты*/}
+        {/*<MyInput ref={bodyInputRef} type="text" placeholder="Описание поста" />*/}
+        {/*<input ref={bodyInputRef} type="text" />*/}
+        <MyButton onClick={addNewPost}>Create post</MyButton>
       </form>
 
       <PostList posts={posts} />
