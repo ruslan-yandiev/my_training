@@ -113,6 +113,16 @@ setPosts([...posts, newPost]); //! мы не изменяем состояние
 		function updateData(value) {
     			setMyState(value);
   		}
-	2)
+	2) .....
 
+  3) Redux .....
+*/
+/*
+* Условная отрисовка - выполнение чего то, (всплытие окна, alert с текстом сообщения и предупреждения) пример реализации с условием тенарника:
+{posts.length !== 0 ? <PostList remove={removePost} posts={posts} title={"Список языков программирования:"} /> : <div>Посты не найдены!</div>}
+ну или
+{ posts.length !== 0 
+  ? <PostList remove={removePost} posts={posts} title={"Список языков программирования:"} /> 
+  : <div>Посты не найдены!</div>
+}
 */

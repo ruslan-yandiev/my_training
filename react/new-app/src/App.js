@@ -24,10 +24,17 @@ function App() {
     setPosts([...posts, { ...post, id: Date.now() }]);
   }
 
+  // получаем post из дочернего компонета
+  function removePost(post) {
+    // setPosts(posts.filter((p) => p !== post)); //! тоже работает, понять как лучше.
+    setPosts(posts.filter((p) => p.id !== post.id));
+  }
+
   return (
     <div className="App">
       <PostForm updateData={updateData} />
-      <PostList posts={posts} />
+      {/* Условная отрисовка */}
+      {posts.length !== 0 ? <PostList remove={removePost} posts={posts} title={"Список языков программирования:"} /> : <h1 style={{ textAlign: "center", color: "red" }}>Посты не найдены!</h1>}
       <TestsList tests={tests} />
     </div>
   );
