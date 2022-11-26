@@ -150,3 +150,23 @@ setPosts([...posts, newPost]); //! мы не изменяем состояние
 -------------------------------------------------------------------------------------------------------------------------------------------
 localeCompare - функуия используется для сравнения строк при сортировке. sort изменяет объект при вызове, по этому делаем копию [...obj]
 */
+
+/*
+    Так мы сможем извлечь и передать из переменной компоненту сразу несколько классовых стилей
+    <div className={[cl.MyModal, cl.active].join(' ')}>
+      <div className={cl.MyModalContent}>
+        {children}
+      </div>
+    </div>
+*/
+
+/*
+*   event.stopPropagation() - предотвращает вспылие события.
+
+    <div className={rootClasses.join(' ')} onClick={()=> setVisible(false)}>
+    С помощью stopPropagation мы предотвратили всплытие события у дочернего жлемента. И теперь нажатие на дочку не вызовит события навешанного родителю.
+      <div className={cl.myModalContent} onClick={(event) => event.stopPropagation()}>
+        {children}
+      </div>
+    </div>
+*/
