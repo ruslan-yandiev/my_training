@@ -1,3 +1,7 @@
+/*
+*Установленные библиотеки помимо дефолтных:
+  React Transition Group - библиатека React для анимации (удобный инструмент)
+*/
 import React, { useRef, useState, useMemo } from "react";
 
 /*
@@ -19,6 +23,7 @@ import TestsList from "./components/TestsList";
 import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/MyModal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
+import { usePosts } from "./hooks/usePosts"; // наш кастомный хук.
 
 // ===========================================================================================================================================
 function App() {
@@ -37,13 +42,7 @@ function App() {
   const [filter, setFilter] = useState({sort:'', query: ''});
   const [modal, setModal] = useState(false);
 
-  // Отсортировываем массив постов
-  const sortedPosts = useMemo(() => filter.sort ? [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort])) : posts, [filter.sort, posts]); // localeCompare - функуия используется для сравнения строк при сортировке. sort изменяет объект при вызове, по этому делаем копию [...obj]
-  
-  // Отфильтровываем отсортированный массив постов
-  const sortedAndSearchedPosts = useMemo(() => {
-    return sortedPosts.filter((post) => post.title.toLowerCase().includes(filter.query.toLowerCase()))
-  }, [filter.query, sortedPosts]);
+  const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query); // наш кастомный хук.
 
   // функция колбека для проброски через пропс дочернему компоненту, для передачи дочерним компонентом данных.
   function updateData(post) {

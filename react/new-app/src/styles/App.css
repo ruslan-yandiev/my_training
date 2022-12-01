@@ -28,3 +28,20 @@ h1 {
 .post:hover {
   background-color: grey;
 }
+
+/* Для компонентов анимации библиотеки react-transition-group */
+.post-enter {
+  transform: translateX(-350px);
+}
+.post-enter-active {
+  transform: translateX(0);
+  transition: all 500ms ease-in;
+}
+.post-exit {
+  opacity: 1;
+}
+.post-exit-active {
+  transform: translateX(-350px);
+  transition: all 500ms ease-in;
+}
+/* ========================================================== */

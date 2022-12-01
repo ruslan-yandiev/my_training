@@ -170,3 +170,49 @@ localeCompare - функуия используется для сравнени�
       </div>
     </div>
 */
+/*
+React Transition Group - библиатека React для анимации (удобный инструмент)
+
+import React from 'react';
+import { CSSTransition, TransitionGroup} from 'react-transition-group'; // библиотека анимации, добавленная через npm
+import { PostItem } from "./PostItem";
+
+function PostList({ remove, posts, title }) {
+  if (!posts.length) return <h1 style={{ textAlign: "center", color: "red" }}>Посты не найдены!</h1>
+
+  return (
+    <div>
+      <h1>{title}</h1>
+      <TransitionGroup>
+        {posts.map((post, index) => 
+          <CSSTransition key={post.id} timeout={500} classNames="post">
+            <PostItem remove={remove} number={index + 1} post={post} />
+          </CSSTransition>
+        )}
+      </TransitionGroup>
+    </div>
+  );
+}
+
+export default PostList;
+
+.post-enter {
+  transform: translateX(350px);
+}
+.post-enter-active {
+  transform: translateX(0);
+  transition: all 500ms ease-in;
+}
+.post-exit {
+  opacity: 1;
+}
+.post-exit-active {
+  transform: translateX(-350px);
+  transition: all 500ms ease-in;
+}
+
+===================================================================================================
+Логику по сортировке и фильтрации к примеру вынести куда то отдельно, создав Кастомные Хуки.
+Все хуки должны начинаться на use...
+Кастомные Хуки внутри себя используют дефолтные хуки Риакта.
+*/
