@@ -1,6 +1,7 @@
 /*
 *Установленные библиотеки помимо дефолтных:
   React Transition Group - библиатека React для анимации (удобный инструмент)
+  axios - библиотека для запросов на сервер
 */
 import React, { useRef, useState, useMemo } from "react";
 
@@ -24,6 +25,7 @@ import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/MyModal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import { usePosts } from "./hooks/usePosts"; // наш кастомный хук.
+import axios from "axios"; // библиотека для запросов на сервер
 
 // ===========================================================================================================================================
 function App() {
@@ -56,8 +58,14 @@ function App() {
     setPosts(posts.filter((p) => p.id !== post.id));
   }
 
+  async function fetchPosts() {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    setPosts(response.data);
+  } 
+
   return (
     <div className="App">
+    <MyButton onClick={fetchPosts}>GET POSTS</MyButton>
       <MyButton onClick={()=> setModal(true)} style={{marginTop: 30}}>Создать пользователя</MyButton>
 
       <MyModal visible={modal} setVisible={setModal}>
