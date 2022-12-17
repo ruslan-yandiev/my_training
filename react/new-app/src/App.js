@@ -17,30 +17,26 @@ import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/MyModal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import { usePosts } from "./hooks/usePosts"; // наш кастомный хук.
-import axios from "axios"; // библиотека для запросов на сервер
+import PostService from "./API/PostService";
 
 // ===========================================================================================================================================
 function App() {
-  const [posts, setPosts] = useState([
-    { id: 1, title: "ааа", body: "ббббб" },
-    { id: 2, title: "бббб", body: "аааа" },
-    { id: 3, title: "вввв", body: "ггггг" },
-  ]);
-
   const tests = [
     { id: 1, title: "React", body: ["react - 1", "react - 2", "react - 3"], info: "Ruslan" },
     { id: 2, title: "SCSS", body: ["SCSS - 1", "SCSS - 2", "SCSS - 3"], info: "Sultan" },
     { id: 3, title: "HTML", body: ["HTML - 1", "HTML - 2", "HTML - 3"], info: "Toma" },
   ];
-
+  const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({sort:'', query: ''});
   const [modal, setModal] = useState(false);
+  const [isPostsLoading, setIsPostsLoading] = useState(false);
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query); // наш кастомный хук.
 
   useEffect(()=> {
-    // fetchPosts(); //* к примеру можем сразу подгрузить посты с сервера единожды при первом рендеренге компонентов.
+    fetchPosts(); //* к примеру можем сразу подгрузить посты с сервера единожды при первом рендеренге компонентов.
   }, []) // массив зависимостей сделаем пустым, чтобы функция отработалаь лишь единожды в момент монтирования компонента.
+
 
   // функция колбека для проброски через пропс дочернему компоненту, для передачи дочерним компонентом данных.
   function updateData(post) {
@@ -55,8 +51,8 @@ function App() {
   }
 
   async function fetchPosts() {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-    setPosts(response.data);
+    const postsFromServer = await PostService.getAll();
+    setPosts(postsFromServer);
   } 
 
   return (
