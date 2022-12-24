@@ -1,0 +1,22 @@
+.Loader {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px dashed teal;
+
+  /* добавим анимацию кадров - анимация будет линейной и бесконечной */
+  animation: rotate 2s infinite linear;
+}
+
+/* зададим начало и конец анимации кадров */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+
+  to {
+    /* переворот вконце кадра будет на 360 градусов и размер увеличин на 40% */
+    transform: rotate(360deg) scale(1.4);
+    background-color: red;
+  }
+}

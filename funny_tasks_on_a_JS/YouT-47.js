@@ -696,3 +696,31 @@ console.log(deepEqual(3, 3)); // true
 console.log(deepEqual(NaN, NaN)); // true
 console.log(deepEqual(g, h)); // true
 // * =============================================================================================================
+
+// вернуть массив индексов этих двух чисед, значения которых в сумме дают 8
+const arr = [4, 9, 7, 3, 5];
+let num = 8;
+
+// Решение в лоб
+for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+        if (arr[i] + arr[j] === num) {
+            console.log('Result:', [i, j]);
+            return;
+        }
+    }
+}
+
+// решение с линейной сложностью (более быстрое чем в лоб) O(n)
+function foo(arr) {
+  const cashe = {};
+
+  for (let i = 0; i < arr.length; i++) {
+      if (cashe[arr[i]] !== undefined) return [cashe[arr[i]], i];
+      cashe[num - arr[i]] = i;
+  }
+
+  return [];
+}
+
+console.log(foo(arr));

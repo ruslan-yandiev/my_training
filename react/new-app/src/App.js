@@ -18,6 +18,7 @@ import MyModal from "./components/UI/MyModal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import { usePosts } from "./hooks/usePosts"; // наш кастомный хук.
 import PostService from "./API/PostService";
+import Loader from "./components/UI/Loader/Loader"; // наш анимация загрузки
 
 // ===========================================================================================================================================
 function App() {
@@ -29,7 +30,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({sort:'', query: ''});
   const [modal, setModal] = useState(false);
-  const [isPostsLoading, setIsPostsLoading] = useState(false);
+  const [isPostsLoading, setIsPostsLoading] = useState(false); // наше состояние для условия, чтобы отображать что-то пока данные подгружаются с сервера
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query); // наш кастомный хук.
 
@@ -51,9 +52,16 @@ function App() {
   }
 
   async function fetchPosts() {
-    const postsFromServer = await PostService.getAll();
-    setPosts(postsFromServer);
-  } 
+    setIsPostsLoading(true);
+
+    // съимитируем длитольность запроса
+    setTimeout( async() => {
+      const postsFromServer = await PostService.getAll();
+      setPosts(postsFromServer);
+  
+      setIsPostsLoading(false);
+    }, 1000);
+  }
 
   return (
     <div className="App">
@@ -68,7 +76,11 @@ function App() {
 
       <PostFilter filter={filter} setFilter={setFilter}/>
 
-      {<PostList remove={removePost} posts={sortedAndSearchedPosts} title={"Список языков программирования:"} />}
+      {
+        isPostsLoading 
+        ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}> <Loader /> </div>
+        : <PostList remove={removePost} posts={sortedAndSearchedPosts} title={"Список языков программирования:"} />
+      }
       
       <TestsList tests={tests} />
     </div>
