@@ -7,6 +7,34 @@
 
 **Output**: Boolean
 */
+//* решение в лоб, метод грубой силы, временная сложность алгоритма O(n2)? сложность по памяти O(1);
+function isUnique(str) {
+  for (let i = 0; i < str.length; i++) {
+    for (let j = i + 1; j < str.length; j++) {
+      if (str[i] === str[j]) return false;
+    }
+  }
+
+  return true;
+}
+
+//* временная сложность алгоритма линейна O(n), сложность по памяти O(n)
+function isUnique(str) {
+  const cashe = {};
+
+  for (let i = 0; i < str.length; i++) {
+    if (cashe[str[i]]) return false;
+    cashe[str[i]] = true;
+  }
+
+  return true;
+}
+
+//* чисто по фану в одну строку.
+function isUnique(str) {
+  return str.split('').reduce((acc, el, i) => str.slice(i + 1).includes(el) ? acc = false : acc = acc, true);
+}
+
 function isUnique(string) {
   const detect = {};
 
@@ -50,7 +78,7 @@ console.log(isUnique("abcdef")); // -> true
 console.log(isUnique("1234567")); // -> true
 console.log(isUnique("abcABC")); // -> true
 console.log(isUnique("abcadef")); // -> false
-// * ===================================================================
+// * ===================================================================================================================================
 
 /*
 ### Плоский массив

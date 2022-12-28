@@ -19,7 +19,9 @@ import MyButton from "./components/UI/button/MyButton";
 import { usePosts } from "./hooks/usePosts"; // наш кастомный хук.
 import PostService from "./API/PostService";
 import Loader from "./components/UI/Loader/Loader"; // наш анимация загрузки
-
+import { useFetching } from "./hooks/useFetching"; // кастомный хук для обработки кейса (обработка и показ индикатора загрузки, обработка ошибки, и выполнение какого то колбека)
+import { getPageCount } from "./utils/pages"; // наши функции для вычислений
+import Pagination from "./components/UI/pagination/Pagination";
 // ===========================================================================================================================================
 function App() {
   const tests = [
@@ -30,12 +32,24 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({sort:'', query: ''});
   const [modal, setModal] = useState(false);
-  const [isPostsLoading, setIsPostsLoading] = useState(false); // наше состояние для условия, чтобы отображать что-то пока данные подгружаются с сервера
+  const [limit, setLimit] = useState(10); // создадим состояние с лимитом
+  const [page, setPage] = useState(1) // состояние с номером страницы
+  const [totalPages, setTotalPages] = useState(0); // состояние которое хранит общее количество страниц
+
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async (limit, page) => {
+      const response = await PostService.getAll(limit, page);
+      setPosts(response.data);
+      const totalCount = response.headers['x-total-count']; // достаем общее количество постов
+      setTotalPages(getPageCount(totalCount, limit));
+  });
+
+  // console.log(pagesArray);
+  // console.log(totalPages);
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query); // наш кастомный хук.
 
   useEffect(()=> {
-    fetchPosts(); //* к примеру можем сразу подгрузить посты с сервера единожды при первом рендеренге компонентов.
+    fetchPosts(limit, page); //* к примеру можем сразу подгрузить посты с сервера единожды при первом рендеренге компонентов.
   }, []) // массив зависимостей сделаем пустым, чтобы функция отработалаь лишь единожды в момент монтирования компонента.
 
 
@@ -51,16 +65,12 @@ function App() {
     setPosts(posts.filter((p) => p.id !== post.id));
   }
 
-  async function fetchPosts() {
-    setIsPostsLoading(true);
-
-    // съимитируем длитольность запроса
-    setTimeout( async() => {
-      const postsFromServer = await PostService.getAll();
-      setPosts(postsFromServer);
-  
-      setIsPostsLoading(false);
-    }, 1000);
+  // ! из-за того, что все изменения состояния в Риакт асинхронны и Риакт применяет их только после накопления, номер страницы page попадет в состояние с задержкой
+  // ! что вызовет не коректные полученные данные в запросе.
+  // ! это можно решить добавив useEffect page в качестве зaвисимости page. Второй способ передать в useFetching колбек с аргументами limit и page и при вызове fetchPosts(limit, page) эти аргументы, так сказать контекст, не забыть передать аргумены в реализации useFetching
+  function changePage(page) {
+    setPage(page);
+    fetchPosts(limit, page);
   }
 
   return (
@@ -76,6 +86,8 @@ function App() {
 
       <PostFilter filter={filter} setFilter={setFilter}/>
 
+      {postError && <h1>Произошла ошибка ${postError}</h1>}
+
       {
         isPostsLoading 
         ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}> <Loader /> </div>
@@ -83,6 +95,8 @@ function App() {
       }
       
       <TestsList tests={tests} />
+
+      <Pagination totalPages={totalPages} page={page} changePage={changePage}/>
     </div>
   );
 }
