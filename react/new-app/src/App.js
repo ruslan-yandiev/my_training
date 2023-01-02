@@ -43,8 +43,9 @@ function App() {
       setTotalPages(getPageCount(totalCount, limit));
   });
 
-  // console.log(pagesArray);
-  // console.log(totalPages);
+  // console.log(posts);
+  // console.log(filter.sort);
+  // console.log(filter);
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query); // наш кастомный хук.
 

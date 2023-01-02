@@ -14,7 +14,6 @@ export const useSortedPosts = (posts, sort) => {
 
 export const usePosts = (posts, sort, query) => {
   const sortedPosts = useSortedPosts(posts, sort);
-
   // Отфильтровываем отсортированный массив постов
   return useMemo(() => sortedPosts.filter((post) => post.title.toLowerCase().includes(query.toLowerCase())), [query, sortedPosts]);
 };
