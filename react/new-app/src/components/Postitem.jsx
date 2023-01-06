@@ -1,7 +1,10 @@
 import React from "react";
 import MyButton from "./UI/button/MyButton";
+import { useNavigate } from 'react-router-dom';
 
 export function PostItem(props) {
+  const router = useNavigate();
+
   return (
     <div className="post">
       <div className="post__content">
@@ -10,7 +13,8 @@ export function PostItem(props) {
         </strong>
         <div>{props.post.body}</div>
       </div>
-      <div className="post__btn">
+      <div className="post__btns">
+        <MyButton onClick={() => router(`/posts/${props.post.id}`)}>Открыть</MyButton> {/*будем динамически формировать путь в зовисимости от id поста*/}
         <MyButton onClick={() => props.remove(props.post)}>Удалить</MyButton>
       </div>
     </div>

@@ -10,7 +10,8 @@ h1 {
 
 #root {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App {
@@ -27,6 +28,10 @@ h1 {
 
 .post:hover {
   background-color: grey;
+}
+
+.post__btns {
+  display: flex;
 }
 
 /* Для компонентов анимации библиотеки react-transition-group */
@@ -63,3 +68,15 @@ h1 {
   font-weight: bold;
 }
 /* ================================================================ */
+.navbar {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  background-color: lightblue;
+}
+
+.navbar__links {
+  margin-left: auto;
+}
