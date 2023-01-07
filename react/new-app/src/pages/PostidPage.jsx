@@ -41,7 +41,7 @@ function PostidPage() {
         ? <Loader/>
         : <div>
           {comments.map(comm =>
-            <div style={{marginTop: 20}}>
+            <div key={comm.id} style={{marginTop: 20}}>
               <h5>{comm.email}</h5>
               <div>{comm.body}</div>  
             </div>

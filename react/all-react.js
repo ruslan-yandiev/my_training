@@ -277,3 +277,75 @@ export const useFetching = (callback) => {
 Но это несет и свои проблеммы, если часть нашего кода будет синхронным мы увидим не совсем коректные данные, как в случае с измениением страницы при запросе постов с параметрами, страницы в данных будут отставать.
 
 */
+
+
+/*
+react-router-dom - библиотека для управления роутингом в браузере/ Будет отслеживать изменение пути и перерисовывать компоненты
+Компонент ВСЕГДА должен возвращать JSX хотябы с одним элементов
+чтобы при переходе по ссылкам между страницами не происходило обновлений страницы (иначе нарушается SPA) нужно использовать компонент Link
+// чтобы при переходе по ссылкам между страницами не происходило обновлений страницы (иначе нарушается SPA) нужно использовать компонент //! Link и его пропс to
+// Routes, // instead of "Switch" - теперь вместо Switch в версии 6 используем обязательный Routes
+// Navigate - если не один из маршрутов не сработает то он будет переводить на адрес /posts . Чтобы сохранить историю чистой, вы должны установить пропс replace. Это позволит избежать дополнительных перенаправлений после того, как пользователь нажмет «Назад».
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom"; //  - библиотека для управления роутингом в браузере/ Будет отслеживать изменение пути и перерисовывать компоненты
+https://habr.com/ru/company/kts/blog/598835/
+https://stackoverflow.com/questions/69868956/how-can-i-redirect-in-react-router-v6
+https://webformyself.com/perexod-na-react-router-v6-polnoe-rukovodstvo/
+https://github.com/remix-run/react-router/blob/f59ee5488bc343cf3c957b7e0cc395ef5eb572d2/docs/advanced-guides/migrating-5-to-6.md#relative-routes-and-links
+https://reacttraining.com/blog/react-router-v6-pre/
+https://www.youtube.com/watch?v=Ul3y1LXxzdU
+Переходы на другие страницы мы можем осуществлять и без компонента Link, динамически по средствам с помощью объекта useHistory бибилиотеки react-router-dom в 6 версии useNavigate (вернет уже функцию, а не простой объект как в предыдущей версии)
+То есть будем динамически формировать путь:
+import React from "react";
+import { useNavigate } from 'react-router-dom';
+
+export function PostItem(props) {
+  const router = useNavigate();
+
+  return (
+    <div className="post">
+        <button onClick={() => router(`/posts/${props.post.id}`)}>Открыть</button> будем динамически формировать путь в зовисимости от id поста
+        </div>
+        );
+      }
+      
+      -------------
+      
+      import React from "react";
+      import PostidPage from "../pages/PostidPage";
+      import { Routes, Route, Navigate } from "react-router-dom";
+      
+      function AppRouter() {
+        return (
+          <Routes>
+            <Route path="/posts/:id" element={<PostidPage/>} />      для того, чтобы маршрут был динамическим нужно указать :id динамическую часть пути. в рятой версии пришлось бы в обоих комопнентах Route добавить пропс exact
+          </Routes>
+        )
+      }
+      
+      export default AppRouter;
+      
+      ---------
+      import React from "react";
+      import { useParams } from "react-router-dom"; // нужкен для того, чтобы выцепить динамическую часть пути из роутинга (в нашем случае :id)
+      
+      function PostidPage() {
+        const params = useParams(); // вернет {id: '7'}
+      
+        return (
+          <h1 style={{fontSize: 50, color: 'green'}}>Вы попали на страницу поста с ID = {params.id}</h1>
+        )
+      }
+      
+      export default PostidPage;
+      
+      useContext - можем создать некое глобальное хранилище и из любого компонента к этому глобальному хранилищу обращаться при этом избегая цепочки передачи данных от родителя потомку.
+      Для этого нам понадобится функция Риакта - import { createContext } from "react"
+      import { createContext } from "react"
+      export const AuthContext = createContext(null) // начальное значение контекста проинициализировали как null		
+      -----
+      <AuthContext.Provider>
+        Компоненты которым будет доступен контекст
+      </AuthContext.Provider>
+      Таких контекстов может быть сколько угодно и чтобы им воспользоваться нам нужно полученный выше контекст импортировать и использовать как компонент, но не сам контекст а провайдер <AuthContext.Provider>...</AuthContext.Provider>
+      
+*/
