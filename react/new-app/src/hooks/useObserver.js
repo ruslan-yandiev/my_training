@@ -19,7 +19,7 @@ export function useObserver(ref, canLoad, isLoading, callback) {
             }
         };
 
-        observer.current = new IntersectionObserver(cb);
+        observer.current = new IntersectionObserver(cb); //! https://developer.mozilla.org/ru/docs/Web/API/Intersection_Observer_API
         observer.current.observe(ref.current); // укажем за каким элементом будем наблюдать посредством обзервера
     }, [isLoading]);
 }
