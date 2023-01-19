@@ -5,11 +5,19 @@ import TaskList from './components/TaskList/TaskList';
 import Footer from './components/Footer/Footer';
 
 function App() {
+  // const data = [
+  //   {description: 'Completed task', created: 'created 17 seconds ago'},
+  //   {description: 'Completed task', created: 'created 17 seconds ago'},
+  //   {description: 'Completed task', created: 'created 17 seconds ago'}
+  // ];
+
   return (
     <div className="todoapp">
-      <NewTaskForm/>
-      <TaskList/>
-      <Footer/>
+      <section className='main'>
+        <NewTaskForm/>
+        <TaskList/>
+        <Footer/>
+      </section>
     </div>
   );
 }
