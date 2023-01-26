@@ -76,3 +76,26 @@ console.log(getMoney(100000, limitsobjMap)); // Uncaught Error: Not enough bank 
 console.log(getMoney(49, limitsobjMap)); // Uncaught Error: Not enough bank notes.
 
 // ===========================================================================
+/*
+Перевести сумму десятичного числа в двоичное
+1, 1 --> "10" (1 + 1 = 2 in decimal or 10 in binary)
+5, 9 --> "1110" (5 + 9 = 14 in decimal or 1110 in binary)
+*/
+function addBinary(a,b) {
+    let result = '';
+
+    for (let sum = a + b; sum > 0;) {
+        result = sum % 2 ? 1 + result : 0 + result;
+        sum = Math.floor(sum / 2);
+    }
+
+    return result;
+}
+
+function addBinary(a,b) {
+    return (a+b).toString(2)
+}
+
+
+console.log(addBinary(1, 1)); // 10
+console.log(addBinary(5, 9)); // 1110
