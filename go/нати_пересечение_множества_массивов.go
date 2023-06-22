@@ -15,5 +15,32 @@ func main() {
 }
 
 func intersection(arrs ...[]int) []int {
+	if len(arrs) < 2 {
+		return arrs[0]
+	}
 
+	result := make([]int, 0)
+	detect := make(map[int]int, 0)
+
+	a := arrs[0]
+	b := arrs[1]
+
+	for i := range a {
+		detect[a[i]]++
+	}
+
+	for i := range b {
+		if value, ok := detect[b[i]]; ok && value > 0 {
+			result = append(result, b[i])
+			detect[b[i]]--
+			continue
+		}
+
+		delete(detect, b[i])
+	}
+
+	newArrs := [][]int{result}
+	newArrs = append(newArrs, arrs[2:]...)
+
+	return intersection(newArrs...)
 }
