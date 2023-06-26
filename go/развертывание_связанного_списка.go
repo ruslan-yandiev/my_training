@@ -32,5 +32,21 @@ func main() {
 }
 
 func (head *ListNode) Reverse() *ListNode {
+	if head == nil {
+		return nil
+	}
 
+	var result *ListNode
+	current := head
+
+	for current != nil {
+		result = &ListNode{
+			Next: result,
+			Val:  current.Val,
+		}
+
+		current = current.Next
+	}
+
+	return result
 }
