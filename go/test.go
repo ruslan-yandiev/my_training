@@ -2,35 +2,30 @@ package main
 
 import "fmt"
 
-// Одна из самых популярных структур в алгоритмическом программировании — это связный список (linked list).
-// Эта структура используется как основа для стеков и очередей, графов, хранения связанных данных в больших количествах.
-// Реализуйте метод func (head *ListNode) Reverse() *ListNode, который возвращает развернутый связный список.
-// Учтите, что исходный список не должен измениться.
-// ListNode is a node of a linked list.
-type ListNode struct {
-	Next *ListNode
-	Val  int
+type Person struct {
+	Age uint8
 }
+
+type PersonList []Person
 
 func main() {
-	// связный список вида: 1 -> 2
-	list := &ListNode{
-		Next: &ListNode{
-			Next: &ListNode{
-				Next: nil,
-				Val:  30,
-			},
-			Val: 20,
-		},
-		Val: 10,
+	pl := PersonList{
+		{Age: 18},
+		{Age: 44},
+		{Age: 18},
+		{Age: 18},
 	}
 
-	reversed := list.Reverse() // 2 -> 1
-	fmt.Println(reversed)
-
-	fmt.Println(list) // 1 -> 2, то есть исходный список не изменился
+	fmt.Println(pl.GetAgePopularity()) // map[18:2 44:1]
+	// pl.GetAgePopularity() // map[18:2 44:1]
 }
 
-func (head *ListNode) Reverse() *ListNode {
+func (pl PersonList) GetAgePopularity() map[uint8]int {
+	result := make(map[uint8]int, len(pl))
 
+	for _, v := range pl {
+		result[v.Age]++
+	}
+
+	return result
 }
