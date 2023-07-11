@@ -1,13 +1,20 @@
-function my(arr) {
-  let result = [];
-  let detect = {};
+// вывести факториал числа последовательно в качестве строки
+function any(arr, callback) {
+  let detect = false;
 
   for (let i = 0; i < arr.length; i++) {
-    detect[arr[i]] ? result.push(arr[i]) : (detect[arr[i]] = 1);
+    if (detect) return detect;
+    detect = callback(arr[i], i);
   }
 
-  return result;
+  return detect;
 }
 
-console.log(my([1, 3, 4, 3, 2, 5, 6, 2, 7, 8]));
+console.log(any([1, 2, 3, 4], (el, i) => el === 4));
+/*
+  5 * 4 = 20
+  20 * 3 = 60
+  60 * 2 = 120
+  120 * 1 = 120
+*/
 // ========================================
