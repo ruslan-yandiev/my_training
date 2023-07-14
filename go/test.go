@@ -4,20 +4,30 @@ import (
 	"fmt"
 )
 
-func main() {
-	fmt.Println(any([]int{1, 2, 3, 4}, func(el, i int) bool { return el > 5 }))
-}
-
-func any(arr []int, f func(el, i int) bool) bool {
-	detect := false
-
-	for i := 0; i < len(arr); i++ {
-		if detect == true {
-			return detect
-		}
-
-		detect = f(arr[i], i)
+func f(arr []int) []int {
+	if len(arr) < 2 {
+		return arr
 	}
 
-	return detect
+	mid := arr[len(arr)/2]
+	min, max := make([]int, 0, len(arr)/2), make([]int, 0, len(arr)/2)
+
+	for _, el := range arr {
+		if el < mid {
+			min = append(min, el)
+		} else if el > mid {
+			max = append(max, el)
+		}
+	}
+
+	result := make([]int, 0, len(arr))
+	result = append(result, f(min)...)
+	result = append(result, mid)
+	result = append(result, f(max)...)
+
+	return result
+}
+
+func main() {
+	fmt.Println(f([]int{4, 8, 15, 1, 0, 11, 3, 6, 22, 1, 4, 8, 15}))
 }
