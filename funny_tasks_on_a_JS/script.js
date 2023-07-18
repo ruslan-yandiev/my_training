@@ -1,20 +1,25 @@
-function qSort(arr) {
-  if (arr.length < 2) {
-    return arr;
+function quickSort(arr) {
+  const mid = Math.floor(arr.length / 2);
+  let pivotIndex = mid;
+  let rightIndex = arr.length - 1;
+  let leftIndex = mid;
+
+  for (;pivotIndex > 0;) {
+    for (let i = 0; i <= pivotIndex; i++) {
+      if (arr[i] < pivotIndex) continue;
+
+      for (j = pivotIndex; j < rightIndex; j++) {
+        if (arr[i] > arr[j]) [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    for (let i = leftIndex; i < arr)
+
+    rightIndex = pivotIndex;
+    pivotIndex = Math.floor(pivotIndex / 2);
   }
 
-  const mid = arr[Math.floor(Math.random() * arr.length)];
-  const min = arr.filter((el) => el < mid);
-  const max = arr.filter((el) => el > mid);
-
-  result = [];
-  result.push(...qSort(min));
-  result.push(mid);
-  result.push(...qSort(max));
-
-  return result;
-
-  // return [...qSort(min), mid, ...qSort(max)];
+  return arr;
 }
 
-console.log(qSort([4, 8, 15, 1, 0, 11, 3, 6, 22, 1, 4, 8, 15]));
+console.log(quickSort([11, 4, 8, 15, 1, 0, 11, 3, 6, 22, 11, 1, 4, 8, 15]));
