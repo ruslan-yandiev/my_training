@@ -1,36 +1,48 @@
 function quickSort(arr) {
-  let mid = Math.floor(arr.length / 2);
-  let pivotIndex = mid;
-  let rightIndex = arr.length - 1;
-  let leftIndex = 0;
-  let d = 0;
+  return quickSortHelper(arr, 0, arr.length - 1);
+}
 
-  for (; mid < arr.length; ) {
-    for (; pivotIndex > 0; ) {
-      for (let i = leftIndex; i <= pivotIndex; i++) {
-        if (arr[i] < arr[pivotIndex]) continue;
+function quickSortHelper(arr, left, right) {
+  if (arr.length < 2) return arr;
 
-        for (j = rightIndex; j >= pivotIndex; j--) {
-          if (arr[i] > arr[j]) [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-      }
+  const index = partition(arr, left, right);
 
-      rightIndex = pivotIndex;
-      pivotIndex = Math.floor(pivotIndex / 2);
-    }
-
-    d += 2;
-    leftIndex = mid;
-    mid = mid + Math.floor(mid / d);
-    pivotIndex = mid;
-    rightIndex = arr.length - 1;
-  }
+  if (left < index - 1) quickSortHelper(arr, left, index - 1);
+  if (index < right) quickSortHelper(arr, index, right);
 
   return arr;
 }
 
+function partition(arr, left, right) {
+  const pivot = arr[Math.floor((left + right) / 2)];
+
+  while (left <= right) {
+    while (arr[left] < pivot) {
+      left++;
+    }
+
+    while (arr[right] > pivot) {
+      right--;
+    }
+
+    if (left <= right) {
+      swap(arr, left, right);
+      left++;
+      right--;
+    }
+  }
+
+  return left;
+}
+
+function swap(arr, i, j) {
+  const item = arr[i];
+  arr[i] = arr[j];
+  arr[j] = item;
+}
+
 console.log(quickSort([11, 4, 8, 15, 1, 0, 11, 3, 6, 22, 11, 1, 4, 8, 15]));
 console.log(quickSort([5, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 5, 5, 4, 3, 2, 1, 0]));
-[];
 console.log(quickSort([5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5]));
 console.log(quickSort([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5]));
+console.log(quickSort([0, 1, 2, 3, -6, 14, 4, 5, 0, 1, -33, 2, 3, 4, 5]));
