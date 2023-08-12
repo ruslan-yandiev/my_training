@@ -5,32 +5,7 @@ import (
 )
 
 func quickSort(arr []int) []int {
-	if len(arr) < 2 {
-		return arr
-	}
-
-	pivIndex := len(arr) / 2
-	piv := arr[pivIndex]
-	left := make([]int, 0, pivIndex)
-	right := make([]int, 0, pivIndex)
-
-	for i := 0; i < len(arr); i++ {
-		if i == pivIndex {
-			continue
-		}
-
-		if arr[i] < piv {
-			left = append(left, arr[i])
-		} else {
-			right = append(right, arr[i])
-		}
-	}
-
-	result := make([]int, 0, len(arr))
-	result = append(result, quickSort(left)...)
-	result = append(result, piv)
-	result = append(result, quickSort(right)...)
-	return result
+	return quickSortHelper(arr, 0, len(arr)-1)
 }
 
 func main() {
