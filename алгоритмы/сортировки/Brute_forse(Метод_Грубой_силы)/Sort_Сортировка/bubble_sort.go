@@ -5,7 +5,18 @@ import (
 )
 
 func quickSort(arr []int) []int {
+	for detect := true; detect == true; {
+		detect = false
 
+		for i := 1; i < len(arr); i++ {
+			if arr[i-1] > arr[i] {
+				detect = true
+				arr[i-1], arr[i] = arr[i], arr[i-1]
+			}
+		}
+	}
+
+	return arr
 }
 
 func main() {
