@@ -4,18 +4,34 @@ import (
 	"fmt"
 )
 
-func myF(num int) int {
-	accum := 0
+func mySort(arr []int) []int {
+	if len(arr) < 2 {
+		return arr
+	}
 
-	for i := 0; i <= num; i++ {
-		if i%3 == 0 && i%5 == 0 && i%7 == 0 {
-			accum += i
+	pivot := arr[len(arr)/2]
+
+	left := []int{}
+	right := []int{}
+
+	for i := 0; i < len(arr); i++ {
+		if i == len(arr)/2 {
+			continue
+		} else if arr[i] < pivot {
+			left = append(left, arr[i])
+		} else {
+			right = append(right, arr[i])
 		}
 	}
 
-	return accum
+	result := []int{}
+	result = append(result, mySort(left)...)
+	result = append(result, pivot)
+	result = append(result, mySort(right)...)
+
+	return result
 }
 
 func main() {
-	fmt.Println(myF(70))
+	fmt.Println(mySort([]int{3, 1, -3, 2, 0, -1, -2}))
 }
