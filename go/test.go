@@ -5,31 +5,49 @@ import (
 )
 
 func mySort(arr []int) []int {
-	if len(arr) < 2 {
-		return arr
-	}
+	if len(arr) > 1 {
+		mid := len(arr) / 2
+		left := make([]int, 0)
+		right := []int{}
 
-	pivot := arr[len(arr)/2]
+		for i := 0; i < len(arr); i++ {
+			if i < mid {
+				left = append(left, arr[i])
+			} else {
+				right = append(right, arr[i])
+			}
+		}
 
-	left := []int{}
-	right := []int{}
+		mySort(left)
+		mySort(right)
 
-	for i := 0; i < len(arr); i++ {
-		if i == len(arr)/2 {
-			continue
-		} else if arr[i] < pivot {
-			left = append(left, arr[i])
-		} else {
-			right = append(right, arr[i])
+		l, r, k := 0, 0, 0
+
+		for l < len(left) && r < len(right) {
+			if left[l] <= right[r] {
+				arr[k] = left[l]
+				l++
+			} else {
+				arr[k] = right[r]
+				r++
+			}
+			k++
+		}
+
+		for l < len(left) {
+			arr[k] = left[l]
+			l++
+			k++
+		}
+
+		for r < len(right) {
+			arr[k] = right[r]
+			r++
+			k++
 		}
 	}
 
-	result := []int{}
-	result = append(result, mySort(left)...)
-	result = append(result, pivot)
-	result = append(result, mySort(right)...)
-
-	return result
+	return arr
 }
 
 func main() {
