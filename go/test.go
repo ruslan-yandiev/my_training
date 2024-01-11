@@ -5,6 +5,8 @@ import (
 )
 
 func mySort(arr []int) []int {
+
+	
 	if len(arr) > 1 {
 		mid := len(arr) / 2
 		left := make([]int, 0)
