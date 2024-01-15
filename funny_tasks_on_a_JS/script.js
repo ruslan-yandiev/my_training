@@ -1,24 +1,11 @@
-function func(str) {
-  const obj = {
-    A: "a",
-    B: "b",
-    C: "c",
-    D: "d",
-    E: "e",
-    F: "f",
-  };
-
-  let result = "";
-
-  for (let i = 0; i < str.length; i++) {
-    if (obj[str[i]]) {
-      result += obj[str[i]];
-    } else {
-      result += str[i];
+function func(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    for (let j = i; j > 0 && arr[j] < arr[j - 1]; j--) {
+      [arr[j], arr[j - 1]] = [arr[j - 1], arr[j]];
     }
   }
 
-  return result;
+  return arr;
 }
 
-console.log(func("eeEEfFFFaAAA  1212`e ppp"));
+console.log(func([14, -44, 1, -33, 2, 11, 2, 14, -4, 5, 2, 0]));
