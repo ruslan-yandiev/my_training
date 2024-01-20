@@ -35,6 +35,30 @@ func quickSort(arr []int) []int {
 	return result
 }
 
+// ===================================================================================================
+func quickSort(arr []int) []int {
+	if len(arr) <= 1 {
+		return arr
+	}
+	pivot := arr[len(arr)/2]
+	var less []int
+	var equal []int
+	var greater []int
+	for _, v := range arr {
+		switch {
+		case v < pivot:
+			less = append(less, v)
+		case v == pivot:
+			equal = append(equal, v)
+		case v > pivot:
+			greater = append(greater, v)
+		}
+	}
+	less = quickSort(less)
+	greater = quickSort(greater)
+	return append(append(less, equal...), greater...)
+}
+
 // ==================================================================================================
 // без затрат по памяти, временная O(n log n) и константная по памяти O(1) где 1 количество операций(шагов, тиков)
 func quickSort(arr []int) []int {
@@ -96,4 +120,74 @@ func main() {
 	fmt.Println(quickSort([]int{5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5}))
 	fmt.Println(quickSort([]int{0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5}))
 	fmt.Println(quickSort([]int{0, 1, 2, 3, -6, 14, 4, 5, 0, 1, -33, 2, 3, 4, 5}))
+}
+
+// ================================================================================================
+func qweekSort(arr []int) []int {
+	return qweekHelper(arr, 0, len(arr)-1)
+}
+
+func qweekHelper(arr []int, left, right int) []int {
+	if len(arr) < 2 {
+		return arr
+	}
+
+	index := partition(arr, left, right)
+
+	if left < index-1 {
+		qweekHelper(arr, left, index-1)
+	}
+
+	if index < right {
+		qweekHelper(arr, index, right)
+	}
+	return arr
+}
+
+func partition(arr []int, left, right int) int {
+	pivot := arr[left]
+	for left < right {
+		for left < right && arr[right] >= pivot {
+			right--
+		}
+		arr[left] = arr[right]
+		for left < right && arr[left] <= pivot {
+			left++
+		}
+		arr[right] = arr[left]
+	}
+	arr[left] = pivot
+	return left + 1
+}
+
+func main() {
+	fmt.Println(qweekSort([]int{-22, 14, 1, -33, 2, 11, 2, 14, -4, 5, 2, 0}))
+}
+
+// ===============================================================================================
+func main() {
+	arr := []int{7, 2, 1, 6, 8, 5, 3, 4}
+	quickSort(arr, 0, len(arr)-1)
+	fmt.Println(arr)
+}
+
+func quickSort(arr []int, low, high int) {
+	if low < high {
+		pi := partition(arr, low, high)
+		quickSort(arr, low, pi-1)
+		quickSort(arr, pi+1, high)
+	}
+}
+
+func partition(arr []int, low, high int) int {
+	pivot := arr[high]
+	i := low - 1
+	for j := low; j < high; j++ {
+		if arr[j] < pivot {
+			i++
+			arr[i], arr[j] = arr[j], arr[i]
+		}
+	}
+	arr[i+1], arr[high] = arr[high], arr[i+1]
+	return i + 1
 }
