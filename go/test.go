@@ -1,31 +1,19 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-// вернуть массив повторяющихся чисел во всех трех подмассивах
-func myFunc(arr ...[]int) []int {
-	result := []int{}
-	detect := map[int]int{}
-
+func bubbleSort(arr []int) {
 	for i := 0; i < len(arr); i++ {
-		for j := 0; j < len(arr[i]); j++ {
-			value, ok := detect[arr[i][j]]
-
-			if ok && value+1 == 6 {
-				result = append(result, arr[i][j])
-			} else if ok {
-				detect[arr[i][j]] += 1
-			} else {
-				detect[arr[i][j]] = 1
+		for j := 0; j < len(arr)-i-1; j++ {
+			if arr[j] > arr[j+1] {
+				arr[j], arr[j+1] = arr[j+1], arr[j]
 			}
 		}
 	}
-
-	return result
 }
 
 func main() {
-	fmt.Println(myFunc([]int{0, 1, 2, 3, 1, 0}, []int{1, 4, 5, 1, 6, 0, 0}, []int{1, 4, 0, 5, 1, 0, 6}))
+	arr := []int{64, 34, 25, 12, 22, 11, 90}
+	bubbleSort(arr)
+	fmt.Println("Sorted array:", arr)
 }
