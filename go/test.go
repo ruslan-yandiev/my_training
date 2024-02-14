@@ -1,19 +1,17 @@
 package main
 
-import "fmt"
-
-func bubbleSort(arr []int) {
-	for i := 0; i < len(arr); i++ {
-		for j := 0; j < len(arr)-i-1; j++ {
-			if arr[j] > arr[j+1] {
-				arr[j], arr[j+1] = arr[j+1], arr[j]
-			}
-		}
-	}
-}
+import (
+	"fmt"
+)
 
 func main() {
-	arr := []int{64, 34, 25, 12, 22, 11, 90}
-	bubbleSort(arr)
-	fmt.Println("Sorted array:", arr)
+	n := 9876543210
+
+	// Повторить в цикле десяток раз по количеству цифр в числе
+	r := n % 10
+	fmt.Println(r)
+	n /= 10
+	r = n % 10
+	fmt.Println(r)
+	//.............
 }
