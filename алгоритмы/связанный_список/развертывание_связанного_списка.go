@@ -50,3 +50,21 @@ func (head *ListNode) Reverse() *ListNode {
 
 	return result
 }
+
+// =====================================================================================
+// Рекурсивный вариант разворачивания связанного списка в обратном порядке.
+func reverseList(ls *ListNode) *ListNode {
+
+	if ls.Next == nil {
+		return &ListNode{ls.Val, nil}
+	}
+
+	return &ListNode{ls.Val, reverseList(ls.Next)}
+}
+
+func main() {
+
+	result := reverseList(&ListNode{1, &ListNode{2, &ListNode{3, nil}}})
+
+	fmt.Println(result.Next.Next) // [3, 2, 1]
+}
