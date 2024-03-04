@@ -4,37 +4,24 @@ import (
 	"fmt"
 )
 
-type ListNode struct {
-	Val  int
-	Next *ListNode
+// ! Бинарный поиск по ответу - название техники бинарного поиска
+// задача "Дипломы"
+// есть N дипломов размера (H x W)
+// все дипломы нужно повесить на квадратной доске размера (S x S). Дипломы нельзя поворачивать
+// Требуется определить минимальный размер стороны доски S, позволяющий разместить все дипломы.
+func can(diplomCount, diplomHeight, diplomWidth, boardSize int) bool {
+	// вычислим сколько строк и столбцов дипломов мы сможем уместить на доске
+	rows := boardSize / diplomHeight
+	colums := boardSize / diplomWidth
+
+	// получаем общее количество дипломов умещающихся на доске
+	return rows*colums >= diplomCount
 }
 
-func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+func findingD(n, h, w int) int {
 
-	sum := 0
-	inc := 1
-
-	for l1 != nil || l2 != nil {
-		if l1 != nil {
-			sum = l1.Val*inc + sum
-			l1 = l1.Next
-		}
-
-		if l2 != nil {
-			sum = l2.Val*inc + sum
-			l2 = l2.Next
-		}
-
-		sum / inc % 10,
-			inc *= 10
-	}
-
-	return result
 }
 
 func main() {
-	result := addTwoNumbers(&ListNode{2, &ListNode{4, &ListNode{3, nil}}}, &ListNode{5, &ListNode{6, &ListNode{4, nil}}})
-
-	fmt.Println(result) // [7, 0, 8]
-	// fmt.Println(7 / 1 % 10)
+	fmt.Println(findingD(7, 10, 5))
 }
