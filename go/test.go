@@ -1,46 +1,58 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-// ! Бинарный поиск по ответу - название техники бинарного поиска
-// задача "Дипломы"
-// есть N дипломов размера (H x W)
-// все дипломы нужно повесить на квадратной доске размера (S x S). Дипломы нельзя поворачивать
-// Требуется определить минимальный размер стороны доски S, позволяющий разместить все дипломы.
-func can(diplomCount, diplomHeight, diplomWidth, boardSize int) bool {
-	// вычислим сколько строк и столбцов дипломов мы сможем уместить на доске
-	rows := boardSize / diplomHeight
-	colums := boardSize / diplomWidth
+func maximumCount(nums []int) int {
+	left := -1
+	right := len(nums)
+	var mid int
+	l, r := 0, 0
 
-	// получаем общее количество дипломов умещающихся на доске
-	return colums > 0 && rows >= (diplomCount+colums-1)/colums //rows*colums >= diplomCount упрощенный способ с умножением может быть переполнен
-}
+	for left+1 < right {
+		mid = (left + right) / 2
 
-func findingD(n, h, w int) int {
-	// поставим указатели l и r на заведомо не подходящее и подходящее число
-	l := 0
-	r := n * h
-
-	var m int
-
-	// выполняем двоичный поиск до двух элементов
-	for l+1 < r {
-		m = l + (r-l)/2 // упрощенный варинт будет (l+r)/2 но он опасен переполнением из-за больших цифр при сложении
-
-		if can(n, h, w, m) {
-			r = m
+		if nums[mid] >= 0 {
+			right = mid
 		} else {
-			l = m
+			left = mid
 		}
 	}
 
-	// l и r формируют границу так называемой границы водораздела, где l будет указывать на неправильное число, а r на верное
+	l = left
+	left = -1
+	right = len(nums)
+
+	for left+1 < right {
+		mid = (left + right) / 2
+
+		if nums[mid] <= 0 {
+			left = mid
+		} else {
+			right = mid
+		}
+	}
+
+	r = right
+
+	l += 1
+	r = len(nums) - r
+
+	if l > r {
+		return l
+	}
+
 	return r
 }
 
-// ! поскольку временная сложность функции can является константной O(1), то общая сложность решения определяется бинарным поиском Асимпатическая оценка O(log n)
 func main() {
-	fmt.Println(findingD(13, 5, 3))
+	fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3}))                                  // 3
+	fmt.Println(maximumCount([]int{-4, -3, -2, -1, 1, 2, 3}))                              // 4
+	fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3, 4}))                               // 4
+	fmt.Println(maximumCount([]int{-6, -5, -4, -3, -2, -1, 1, 2, 3}))                      // 6
+	fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3, 4, 5, 6}))                         // 6
+	fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3})) // 3
+	fmt.Println(maximumCount([]int{-4, -3, -2, -1, 0, 1, 2, 3}))                           // 4
+	fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 0, 0, 1, 2, 3, 4}))                   // 4
+	fmt.Println(maximumCount([]int{-6, -5, -4, -3, -2, -1, 0, 0, 1, 2, 3}))                // 6
+	fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 1, 2, 3, 4, 5, 6}))                   // 6
 }
