@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 // func maximumCount(nums []int) int {
@@ -59,56 +60,19 @@ import (
 // 	fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 1, 2, 3, 4, 5, 6}))                   // 6
 // }
 
-func qweekSort(arr []int) []int {
-	return helperQweekSort(arr, 0, len(arr)-1)
-}
-
-func helperQweekSort(arr []int, left, right int) []int {
-	if len(arr) < 1 {
-		return arr
-	}
-
-	index := pivouting(arr, left, right)
-
-	if left < index-1 {
-		helperQweekSort(arr, left, index-1)
-	}
-
-	if index < right {
-		helperQweekSort(arr, index, right)
-	}
-
-	return arr
-}
-
-func pivouting(arr []int, left, right int) int {
-	piv := (left + right) / 2
-
-	for left <= right {
-		for arr[left] < arr[piv] {
-			left++
-		}
-
-		for arr[right] > arr[piv] {
-			right--
-		}
-
-		if left <= right {
-			swop(arr, left, right)
-			left++
-			right--
-		}
-	}
-
-	return left
-}
-
-func swop(arr []int, i, j int) {
-	item := arr[i]
-	arr[i] = arr[j]
-	arr[j] = item
-}
-
 func main() {
-	fmt.Println(qweekSort([]int{22, 33, 11, 3, -3, 0, -3, -5, -1, 4, 7}))
+	var str string
+	fmt.Scan(&str)
+	hh := make(map[string]bool)
+	result := str
+
+	for _, v := range str {
+		if _, ok := hh[string(v)]; ok {
+			result = strings.Trim(result, string(v))
+		}
+
+		hh[string(v)] = true
+	}
+
+	fmt.Println(result)
 }

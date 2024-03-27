@@ -93,6 +93,31 @@ func main() {
 }
 
 // ==============================================================================================================================
+func rightBinSearch(arr []int, target int) int {
+	left := -1
+	right := len(arr)
+
+	for left+1 < right {
+		mid := (left + right) / 2
+
+		if arr[mid] <= target {
+			left = mid
+		} else {
+			right = mid
+		}
+	}
+
+	if left < len(arr) && arr[left] == target {
+		return left
+	}
+
+	return -1
+}
+
+func main() {
+	fmt.Println(rightBinSearch([]int{1, 2, 2, 2, 2, 5, 7, 7, 7, 7, 7, 11, 14, 77, 111, 111, 112, 121, 122, 222, 333, 444, 1234, 3333}, 7))
+}
+
 // ==============================================================================================================================
 // * Поиск последнего вхождения искомого элемента в коллекции
 func rightBinSearch(arr []int, item int) int {

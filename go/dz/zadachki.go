@@ -193,3 +193,23 @@ func main() {
 }
 
 // ========================================================================================
+// удалить дубли в не отсортированном массиве
+func foo(arr []int) []int {
+	index := 0
+	hh := make(map[int]bool)
+
+	for i := 0; i < len(arr); i++ {
+		if _, ok := hh[arr[i]]; !ok {
+			arr[index] = arr[i]
+			index++
+		}
+
+		hh[arr[i]] = true
+	}
+
+	return arr[:index+1]
+}
+
+func main() {
+	fmt.Println(foo([]int{11, 0, 0, 1, 1, 1, 55, 11, 2, 2, 2, 3, 3, 55, 55, -13, 3, 4, 4, -13, 4, 5, 5, 5, 6}))
+}
