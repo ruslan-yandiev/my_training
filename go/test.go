@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 // func maximumCount(nums []int) int {
@@ -60,19 +59,28 @@ import (
 // 	fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 1, 2, 3, 4, 5, 6}))                   // 6
 // }
 
-func main() {
-	var str string
-	fmt.Scan(&str)
-	hh := make(map[string]bool)
-	result := str
+func rightBinSearch(arr []int, target int) int {
+	left := 0
+	right := len(arr) - 1
+	var mid int
 
-	for _, v := range str {
-		if _, ok := hh[string(v)]; ok {
-			result = strings.Trim(result, string(v))
+	for left <= right {
+		mid = (left + right) / 2
+
+		if arr[mid] > target {
+			right = mid - 1
+		} else {
+			left = mid + 1
 		}
-
-		hh[string(v)] = true
 	}
 
-	fmt.Println(result)
+	if arr[right] == target {
+		return right
+	}
+
+	return -1
+}
+
+func main() {
+	fmt.Println(rightBinSearch([]int{11, 33, 33, 33, 44, 111, 111, 111, 122, 122, 133, 133, 133, 222}, 10))
 }
