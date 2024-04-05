@@ -32,6 +32,36 @@ func main() {
 }
 
 // ==============================================================================================================
+func leftBinSearch(arr []int, target int) int {
+	left := 0
+	right := len(arr) - 1
+	var mid int
+
+	if arr[len(arr)-1] < target {
+		return -1
+	}
+
+	for left <= right {
+		mid = (left + right) / 2
+
+		if arr[mid] < target {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+
+	if arr[left] == target {
+		return left
+	}
+
+	return -1
+}
+
+func main() {
+	fmt.Println(leftBinSearch([]int{11, 33, 33, 33, 44, 111, 111, 111, 122, 122, 133, 133, 133, 222}, 111))
+}
+
 // ===============================================================================================================
 // * Поиск первого вхождения искомого элемента в коллекции
 func leftBinSearch(arr []int, item int) int {
@@ -94,6 +124,35 @@ func main() {
 
 // !  ==========================================================================================================================
 // =============================================================================================================================
+func rightBinSearch(arr []int, target int) int {
+	left := 0
+	right := len(arr) - 1
+	var mid int
+
+	if arr[0] > target {
+		return -1
+	}
+
+	for left <= right {
+		mid = (left + right) / 2
+
+		if arr[mid] > target {
+			right = mid - 1
+		} else {
+			left = mid + 1
+		}
+	}
+
+	if arr[right] == target {
+		return right
+	}
+
+	return -1
+}
+
+func main() {
+	fmt.Println(rightBinSearch([]int{11, 33, 33, 33, 44, 111, 111, 111, 122, 122, 133, 133, 133, 222}, 22222))
+}
 
 // ==============================================================================================================================
 func rightBinSearch(arr []int, target int) int {

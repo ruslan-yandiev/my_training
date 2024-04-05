@@ -46,41 +46,32 @@ import (
 // 	return r
 // }
 
-// func main() {
-// 	fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3}))                                  // 3
-// 	fmt.Println(maximumCount([]int{-4, -3, -2, -1, 1, 2, 3}))                              // 4
-// 	fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3, 4}))                               // 4
-// 	fmt.Println(maximumCount([]int{-6, -5, -4, -3, -2, -1, 1, 2, 3}))                      // 6
-// 	fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3, 4, 5, 6}))                         // 6
-// 	fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3})) // 3
-// 	fmt.Println(maximumCount([]int{-4, -3, -2, -1, 0, 1, 2, 3}))                           // 4
-// 	fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 0, 0, 1, 2, 3, 4}))                   // 4
-// 	fmt.Println(maximumCount([]int{-6, -5, -4, -3, -2, -1, 0, 0, 1, 2, 3}))                // 6
-// 	fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 1, 2, 3, 4, 5, 6}))                   // 6
-// }
+//	func main() {
+//		fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3}))                                  // 3
+//		fmt.Println(maximumCount([]int{-4, -3, -2, -1, 1, 2, 3}))                              // 4
+//		fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3, 4}))                               // 4
+//		fmt.Println(maximumCount([]int{-6, -5, -4, -3, -2, -1, 1, 2, 3}))                      // 6
+//		fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3, 4, 5, 6}))                         // 6
+//		fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3})) // 3
+//		fmt.Println(maximumCount([]int{-4, -3, -2, -1, 0, 1, 2, 3}))                           // 4
+//		fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 0, 0, 1, 2, 3, 4}))                   // 4
+//		fmt.Println(maximumCount([]int{-6, -5, -4, -3, -2, -1, 0, 0, 1, 2, 3}))                // 6
+//		fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 1, 2, 3, 4, 5, 6}))                   // 6
+//	}
 
-func rightBinSearch(arr []int, target int) int {
-	left := 0
-	right := len(arr) - 1
-	var mid int
+func foo(arr []int) []int {
+	index := 1
 
-	for left <= right {
-		mid = (left + right) / 2
-
-		if arr[mid] > target {
-			right = mid - 1
-		} else {
-			left = mid + 1
+	for i := 1; i < len(arr); i++ {
+		if arr[i] != arr[i-1] {
+			arr[index] = arr[i]
+			index++
 		}
 	}
 
-	if arr[right] == target {
-		return right
-	}
-
-	return -1
+	return arr[:index] // сделаем срез с нашего массива тем самым не затравит память
 }
 
 func main() {
-	fmt.Println(rightBinSearch([]int{11, 33, 33, 33, 44, 111, 111, 111, 122, 122, 133, 133, 133, 222}, 10))
+	fmt.Println(foo([]int{11, 33, 33, 33, 44, 111, 111, 111, 122, 122, 133, 133, 133, 222}))
 }
