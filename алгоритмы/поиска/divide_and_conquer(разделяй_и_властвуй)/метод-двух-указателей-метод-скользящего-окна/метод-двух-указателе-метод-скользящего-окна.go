@@ -1,64 +1,53 @@
-package main
+//! Два указание - это название нескольких способов оптимизации решений, содержащих вложенные циклы.
+//! Оптимизация происходит за счет того, что во внутреннем цикле инекс движется только в одном направлении и не возвращается назат
 
-import (
-	"fmt"
-)
+// * два указателя вариант 1 движутся в одну сторону
+// * 1) убрать дубли в отсортированном массиве 2) нати максимальный/минимальный "хороший" участок 2) найти количество "хороших" участков и подобное
+// удалить дубликаты в отсортированном массиве и вернуть в том же порядке, без использования дополнительной памяти. Сложность O(n)
+func deleteD(arr []int) []int {
+	first, second := 0, 0
 
-// func maximumCount(nums []int) int {
-// 	left := -1
-// 	right := len(nums)
-// 	var mid int
-// 	l, r := 0, 0
+	for second < len(arr) {
+		if second < len(arr)-1 && arr[second] == arr[second+1] {
+			second++
+		} else {
+			arr[first] = arr[second]
+			first++
+			second++
+		}
+	}
 
-// 	for left+1 < right {
-// 		mid = (left + right) / 2
+	return arr[:first]
+}
 
-// 		if nums[mid] >= 0 {
-// 			right = mid
-// 		} else {
-// 			left = mid
-// 		}
-// 	}
+func main() {
+	fmt.Println(deleteD([]int{1, 1, 2}))                            // [1, 2]
+	fmt.Println(deleteD([]int{1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 5, 6})) // [1, 2, 3, 4, 5, 6]
+}
 
-// 	l = left
-// 	left = -1
-// 	right = len(nums)
+// ========================================
+func deleteD(arr []int) []int {
+	first, last := 0, 0
 
-// 	for left+1 < right {
-// 		mid = (left + right) / 2
+	for last < len(arr) {
+		if arr[last] == arr[first] {
+			last++
+		} else {
+			arr[first+1] = arr[last]
+			first++
+			last++
+		}
+	}
 
-// 		if nums[mid] <= 0 {
-// 			left = mid
-// 		} else {
-// 			right = mid
-// 		}
-// 	}
+	return arr[:first+1]
+}
 
-// 	r = right
+func main() {
+	fmt.Println(deleteD([]int{1, 1, 2}))                            // [1, 2]
+	fmt.Println(deleteD([]int{1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 5, 6})) // [1, 2, 3, 4, 5, 6]
+}
 
-// 	l += 1
-// 	r = len(nums) - r
-
-// 	if l > r {
-// 		return l
-// 	}
-
-// 	return r
-// }
-
-//	func main() {
-//		fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3}))                                  // 3
-//		fmt.Println(maximumCount([]int{-4, -3, -2, -1, 1, 2, 3}))                              // 4
-//		fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3, 4}))                               // 4
-//		fmt.Println(maximumCount([]int{-6, -5, -4, -3, -2, -1, 1, 2, 3}))                      // 6
-//		fmt.Println(maximumCount([]int{-3, -2, -1, 1, 2, 3, 4, 5, 6}))                         // 6
-//		fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3})) // 3
-//		fmt.Println(maximumCount([]int{-4, -3, -2, -1, 0, 1, 2, 3}))                           // 4
-//		fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 0, 0, 1, 2, 3, 4}))                   // 4
-//		fmt.Println(maximumCount([]int{-6, -5, -4, -3, -2, -1, 0, 0, 1, 2, 3}))                // 6
-//		fmt.Println(maximumCount([]int{-3, -2, -1, 0, 0, 1, 2, 3, 4, 5, 6}))                   // 6
-//	}
-
+//============================================
 /*
 Когда у Валеры появляется свободное время, он идет в библиотеку и читает книги. Вот и сегодня у него появилось t свободных минут для чтения. Поэтому Валера взял n книг в библиотеке и для каждой книги оценил: какое время потребуется, чтобы ее прочитать. Пронумеруем книги целыми числами от 1 до n. Для прочтения i-той книги Валере требуется ai минут.
 
@@ -72,28 +61,3 @@ import (
 Выходные данные
 Выведите единственное целое число — максимальное количество книг, которое Валера сможет прочитать.
 */
-
-func foo(n, t int, timeCollection []int) int {
-	for i := 1; i < len(timeCollection); i++ {
-		for j := i; j > 0 && timeCollection[j] < timeCollection[j-1]; j-- {
-			timeCollection[j], timeCollection[j-1] = timeCollection[j-1], timeCollection[j]
-		}
-	}
-
-	var count, time int
-
-	for _, v := range timeCollection {
-		if time+v <= t {
-			count++
-			time += v
-		}
-	}
-
-	return count
-}
-
-func main() {
-	fmt.Println(foo(4, 5, []int{3, 1, 2, 1}))                    // 3 - книги
-	fmt.Println(foo(3, 3, []int{2, 2, 3}))                       // 1 - книга
-	fmt.Println(foo(10, 5, []int{1, 2, 2, 3, 3, 1, 1, 2, 1, 5})) // 4 - книги
-}
