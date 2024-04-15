@@ -73,27 +73,45 @@ import (
 Выведите единственное целое число — максимальное количество книг, которое Валера сможет прочитать.
 */
 
+// func foo(n, t int, timeCollection []int) int {
+// 	for i := 1; i < len(timeCollection); i++ {
+// 		for j := i; j > 0 && timeCollection[j] < timeCollection[j-1]; j-- {
+// 			timeCollection[j], timeCollection[j-1] = timeCollection[j-1], timeCollection[j]
+// 		}
+// 	}
+
+// 	var count, time int
+
+// 	for _, v := range timeCollection {
+// 		if time+v <= t {
+// 			count++
+// 			time += v
+// 		}
+// 	}
+
+//		return count
+//	}
 func foo(n, t int, timeCollection []int) int {
-	for i := 1; i < len(timeCollection); i++ {
-		for j := i; j > 0 && timeCollection[j] < timeCollection[j-1]; j-- {
-			timeCollection[j], timeCollection[j-1] = timeCollection[j-1], timeCollection[j]
+	sum, maxLen := 0, 0
+
+	for l, r := 0, 0; r < n; r++ {
+		sum += timeCollection[r]
+
+		for ; sum > t; l++ {
+			sum -= timeCollection[l]
+		}
+
+		if maxLen < r-l+1 {
+			maxLen = r - l + 1
 		}
 	}
 
-	var count, time int
-
-	for _, v := range timeCollection {
-		if time+v <= t {
-			count++
-			time += v
-		}
-	}
-
-	return count
+	return maxLen
 }
 
 func main() {
 	fmt.Println(foo(4, 5, []int{3, 1, 2, 1}))                    // 3 - книги
 	fmt.Println(foo(3, 3, []int{2, 2, 3}))                       // 1 - книга
 	fmt.Println(foo(10, 5, []int{1, 2, 2, 3, 3, 1, 1, 2, 1, 5})) // 4 - книги
+	fmt.Println(foo(6, 5, []int{5, 10, 10, 1, 1, 1}))            // 3 - книги
 }

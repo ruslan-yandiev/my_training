@@ -61,3 +61,49 @@ func main() {
 Выходные данные
 Выведите единственное целое число — максимальное количество книг, которое Валера сможет прочитать.
 */
+func foo(n, t int, timeCollection []int) int {
+	l, r, sum, maxLen := 0, 0, 0, 0
+
+	for r < n {
+		sum += timeCollection[r]
+
+		for sum > t {
+			sum -= timeCollection[l]
+			l++
+		}
+
+		r++
+
+		if maxLen < r-l {
+			maxLen = r - l
+		}
+	}
+
+	return maxLen
+}
+
+// --------
+func foo(n, t int, timeCollection []int) int {
+	sum, maxLen := 0, 0
+
+	for l, r := 0, 0; r < n; r++ {
+		sum += timeCollection[r]
+
+		for ; sum > t; l++ {
+			sum -= timeCollection[l]
+		}
+
+		if maxLen < r-l+1 {
+			maxLen = r - l + 1
+		}
+	}
+
+	return maxLen
+}
+
+func main() {
+	fmt.Println(foo(4, 5, []int{3, 1, 2, 1}))                    // 3 - книги
+	fmt.Println(foo(3, 3, []int{2, 2, 3}))                       // 1 - книга
+	fmt.Println(foo(10, 5, []int{1, 2, 2, 3, 3, 1, 1, 2, 1, 5})) // 4 - книги
+	fmt.Println(foo(6, 5, []int{5, 10, 10, 1, 1, 1}))            // 4 - книги
+}
