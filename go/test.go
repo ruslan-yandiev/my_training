@@ -103,10 +103,24 @@ import (
 */
 
 func foo(n, k int, arr []int) []int {
+	result := []int{1, 1}
 
+	for l, r := 0, 0; r < n; r++ {
+
+		result[1] = r + 1
+
+		for l < r && arr[r] == arr[l] {
+			l++
+			result[0] = l + 1
+		}
+	}
+
+	return result
 }
 
 func main() {
 	fmt.Println(foo(5, 3, []int{1, 2, 1, 3, 2}))    // [2, 4]
 	fmt.Println(foo(6, 4, []int{2, 4, 2, 3, 3, 1})) // [2, 6]
+	fmt.Println(foo(6, 1, []int{3, 3, 3, 3, 3, 3})) // [1, 1]
+	fmt.Println(foo(6, 2, []int{3, 3, 4, 3, 3, 4})) // [2, 3]
 }
