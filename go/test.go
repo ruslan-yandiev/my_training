@@ -102,25 +102,51 @@ import (
 В выходной файл выведите два числа, координаты левого и правого концов отрезка минимальной длины, удовлетворяющего условию. Если оптимальных ответов несколько, выведите любой.
 */
 
-func foo(n, k int, arr []int) []int {
-	result := []int{1, 1}
+// func foo(n, k int, arr []int) []int {
+// 	result := []int{1, 1}
+// 	hh := make(map[int]int)
+// 	count := 0
 
-	for l, r := 0, 0; r < n; r++ {
+// 	for l, r := 0, 0; r < n; r++ {
+// 		_, ok := hh[arr[r]]
 
-		result[1] = r + 1
+// 		if count == k {
+// 			return result
+// 		}
 
-		for l < r && arr[r] == arr[l] {
-			l++
-			result[0] = l + 1
-		}
-	}
+// 		if ok {
+// 			hh[arr[r]] += 1
+// 		} else {
+// 			hh[arr[r]] = 1
+// 			count++
+// 		}
 
-	return result
-}
+// 		if r > 0 && arr[l] == arr[r] {
+// 			l++
+// 		}
+
+// 		result[0] = l + 1
+// 		result[1] = r + 1
+// 	}
+
+// 	return result
+// }
 
 func main() {
-	fmt.Println(foo(5, 3, []int{1, 2, 1, 3, 2}))    // [2, 4]
-	fmt.Println(foo(6, 4, []int{2, 4, 2, 3, 3, 1})) // [2, 6]
-	fmt.Println(foo(6, 1, []int{3, 3, 3, 3, 3, 3})) // [1, 1]
-	fmt.Println(foo(6, 2, []int{3, 3, 4, 3, 3, 4})) // [2, 3]
+	var n, k, el int
+	arr := []int{}
+
+	fmt.Scan(&n, &k)
+
+	for i := 0; i < n; i++ {
+		fmt.Scan(&el)
+		arr = append(arr, el)
+	}
+
+	fmt.Println(n, k)
+	fmt.Println(arr)
+	// fmt.Println(foo(5, 3, []int{1, 2, 1, 3, 2}))    // [2, 4]
+	// fmt.Println(foo(6, 4, []int{2, 4, 2, 3, 3, 1})) // [2, 6]
+	// fmt.Println(foo(6, 1, []int{3, 3, 3, 3, 3, 3})) // [1, 1]
+	// fmt.Println(foo(6, 2, []int{3, 3, 4, 3, 3, 4})) // [2, 3]
 }
