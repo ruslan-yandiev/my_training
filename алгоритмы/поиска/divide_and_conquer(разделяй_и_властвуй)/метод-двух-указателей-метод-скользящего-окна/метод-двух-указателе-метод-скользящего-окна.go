@@ -47,6 +47,26 @@ func main() {
 	fmt.Println(deleteD([]int{1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 5, 6})) // [1, 2, 3, 4, 5, 6]
 }
 
+// ===========================================
+func foo(arr []int) []int {
+	index := 1
+	for l, r := 0, 0; r < len(arr); r++ {
+		if arr[l] != arr[r] {
+			l++
+			index++
+			arr[l] = arr[r]
+		}
+	}
+
+	return arr[:index]
+}
+
+func main() {
+	arr := []int{2, 3, 4, 4, 4, 5, 5, 5, 6, 6, 8, 8, 8, 11, 14, 14, 14, 33}
+
+	fmt.Println(foo(arr))
+}
+
 //============================================
 /*
 Когда у Валеры появляется свободное время, он идет в библиотеку и читает книги. Вот и сегодня у него появилось t свободных минут для чтения. Поэтому Валера взял n книг в библиотеке и для каждой книги оценил: какое время потребуется, чтобы ее прочитать. Пронумеруем книги целыми числами от 1 до n. Для прочтения i-той книги Валере требуется ai минут.
@@ -187,3 +207,122 @@ func main() {
 }
 
 // ======================================================================================================================================================
+/*
+В этой задаче Вам требуется найти максимальную по длине подстроку данной строки, такую что каждый символ встречается в ней не более k раз.
+
+Входные данные
+В первой строке даны два целых числа n и k (1 ≤ n ≤ 100000, 1 ≤ k ≤ n ) , где n – количество символов в строке. Во второй строке n символов – данная строка, состоящая только из строчных латинских букв.
+
+Выходные данные
+В выходной файл выведите два числа – длину искомой подстроки и номер её первого символа. Если решений несколько, выведите любое.
+Примеры
+входные данные
+3 1
+abb
+выходные данные
+2 1
+входные данные
+5 2
+ababa
+выходные данные
+4 1
+входные данные
+6 2
+ababac
+выходные данные
+5 2
+входные данные
+10 2
+aaaaababba
+выходные данные
+4 5
+*/
+
+type ItemCounter struct {
+	cnt         map[byte]int
+	frequentCnt int
+	limit       int
+}
+
+func (itemCount *ItemCounter) add(item byte) {
+	if itemCount.cnt[item] == itemCount.limit {
+		itemCount.frequentCnt++
+	}
+
+	itemCount.cnt[item]++
+}
+
+func (itemCount *ItemCounter) remove(item byte) {
+	itemCount.cnt[item]--
+
+	if itemCount.cnt[item] == itemCount.limit {
+		itemCount.frequentCnt--
+	}
+}
+
+func (itemCount *ItemCounter) frequenItems() int {
+	return itemCount.frequentCnt
+}
+
+func main() {
+	var n, k int
+	var str string
+	fmt.Scan(&n, &k)
+	fmt.Scan(&str)
+
+	bestLen, bestFrom := 0, 1
+
+	itemCounter := ItemCounter{cnt: make(map[byte]int), frequentCnt: 0, limit: k}
+
+	for l, r := 0, 0; r < n; r++ {
+		itemCounter.add(str[r])
+
+		for itemCounter.frequenItems() > 0 {
+			itemCounter.remove(str[l])
+			l++
+		}
+
+		if r-l+1 > bestLen {
+			bestLen = r - l + 1
+			bestFrom = l + 1
+		}
+	}
+
+	fmt.Println(bestLen, bestFrom)
+}
+
+// ---------------------------------------------
+func main() {
+	var n, k int
+	var str string
+	fmt.Scan(&n, &k)
+	fmt.Scan(&str)
+
+	frequentCnt, bestLen, bestFrom := 0, 0, 1
+	cnt := make(map[byte]int)
+
+	for l, r := 0, 0; r < n; r++ {
+		if cnt[str[r]] == k {
+			frequentCnt++
+		}
+
+		cnt[str[r]]++
+
+		for frequentCnt > 0 {
+			cnt[str[l]]--
+
+			if cnt[str[r]] == k {
+				frequentCnt--
+			}
+
+			l++
+		}
+
+		if r-l+1 > bestLen {
+			bestLen = r - l + 1
+			bestFrom = l + 1
+		}
+	}
+
+	fmt.Println(bestLen, bestFrom)
+}

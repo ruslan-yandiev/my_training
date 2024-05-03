@@ -181,6 +181,40 @@ func main() {
 }
 
 // ==============================================================================================================================
+func foo(arr []int, target int) int {
+	left := -1
+	right := len(arr)
+	var mid int
+
+	for left+1 < right {
+		mid = (left + right) / 2
+
+		if arr[mid] >= target {
+			right = mid
+		} else {
+			left = mid
+		}
+	}
+
+	if right < len(arr) && arr[right] == target {
+		return right
+	}
+
+	return -1
+}
+
+func main() {
+	arr := []int{2, 2, 2, 4, 4, 4, 5, 5, 5, 6, 6, 8, 8, 8, 11, 14, 14, 14, 33}
+
+	fmt.Println(foo(arr, 2))   // 0
+	fmt.Println(foo(arr, 4))   // 3
+	fmt.Println(foo(arr, 6))   // 9
+	fmt.Println(foo(arr, 11))  // 14
+	fmt.Println(foo(arr, 66))  // -1
+	fmt.Println(foo(arr, -33)) // -1
+}
+
+// ==============================================================================================================================
 // * Поиск последнего вхождения искомого элемента в коллекции
 func rightBinSearch(arr []int, item int) int {
 	left := 0
