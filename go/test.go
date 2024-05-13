@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // func maximumCount(nums []int) int {
 // 	left := -1
@@ -90,18 +93,68 @@ import "fmt"
 //		return count
 //	}
 
-func moveZeroes(nums []int) {
-	for l, r := 0, 0; r < len(nums); r++ {
-		if nums[r] != 0 {
-			nums[l], nums[r] = nums[r], nums[l]
+/*
+Является ли указанная строка палендромом без учета пробелов, регистра символов и знаков препинания.
+*/
+func isPalindrome(s string) bool {
+	s = strings.ToLower(s)
+	check := map[string]bool{
+		"":  true,
+		" ": true,
+		".": true,
+		",": true,
+		"!": true,
+		"?": true,
+		":": true,
+		";": true,
+		"@": true,
+		"%": true,
+		"#": true,
+		"$": true,
+		"^": true,
+		"&": true,
+		"*": true,
+		"(": true,
+		")": true,
+		"+": true,
+		"=": true,
+		"-": true,
+		"_": true,
+		`\`: true,
+		"|": true,
+		"/": true,
+		"<": true,
+		">": true,
+		"`": true,
+		"~": true,
+		"'": true,
+		`"`: true,
+		"[": true,
+		"]": true,
+		"{": true,
+		"}": true,
+	}
+
+	for l, r := 0, len(s)-1; l < r; {
+		for check[string(s[l])] && l < r {
 			l++
 		}
+
+		for check[string(s[r])] && l < r {
+			r--
+		}
+
+		if s[l] != s[r] {
+			return false
+		}
+
+		l++
+		r--
 	}
+
+	return true
 }
 
 func main() {
-	arr := []int{5, 2, 0, 3, 0, 0, 2, 4}
-	moveZeroes(arr)
-
-	fmt.Println(arr)
+	fmt.Println(isPalindrome("A man, a plan, a canal: Panama"))
 }
