@@ -218,3 +218,116 @@ func isPalindrome(s string) bool {
 func main() {
 	fmt.Println(isPalindrome("A man, a plan, a canal: Panama"))
 }
+
+// =====================================================================================================================
+/*
+Компания из N человек собирается пойти в байдарочный поход, i-ый человек характеризуется своей массой Mi кг. На лодочной базе имеется в наличии неограниченное количество одинаковых байдарок. Каждая байдарка может вмещать одного или двух людей. Байдарки имеют грузоподъемность D кг. Какое наименьшее количество байдарок придется арендовать компании, чтобы всем отправиться в поход?
+
+Входные данные
+В первой строке входного файла INPUT.TXT содержится пара натуральных чисел N, D (1 ≤ N ≤ 15000; 1 ≤ D ≤ 15000). Во второй строке содержится последовательность натуральных чисел M1, M2, ... , MN (1 ≤ Mi ≤ D).
+
+Выходные данные
+В выходной файл OUTPUT.TXT выведите искомое наименьшее количество необходимых байдарок.
+
+Примеры
+INPUT
+4 135
+50 74 60 82
+
+OUTPUT
+2
+
+INPUT
+6 135
+50 120 74 60 100 82
+
+OUTPUT
+4
+
+INPUT
+8 135
+50 120 15 74 82 60 100 35
+
+OUTPUT
+4
+*/
+
+func main() {
+	var n, d, person int
+	arr := []int{}
+
+	fmt.Scan(&n, &d)
+
+	for i := 0; i < n; i++ {
+		fmt.Scan(&person)
+		arr = append(arr, person)
+	}
+
+	count := 0
+
+	sort.Ints(arr)
+
+	for l, r := 0, len(arr)-1; l <= r; {
+		for l < r && arr[l]+arr[r] > d {
+			count++
+			r--
+		}
+
+		count++
+		l++
+		r--
+	}
+
+	fmt.Println(count)
+}
+
+// ==================================================================================================================
+/*
+https://leetcode.com/problems/container-with-most-water/
+11. Container With Most Water
+Solved
+Medium
+Topics
+Companies
+Hint
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+Example 2:
+
+Input: height = [1,1]
+Output: 1
+*/
+func maxArea(height []int) int {
+	result := 0
+
+	for l, r := 0, len(height)-1; l < r; {
+		currArea := r - l
+
+		if height[l] < height[r] {
+			currArea *= height[l]
+			l++
+		} else {
+			currArea *= height[r]
+			r--
+		}
+
+		if result < currArea {
+			result = currArea
+		}
+	}
+
+	return result
+}
+
+func main() {
+	fmt.maxArea([]int{1, 8, 6, 2, 5, 4, 8, 3, 7})
+}
