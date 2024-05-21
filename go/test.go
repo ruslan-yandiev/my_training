@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // func maximumCount(nums []int) int {
 // 	left := -1
 // 	right := len(nums)
@@ -89,51 +91,31 @@ package main
 //	}
 
 /*
-https://leetcode.com/problems/container-with-most-water/
-11. Container With Most Water
-Solved
-Medium
-Topics
-Companies
-Hint
-You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
-
-Find two lines that together with the x-axis form a container, such that the container contains the most water.
-
-Return the maximum amount of water a container can store.
-
-Notice that you may not slant the container.
-
-Input: height = [1,8,6,2,5,4,8,3,7]
-Output: 49
-Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
-Example 2:
-
-Input: height = [1,1]
-Output: 1
+Объеденить два массива в один массив данный первым аргументом nums1
 */
-func maxArea(height []int) int {
-	result := 0
 
-	for l, r := 0, len(height)-1; l < r; {
-		currArea := r - l
+func merge(nums1 []int, m int, nums2 []int, n int) []int {
+	if len(nums2) == 0 {
+		return nums1
+	} else if len(nums1) == 0 {
+		nums1 = append(nums1, nums2...)
+	}
 
-		if height[l] < height[r] {
-			currArea *= height[l]
-			l++
-		} else {
-			currArea *= height[r]
+	for l, r, length := m-1, n-1, len(nums1)-1; length >= 0; length-- {
+		if l > -1 && r > -1 && nums1[l] > nums2[r] {
+			nums1[length] = nums1[l]
+			l--
+		} else if r > -1 {
+			nums1[length] = nums2[r]
 			r--
-		}
-
-		if result < currArea {
-			result = currArea
 		}
 	}
 
-	return result
+	return nums1
 }
-
 func main() {
-	fmt.maxArea([]int{1, 8, 6, 2, 5, 4, 8, 3, 7})
+	fmt.Println(merge([]int{1, 2, 3, 0, 0, 0}, 3, []int{2, 5, 6}, 3)) // [1, 2, 2, 3, 5, 6]
+	fmt.Println(merge([]int{4, 5, 6, 0, 0, 0}, 3, []int{1, 2, 3}, 3))
+	fmt.Println(merge([]int{1}, 1, []int{}, 0))
+	fmt.Println(merge([]int{}, 0, []int{1}, 1))
 }
