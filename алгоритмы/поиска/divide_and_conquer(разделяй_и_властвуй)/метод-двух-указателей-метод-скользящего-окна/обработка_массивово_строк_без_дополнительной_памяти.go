@@ -382,3 +382,44 @@ func main() {
 	fmt.Println(merge([]int{1}, 1, []int{}, 0))
 	fmt.Println(merge([]int{}, 0, []int{1}, 1))
 }
+
+// ==================================================================================================
+/*
+даны два отсортированных массива. Необходимо вернуь массив с двумя ближайшими числами из каждого
+*/
+
+func merge(arr1, arr2 []int) []int {
+	result := []int{0, 0}
+	detect := 9999999
+
+	for l, r := 0, len(arr2)-1; l < len(arr1) && r >= 0; {
+		if arr1[l] > arr2[r] {
+			if detect > arr1[l]-arr2[r] {
+				detect = arr1[l] - arr2[r]
+				result[0] = arr1[l]
+				result[1] = arr2[r]
+			}
+			r--
+		} else if arr1[l] < arr2[r] {
+			if detect > arr2[r]-arr1[l] {
+				detect = arr2[r] - arr1[l]
+				result[0] = arr1[l]
+				result[1] = arr2[r]
+			}
+			l++
+		} else {
+			result[0] = arr1[l]
+			result[1] = arr2[r]
+			return result
+		}
+	}
+
+	return result
+}
+func main() {
+	fmt.Println(merge([]int{3, 4}, []int{1, 2, 3}))            //[3, 3]
+	fmt.Println(merge([]int{4, 5}, []int{1, 2, 3}))            // [4, 3]
+	fmt.Println(merge([]int{2, 5, 16, 44}, []int{13, 26, 27})) // [16, 13]
+}
+
+// ==============================================================================
