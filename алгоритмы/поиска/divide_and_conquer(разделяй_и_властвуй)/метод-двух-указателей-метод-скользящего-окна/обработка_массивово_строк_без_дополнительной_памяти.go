@@ -72,9 +72,9 @@ func main() {
 //         hh[target - numbers[i]] = i
 //     }
 
-//	    return []int{}
-//	}
-//
+// 	return []int{}
+// }
+
 // ----------------------------------------------
 // Странно, что по памяти и по скорости тесты показывают одинаковый результат с верхним решением без указателей.
 func twoSum(numbers []int, target int) []int {
@@ -91,16 +91,18 @@ func twoSum(numbers []int, target int) []int {
 }
 
 // -----------------------------------------------
-func twoSum(numbers []int, target int) []int {
-	for l, r := 0, len(numbers)-1; ; {
-		if numbers[r]+numbers[l] == target {
-			return []int{l + 1, r + 1}
-		} else if numbers[l]+numbers[r] > target {
-			r--
-		} else if numbers[l]+numbers[r] < target {
+
+func twoSum(arr []int, num int) []int {
+	for l, r := 0, len(arr)-1; l < r; {
+		if arr[l]+arr[r] == num {
+			return []int{arr[l], arr[r]}
+		} else if arr[l]+arr[r] < num {
 			l++
+		} else {
+			r--
 		}
 	}
+
 	return []int{}
 }
 
