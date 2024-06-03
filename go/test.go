@@ -134,10 +134,26 @@ Output:
 70
 */
 
-func foo(arrs [][]int) int {
+// func foo(arrs [][]int) int {
 
+// }
+
+// func main() {
+// 	fmt.Println(foo([][]int{[]int{12, 16, 67, 43}, []int{7, 17, 68, 48}, []int{14, 15, 77, 54}})) // 2
+// }
+
+func sort(arr []int) []int {
+	return sortHelper(arr, 0, len(arr)-1)
+}
+
+func sortHelper(arr []int, left, right int) []int {
+	if len(arr) < 2 {
+		return arr
+	}
+
+	return arr
 }
 
 func main() {
-	fmt.Println(foo([][]int{[]int{12, 16, 67, 43}, []int{7, 17, 68, 48}, []int{14, 15, 77, 54}})) // 2
+	fmt.Println(sort([]int{33, -1, 0, 15, 1}))
 }
