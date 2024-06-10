@@ -142,18 +142,32 @@ Output:
 // 	fmt.Println(foo([][]int{[]int{12, 16, 67, 43}, []int{7, 17, 68, 48}, []int{14, 15, 77, 54}})) // 2
 // }
 
-func sort(arr []int) []int {
-	return sortHelper(arr, 0, len(arr)-1)
-}
+func find(arr []int, target int) int {
+	left := 0
+	right := len(arr) - 1
+	var mid int
 
-func sortHelper(arr []int, left, right int) []int {
-	if len(arr) < 2 {
-		return arr
+	if arr[0] > target {
+		return -1
 	}
 
-	return arr
+	for left <= right {
+		mid = (left + right) / 2
+
+		if arr[mid] > target {
+			right = mid - 1
+		} else {
+			left = mid + 1
+		}
+	}
+
+	if arr[right] == target {
+		return right
+	}
+
+	return -1
 }
 
 func main() {
-	fmt.Println(sort([]int{33, -1, 0, 15, 1}))
+	fmt.Println(find([]int{-1, -1, 2, 2, 11, 11, 13, 13, 16, 16, 22, 22, 44, 44}, 22))
 }

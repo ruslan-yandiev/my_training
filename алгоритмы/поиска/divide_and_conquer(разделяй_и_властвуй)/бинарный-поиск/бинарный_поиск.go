@@ -122,6 +122,40 @@ func main() {
 	fmt.Println(leftBinSearch([]int{1, 2, 2, 2, 2, 5, 7, 7, 7, 7, 7, 11, 14, 77, 111, 111, 112, 121, 122, 222, 333, 444, 1234, 3333}, 7))
 }
 
+// =======================================================================================
+func leftBinSearch(arr []int, target int) int {
+	left := -1
+	right := len(arr)
+	var mid int
+
+	for left+1 < right {
+		mid = (left + right) / 2
+
+		if arr[mid] >= target {
+			right = mid
+		} else {
+			left = mid
+		}
+	}
+
+	if right < len(arr) && arr[right] == target {
+		return right
+	}
+
+	return -1
+}
+
+func main() {
+	arr := []int{2, 2, 2, 4, 4, 4, 5, 5, 5, 6, 6, 8, 8, 8, 11, 14, 14, 14, 33}
+
+	fmt.Println(leftBinSearch(arr, 2))   // 0
+	fmt.Println(leftBinSearch(arr, 4))   // 3
+	fmt.Println(leftBinSearch(arr, 6))   // 9
+	fmt.Println(leftBinSearch(arr, 11))  // 14
+	fmt.Println(leftBinSearch(arr, 66))  // -1
+	fmt.Println(leftBinSearch(arr, -33)) // -1
+}
+
 // !  ==========================================================================================================================
 // =============================================================================================================================
 func rightBinSearch(arr []int, target int) int {
@@ -152,66 +186,6 @@ func rightBinSearch(arr []int, target int) int {
 
 func main() {
 	fmt.Println(rightBinSearch([]int{11, 33, 33, 33, 44, 111, 111, 111, 122, 122, 133, 133, 133, 222}, 22222))
-}
-
-// ==============================================================================================================================
-func rightBinSearch(arr []int, target int) int {
-	left := -1
-	right := len(arr)
-
-	for left+1 < right {
-		mid := (left + right) / 2
-
-		if arr[mid] <= target {
-			left = mid
-		} else {
-			right = mid
-		}
-	}
-
-	if left < len(arr) && arr[left] == target {
-		return left
-	}
-
-	return -1
-}
-
-func main() {
-	fmt.Println(rightBinSearch([]int{1, 2, 2, 2, 2, 5, 7, 7, 7, 7, 7, 11, 14, 77, 111, 111, 112, 121, 122, 222, 333, 444, 1234, 3333}, 7))
-}
-
-// ==============================================================================================================================
-func foo(arr []int, target int) int {
-	left := -1
-	right := len(arr)
-	var mid int
-
-	for left+1 < right {
-		mid = (left + right) / 2
-
-		if arr[mid] >= target {
-			right = mid
-		} else {
-			left = mid
-		}
-	}
-
-	if right < len(arr) && arr[right] == target {
-		return right
-	}
-
-	return -1
-}
-
-func main() {
-	arr := []int{2, 2, 2, 4, 4, 4, 5, 5, 5, 6, 6, 8, 8, 8, 11, 14, 14, 14, 33}
-
-	fmt.Println(foo(arr, 2))   // 0
-	fmt.Println(foo(arr, 4))   // 3
-	fmt.Println(foo(arr, 6))   // 9
-	fmt.Println(foo(arr, 11))  // 14
-	fmt.Println(foo(arr, 66))  // -1
-	fmt.Println(foo(arr, -33)) // -1
 }
 
 // ==============================================================================================================================
