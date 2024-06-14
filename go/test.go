@@ -142,32 +142,19 @@ Output:
 // 	fmt.Println(foo([][]int{[]int{12, 16, 67, 43}, []int{7, 17, 68, 48}, []int{14, 15, 77, 54}})) // 2
 // }
 
-func find(arr []int, target int) int {
-	left := 0
-	right := len(arr) - 1
-	var mid int
+func find(arr []int) int {
+	result := 0
+	start := 0
+	end := 0
 
-	if arr[0] > target {
-		return -1
+	for start < len(arr) && start == 0 {
+		start++
+		end++
 	}
 
-	for left <= right {
-		mid = (left + right) / 2
-
-		if arr[mid] > target {
-			right = mid - 1
-		} else {
-			left = mid + 1
-		}
-	}
-
-	if arr[right] == target {
-		return right
-	}
-
-	return -1
+	return result
 }
 
 func main() {
-	fmt.Println(find([]int{-1, -1, 2, 2, 11, 11, 13, 13, 16, 16, 22, 22, 44, 44}, 22))
+	fmt.Println(find([]int{0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1})) // 6
 }
