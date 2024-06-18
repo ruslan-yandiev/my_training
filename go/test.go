@@ -143,13 +143,30 @@ Output:
 // }
 
 func find(arr []int) int {
-	result := 0
-	start := 0
-	end := 0
+	result, start, end := 0, 0, 0
 
-	for start < len(arr) && start == 0 {
+	for end < len(arr) && arr[start+1] == 0 {
 		start++
 		end++
+	}
+
+	for end < len(arr) {
+		flag := true
+
+		for end < len(arr) && arr[end] == 1 || end < len(arr) && flag {
+			flag = false
+			end++
+		}
+
+		if result < end-start {
+			result = end - start
+		}
+
+		if arr[start] == 0 {
+			start++
+		} else {
+			start = end
+		}
 	}
 
 	return result
@@ -157,4 +174,8 @@ func find(arr []int) int {
 
 func main() {
 	fmt.Println(find([]int{0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1})) // 6
+	fmt.Println(find([]int{1, 0, 1}))                                              // 3
+	fmt.Println(find([]int{1, 1, 0, 0}))                                           // 3
+	fmt.Println(find([]int{0, 1, 0, 1}))                                           // 3
+	fmt.Println(find([]int{1, 0, 0, 1, 1}))                                        // 3
 }
